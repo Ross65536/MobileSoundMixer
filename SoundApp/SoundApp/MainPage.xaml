@@ -4,8 +4,21 @@
              xmlns:local="clr-namespace:SoundApp"
              x:Class="SoundApp.MainPage">
 
-	<Label Text="Welcome to Xamarin Forms!" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="20, 40, 20, 20"
+                    Android="20, 20, 20, 20"
+                    WinPhone="20, 20, 20, 20" />
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand"
+                     HorizontalOptions="FillAndExpand"
+                     Orientation="Vertical"
+                     Spacing="15">
+            <Label Text="Sound Mix:" />
+            <Button x:Name="playButton" Text="Play" Clicked="playButton_Clicked" />
+            <Button x:Name="stopButton" Text="Stop" Clicked="stopButton_Clicked" />
+        </StackLayout>
+    </ContentPage.Content>
 
 </ContentPage>
