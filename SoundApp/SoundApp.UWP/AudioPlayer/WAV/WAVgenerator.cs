@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System;
-using SoundApp.SoundWaves;
+using SoundApp.Audio.AudioWaves;
 
 namespace WAVFileGenerator
 {

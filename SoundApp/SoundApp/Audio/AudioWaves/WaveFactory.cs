@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoundApp.SoundWaves
+namespace SoundApp.Audio.AudioWaves
 {
     public enum WaveTypes
     {
@@ -38,11 +38,11 @@ namespace SoundApp.SoundWaves
         {
             WaveChunk wave = new WaveChunk(waveAttributes.WaveSampleRate, waveAttributes.Runtime);
 
-            uint numSamples = wave.NumSamples;
+            var numSamples = wave.NumSamples;
 
             double t = (Math.PI * 2 * waveAttributes.TargetFrequency) / (uint) waveAttributes.WaveSampleRate;
 
-            for (uint i = 0; i < numSamples; i++)
+            for (int i = 0; i < numSamples; i++)
             {
                 wave[i] = (float) Math.Sin(t * i);
             }
@@ -53,8 +53,8 @@ namespace SoundApp.SoundWaves
         static private WaveChunk MakeSquareWave(WaveAttributes waveAttributes)
         {
             WaveChunk wave = MakeSineWave(waveAttributes);
-            uint nSamples = wave.NumSamples;
-            for (uint i = 0; i < nSamples; i++)
+            var nSamples = wave.NumSamples;
+            for (int i = 0; i < nSamples; i++)
                 wave[i] = Math.Sign(wave[i]);
 
             return wave;
@@ -64,11 +64,11 @@ namespace SoundApp.SoundWaves
         private static WaveChunk MakeSawtooth(WaveAttributes waveAttr)
         {
             WaveChunk wave = new WaveChunk(waveAttr.WaveSampleRate, waveAttr.Runtime);
-            uint numSamples = wave.NumSamples;
+            var numSamples = wave.NumSamples;
 
             var step = 1 / (double)waveAttr.WaveSampleRate * 2 * waveAttr.TargetFrequency;
             wave[0] = 0.0f;
-            for(uint i=1 ; i < numSamples; i++)
+            for(int i=1 ; i < numSamples; i++)
             {
                 var next = wave[i - 1] + (float) step;
                 if (next > 1.0f)
@@ -83,11 +83,11 @@ namespace SoundApp.SoundWaves
         private static WaveChunk MakeTriangle(WaveAttributes waveAttr)
         {
             WaveChunk wave = new WaveChunk(waveAttr.WaveSampleRate, waveAttr.Runtime);
-            uint numSamples = wave.NumSamples;
+            var numSamples = wave.NumSamples;
 
             float step = (float) (1 / (double)waveAttr.WaveSampleRate * 4 * waveAttr.TargetFrequency);
             wave[0] = 0.0f;
-            for (uint i = 1; i < numSamples; i++)
+            for (int i = 1; i < numSamples; i++)
             {
                 var next = wave[i - 1] + step;
                 if (Math.Abs(next) > 1.0f)
@@ -129,11 +129,11 @@ namespace SoundApp.SoundWaves
         static private WaveChunk MakeWhiteNoise(WaveAttributes waveAttr)
         {
             WaveChunk wave = new WaveChunk(waveAttr.WaveSampleRate, waveAttr.Runtime);
-            uint numSamples = wave.NumSamples;
+            var numSamples = wave.NumSamples;
 
             Random random = new Random();
 
-            for (uint i = 0; i < numSamples; i++)
+            for (int i = 0; i < numSamples; i++)
             {
                 wave[i] = (float) (2 * random.NextDouble() - 1);
             }
