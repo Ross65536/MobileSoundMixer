@@ -96,7 +96,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AudioPlayer\AudioStreamPlayer.cs" />
+    <Compile Include="AudioPlayer\AudioStreamPlayerAdapter.cs" />
     <Compile Include="AudioPlayer\WAV\WAVgenerator.cs" />
     <Compile Include="AudioPlayer\WAV\WAVheaders.cs" />
     <Compile Include="MainPage.xaml.cs">

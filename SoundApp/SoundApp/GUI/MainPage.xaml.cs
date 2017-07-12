@@ -8,12 +8,14 @@ using Xamarin.Forms;
 using SoundApp.Audio.AudioWaves;
 using SoundApp.Audio.SoundMixer;
 using Plugin.MediaManager;
+using Plugin.MediaManager.Abstractions.Implementations;
+using System.IO;
 
 namespace SoundApp
 {
     public partial class MainPage : ContentPage
     {
-        IAudioPlayer _player = DependencyService.Get<IAudioPlayer>();
+        IAudioPlayerAdapter _player = DependencyService.Get<IAudioPlayerAdapter>();
         MusicBuilder _musicBuilder = new MusicBuilder();
 
         public MainPage()
@@ -22,6 +24,54 @@ namespace SoundApp
 
             //TODO REMOVE
             TestRuntime();
+
+            this.trackListView.ItemsSource = new string[]{
+              "mono",
+              "monodroid",
+              "monotouch",
+              "monorail",
+              "monodevelop",
+              "monotone",
+              "monopoly",
+              "monomodal",
+              "mononucleosis",
+              "mono",
+              "monodroid",
+              "monotouch",
+              "monorail",
+              "monodevelop",
+              "monotone",
+              "monopoly",
+              "monomodal",
+              "mononucleosis",
+              "mono",
+              "monodroid",
+              "monotouch",
+              "monorail",
+              "monodevelop",
+              "monotone",
+              "monopoly",
+              "monomodal",
+              "mononucleosis",
+              "mono",
+              "monodroid",
+              "monotouch",
+              "monorail",
+              "monodevelop",
+              "monotone",
+              "monopoly",
+              "monomodal",
+              "mononucleosis",
+              "mono",
+              "monodroid",
+              "monotouch",
+              "monorail",
+              "monodevelop",
+              "monotone",
+              "monopoly",
+              "monomodal",
+              "mononucleosis"
+            };
         }
 
         private void playButton_Clicked(object sender, EventArgs e)
@@ -29,12 +79,11 @@ namespace SoundApp
             var data = _musicBuilder.BuildMusicFacade();
 
             //_player.Stop();
-            //_player.Play16bitPCMStream(data, 1, (uint)_musicBuilder.SampleRate);
+            _player.Play16bitPCMStream(data, 1, (uint)_musicBuilder.SampleRate);
 
-
-            CrossMediaManager.Current.Play("http://www.montemagno.com/sample.mp3");
-            //CrossMediaManager.Current.
+              
         }
+        
 
         private void TestRuntime()
         {
@@ -61,6 +110,11 @@ namespace SoundApp
         private void stopButton_Clicked(object sender, EventArgs e)
         {
             _player.Stop();
+        }
+
+        private void addTrackButton_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }
