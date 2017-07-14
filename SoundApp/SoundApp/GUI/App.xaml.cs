@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 using Xamarin.Forms;
 
-namespace SoundApp
+namespace SoundApp.GUI
 {
     public partial class App : Application
     {
@@ -13,7 +9,7 @@ namespace SoundApp
         {
             InitializeComponent();
 
-            MainPage = new SoundApp.MainPage();
+            MainPage = new NavigationPage(new MainPage());
         }
 
         protected override void OnStart()

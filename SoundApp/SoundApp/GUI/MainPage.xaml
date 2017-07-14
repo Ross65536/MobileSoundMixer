@@ -3,34 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SoundApp"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
-             x:Class="SoundApp.MainPage">
+             x:Class="SoundApp.GUI.MainPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
                     iOS="10, 10"
                     Android="10, 10"
                     WinPhone="10, 10" />
     </ContentPage.Padding>
-
     <ContentPage.Content>
-        <RelativeLayout>
-        <Button x:Name="addTrackButton" HorizontalOptions="FillAndExpand" Text="Add Track" Clicked="addTrackButton_Clicked"
-                    VerticalOptions="FillAndExpand" Margin="0, 10"
-                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Height,Factor=0.0,Constant=0}"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Width,Factor=0.00,Constant=0}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Width,Factor=1.0,Constant=0}"
-                    RelativeLayout.HeightConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Height,Factor=0.1,Constant=0}"/>
+        <RelativeLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             <ListView  x:Name="trackListView" 
-                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                    Property=Height,Factor=0.1,Constant=0}"
+                
                 RelativeLayout.WidthConstraint="{ConstraintExpression
                     Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
                 RelativeLayout.HeightConstraint="{ConstraintExpression
-                    Type=RelativeToParent,Property=Height,Factor=.5,Constant=0}" >
-
+                    Type=RelativeToParent,Property=Height,Factor=.6,Constant=0}" >
+                <ListView.Footer>
+                    <Button x:Name="addTrackButton" Text="Add Track" Clicked="addTrackButton_Clicked"/>
+                </ListView.Footer>
+                <ListView.Header>
+                    <Button x:Name="clearTracksButton" Text="Clear" Clicked="clearTracksButton_Clicked"/>
+                </ListView.Header>
             </ListView>
             <!-- Volume graph placeholder -->
             <BoxView Color="Red" Margin="0, 20"
@@ -58,8 +51,5 @@
                 <Button x:Name="stopButton" HorizontalOptions="FillAndExpand" Text="Stop" Clicked="stopButton_Clicked" />
             </StackLayout>
         </RelativeLayout>
-        
-        
     </ContentPage.Content>
-
 </ContentPage>

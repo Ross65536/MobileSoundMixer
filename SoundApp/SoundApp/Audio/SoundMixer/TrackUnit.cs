@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using SoundApp.Audio.AudioWaves;
 
 namespace SoundApp.Audio.SoundMixer
@@ -7,7 +8,7 @@ namespace SoundApp.Audio.SoundMixer
     {
         private WaveChunk _waveChunk;
         private int _startIndex; //index where waveChunk starts playing
-        
+
         public int StartSampleIndex
         {
             get { return _startIndex; }
@@ -33,15 +34,31 @@ namespace SoundApp.Audio.SoundMixer
             }
         }
 
+        public override string ToString()
+        {
+            return string.Format("Start: {0}, {1}", TimeSpan.FromSeconds(StartTime).ToString(@"mm\:ss\:fff"), _waveChunk); ;
+        }
+
         public TrackUnit (WaveChunk wave, double startTime)
         {
             _waveChunk = wave;
             StartTime = startTime;
         }
 
+        public TrackUnit(TrackUnit trackUnit)
+        {
+            this._waveChunk = new WaveChunk(trackUnit._waveChunk);
+            this._startIndex = trackUnit._startIndex;
+        }
+
         public void AddToWave(WaveChunk baseWave)
         {
             baseWave.AddEq(_startIndex, _waveChunk);
+        }
+
+        public ITrackUnit clone()
+        {
+            return new TrackUnit(this);
         }
     }
 }

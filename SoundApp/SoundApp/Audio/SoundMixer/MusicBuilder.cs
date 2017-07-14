@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SoundApp.Audio.AudioWaves;
 
 
@@ -15,6 +16,10 @@ namespace SoundApp.Audio.SoundMixer
         public MusicBuilder()
         {
             _audioTracks = new List<ITrackUnit>();
+        }
+        public MusicBuilder(ICollection<ITrackUnit> tracks)
+        {
+            _audioTracks = tracks;
         }
 
         public void AddTrack(ITrackUnit track)
@@ -51,7 +56,9 @@ namespace SoundApp.Audio.SoundMixer
             return musicData.ConvertToPCM16BitArray();
         }
 
-
-
+        internal void Clear()
+        {
+            _audioTracks.Clear();
+        }
     }
 }

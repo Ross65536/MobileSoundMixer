@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SoundApp.GUI.TrackPage">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="10, 10"
+                    Android="10, 10"
+                    WinPhone="10, 10" />
+    </ContentPage.Padding>
+    
+    <ContentPage.Content>
+        <RelativeLayout>
+            <ListView  x:Name="effectsListView" 
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                Property=Height,Factor=0.5,Constant=0}"
+            RelativeLayout.WidthConstraint="{ConstraintExpression
+                Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression
+                Type=RelativeToParent,Property=Height,Factor=.4,Constant=0}" >
+                <ListView.Footer>
+                    <Button x:Name="addEffectButton" Text="Add Effect" Clicked="addEffectButton_Clicked"/>
+                </ListView.Footer>
+            </ListView>
+            <StackLayout 
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                        Property=Height,Factor=0.9,Constant=0}"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                        Property=Width,Factor=0.15,Constant=0}"
+                    RelativeLayout.WidthConstraint="{ConstraintExpression
+                        Type=RelativeToParent,Property=Width,Factor=0.7,Constant=0}"
+                    RelativeLayout.HeightConstraint="{ConstraintExpression
+                        Type=RelativeToParent,Property=Height,Factor=.1,Constant=0}"
+                    Orientation="Horizontal"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="20"
+                    >
+                <Button x:Name="cancelButton" HorizontalOptions="FillAndExpand" Text="Cancel" Clicked="cancelButton_Clicked" />
+                <Button x:Name="saveButton" HorizontalOptions="FillAndExpand" Text="Save" Clicked="saveButton_Clicked" />
+            </StackLayout>
+        </RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>

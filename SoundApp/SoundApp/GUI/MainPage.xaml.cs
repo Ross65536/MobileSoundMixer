@@ -1,87 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 using SoundApp.Audio.AudioWaves;
 using SoundApp.Audio.SoundMixer;
-using Plugin.MediaManager;
-using Plugin.MediaManager.Abstractions.Implementations;
-using System.IO;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
-namespace SoundApp
+namespace SoundApp.GUI
 {
+    struct TrackViewUnit
+    {
+        public String MainName { get; set; }
+
+    }
+
     public partial class MainPage : ContentPage
     {
         IAudioPlayerAdapter _player = DependencyService.Get<IAudioPlayerAdapter>();
         MusicBuilder _musicBuilder = new MusicBuilder();
-
+        Collection<TrackViewTextItem> _viewListItems;
         public MainPage()
         {
             InitializeComponent();
 
+            this.innitializeFields();
+            
             //TODO REMOVE
             TestRuntime();
 
-            this.trackListView.ItemsSource = new string[]{
-              "mono",
-              "monodroid",
-              "monotouch",
-              "monorail",
-              "monodevelop",
-              "monotone",
-              "monopoly",
-              "monomodal",
-              "mononucleosis",
-              "mono",
-              "monodroid",
-              "monotouch",
-              "monorail",
-              "monodevelop",
-              "monotone",
-              "monopoly",
-              "monomodal",
-              "mononucleosis",
-              "mono",
-              "monodroid",
-              "monotouch",
-              "monorail",
-              "monodevelop",
-              "monotone",
-              "monopoly",
-              "monomodal",
-              "mononucleosis",
-              "mono",
-              "monodroid",
-              "monotouch",
-              "monorail",
-              "monodevelop",
-              "monotone",
-              "monopoly",
-              "monomodal",
-              "mononucleosis",
-              "mono",
-              "monodroid",
-              "monotouch",
-              "monorail",
-              "monodevelop",
-              "monotone",
-              "monopoly",
-              "monomodal",
-              "mononucleosis"
-            };
+            
+        }
+
+        private void innitializeFields()
+        {
+
+            _viewListItems = TrackViewTextItem.SetupListBindingsFactory(this.trackListView);
+            this.trackListView.ItemSelected += this.OnTrackSelection;
         }
 
         private void playButton_Clicked(object sender, EventArgs e)
         {
             var data = _musicBuilder.BuildMusicFacade();
 
-            //_player.Stop();
-            _player.Play16bitPCMStream(data, 1, (uint)_musicBuilder.SampleRate);
-
-              
+            _player.Play16bitPCMStream(data, 1, (uint)_musicBuilder.SampleRate);  
         }
         
 
@@ -105,6 +66,10 @@ namespace SoundApp
             _musicBuilder.AddTrack(track1);
             _musicBuilder.AddTrack(track2);
             _musicBuilder.AddTrack(track3);
+
+            _viewListItems.Add(new TrackViewTextItem ("Yello", track1 ));
+            _viewListItems.Add(new TrackViewTextItem ("Yello",track2 ));
+            _viewListItems.Add(new TrackViewTextItem ("Yello", track3 ));
         }
 
         private void stopButton_Clicked(object sender, EventArgs e)
@@ -114,7 +79,49 @@ namespace SoundApp
 
         private void addTrackButton_Clicked(object sender, EventArgs e)
         {
+            var track = TrackViewTextItem.DefaultFactory();
+            var page = new TrackPage(track);
+            page.ChangesSaved += new SaveHandler( this.AddTrack);
+            
+            Navigation.PushAsync(page);
+            
+        }
 
+        
+
+        void OnTrackSelection(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem == null)
+                return;
+
+            var page = new TrackPage((TrackViewTextItem)e.SelectedItem);
+            page.ChangesSaved += new SaveHandler(this.UpdateTrack);
+            Navigation.PushAsync(page);
+            
+            ((ListView)sender).SelectedItem = null;
+            
+        }
+
+        private void AddTrack(TrackViewTextItem oldTrackItem, TrackViewTextItem savedTrackItem)
+        {
+            this._viewListItems.Add(savedTrackItem);
+            this._musicBuilder.AddTrack(savedTrackItem.Track);
+        }
+
+        private void UpdateTrack(TrackViewTextItem oldTrackItem, TrackViewTextItem savedTrackItem)
+        {
+            var index = this._viewListItems.IndexOf(oldTrackItem);
+            _viewListItems.RemoveAt(index);
+            this._viewListItems.Insert(index, savedTrackItem);
+
+            _musicBuilder.RemoveTrack(oldTrackItem.Track);
+            _musicBuilder.AddTrack(savedTrackItem.Track);
+        }
+
+        private void clearTracksButton_Clicked(object sender, EventArgs e)
+        {
+            this._viewListItems.Clear();
+            this._musicBuilder.Clear();
         }
     }
 }

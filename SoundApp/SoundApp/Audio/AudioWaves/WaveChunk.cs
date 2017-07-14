@@ -156,5 +156,10 @@ namespace SoundApp.Audio.AudioWaves
 
             return arr;
         }
+
+        public override string ToString()
+        {
+            return string.Concat("Runtime: ", TimeSpan.FromSeconds(Runtime).ToString(@"mm\:ss\:fff"));
+        }
     }
 }
