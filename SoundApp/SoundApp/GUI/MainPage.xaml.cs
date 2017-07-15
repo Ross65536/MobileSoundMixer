@@ -16,7 +16,7 @@ namespace SoundApp.GUI
 
     public partial class MainPage : ContentPage
     {
-        IAudioPlayerAdapter _player = DependencyService.Get<IAudioPlayerAdapter>();
+        
         MusicBuilder _musicBuilder = new MusicBuilder();
         Collection<TrackViewTextItem> _viewListItems;
         public MainPage()
@@ -40,9 +40,10 @@ namespace SoundApp.GUI
 
         private void playButton_Clicked(object sender, EventArgs e)
         {
-            var data = _musicBuilder.BuildMusicFacade();
+            if (_musicBuilder.IsEmpty)
+                return;
 
-            _player.Play16bitPCMStream(data, 1, (uint)_musicBuilder.SampleRate);  
+            _musicBuilder.BuildMusicFacade().PlayAudioChunk();
         }
         
 
@@ -74,7 +75,7 @@ namespace SoundApp.GUI
 
         private void stopButton_Clicked(object sender, EventArgs e)
         {
-            _player.Stop();
+            AudioStuff.AudioPlayer.Stop();
         }
 
         private void addTrackButton_Clicked(object sender, EventArgs e)

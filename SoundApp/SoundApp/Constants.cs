@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SoundApp.Audio.AudioWaves;
 
-namespace SoundApp.Audio
+namespace SoundApp
 {
     public sealed class Constants
     {

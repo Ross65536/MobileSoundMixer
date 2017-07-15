@@ -4,7 +4,16 @@ namespace SoundApp
 {
     public interface IAudioPlayerAdapter
     {
+        /// <summary>
+        /// Plays a 16 bit PCM data stream. If something is already playing it is disposed and the new sounds starts playing.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="nChannels"></param>
+        /// <param name="sampleRate"></param>
         void Play16bitPCMStream(byte[] data, byte nChannels, uint sampleRate);
+        /// <summary>
+        /// Stop, if already playing, audio 
+        /// </summary>
         void Stop();
     }
 }

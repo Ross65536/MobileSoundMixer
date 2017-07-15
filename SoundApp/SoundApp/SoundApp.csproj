@@ -35,12 +35,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Audio\Constants.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Audio\SoundMixer\ITrackUnit.cs" />
     <Compile Include="Audio\SoundMixer\TrackUnit.cs" />
     <Compile Include="Audio\SoundMixer\MusicBuilder.cs" />
     <Compile Include="GUI\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\AudioStuff.cs" />
+    <Compile Include="GUI\SourceTabs\BasePage.cs" />
+    <Compile Include="GUI\SourceTabs\GeneratorPage.xaml.cs">
+      <DependentUpon>GeneratorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\SourceTabs\SoundSourceTabPage.xaml.cs">
+      <DependentUpon>SoundSourceTabPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\TrackPage.xaml.cs">
       <DependentUpon>TrackPage.xaml</DependentUpon>
@@ -94,7 +102,18 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\SourceTabs\SoundSourceTabPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\SourceTabs\GeneratorPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

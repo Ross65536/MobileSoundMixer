@@ -14,6 +14,7 @@ namespace SoundApp.GUI
         public string MainText { get; set; }
         public string DetailText { get { return Track.ToString(); } }
         public Color MainColor { get; set; }
+        public const string DEFAULT_MAIN_TEXT = "";
 
         public TrackViewTextItem(TrackViewTextItem trackItem)
         {
@@ -49,7 +50,7 @@ namespace SoundApp.GUI
 
         static public TrackViewTextItem DefaultFactory()
         {
-            return new TrackViewTextItem ("", null);
+            return new TrackViewTextItem (DEFAULT_MAIN_TEXT, null);
         }
     }
 

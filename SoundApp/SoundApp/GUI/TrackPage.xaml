@@ -4,14 +4,39 @@
              x:Class="SoundApp.GUI.TrackPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
-                    iOS="10, 10"
-                    Android="10, 10"
-                    WinPhone="10, 10" />
+                    iOS="30, 20"
+                    Android="30, 20"
+                    WinPhone="30, 20" />
     </ContentPage.Padding>
     
     <ContentPage.Content>
         <RelativeLayout>
-            <ListView  x:Name="effectsListView" 
+            <StackLayout 
+                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                        Property=Height,Factor=0.0,Constant=0}"
+                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                        Property=Width,Factor=0.0,Constant=0}"
+                    RelativeLayout.WidthConstraint="{ConstraintExpression
+                        Type=RelativeToParent,Property=Width,Factor=1.0,Constant=0}"
+                    RelativeLayout.HeightConstraint="{ConstraintExpression
+                        Type=RelativeToParent,Property=Height,Factor=.5,Constant=0}"
+                    Orientation="Vertical"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Spacing="20"
+                    >
+                <ScrollView>
+                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Spacing="20" >
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="20" >
+                            <Label Text="Name: " VerticalOptions="Center"/>
+                            <Entry x:Name="nameEntry" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
+                        </StackLayout>
+                        <Button x:Name="pickSourceButton" HorizontalOptions="Center" 
+                                WidthRequest="300" Text="Choose Sample Source" Clicked="pickSourceButton_Clicked" />
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+            <ListView  x:Name="effectsListView"  Margin="0, 10"
             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
                 Property=Height,Factor=0.5,Constant=0}"
             RelativeLayout.WidthConstraint="{ConstraintExpression
@@ -21,6 +46,9 @@
                 <ListView.Footer>
                     <Button x:Name="addEffectButton" Text="Add Effect" Clicked="addEffectButton_Clicked"/>
                 </ListView.Footer>
+                <ListView.Header>
+                    <Button x:Name="clearEffectsButton" Text="Clear" Clicked="clearEffectsButton_Clicked"/>
+                </ListView.Header>
             </ListView>
             <StackLayout 
                     RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
@@ -36,7 +64,7 @@
                     HorizontalOptions="FillAndExpand"
                     Spacing="20"
                     >
-                <Button x:Name="cancelButton" HorizontalOptions="FillAndExpand" Text="Cancel" Clicked="cancelButton_Clicked" />
+                <Button HorizontalOptions="FillAndExpand" Text="Cancel" Clicked="cancelButton_Clicked" />
                 <Button x:Name="saveButton" HorizontalOptions="FillAndExpand" Text="Save" Clicked="saveButton_Clicked" />
             </StackLayout>
         </RelativeLayout>

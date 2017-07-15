@@ -8,8 +8,13 @@ namespace SoundApp.GUI
         public App()
         {
             InitializeComponent();
+            var page = new NavigationPage(new MainPage());
+            //NavigationPage.SetHasNavigationBar(page, false);
+            //NavigationPage.SetHasBackButton(page, false);
+            //var page = new MainPage();
+            MainPage = page;
 
-            MainPage = new NavigationPage(new MainPage());
+            
         }
 
         protected override void OnStart()

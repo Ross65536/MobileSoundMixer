@@ -13,6 +13,8 @@ namespace SoundApp.Audio.SoundMixer
         public SampleRate SampleRate
         { get { return COMMON_SAMPLE_RATE; } }
 
+        public bool IsEmpty { get { return _audioTracks.Count == 0; } }
+
         public MusicBuilder()
         {
             _audioTracks = new List<ITrackUnit>();
@@ -42,7 +44,7 @@ namespace SoundApp.Audio.SoundMixer
             return baseWave;
         }
 
-        public byte[] BuildMusicFacade()
+        public WaveChunk BuildMusicFacade()
         {
             double maxRuntime = 0.0;
             foreach (var track in _audioTracks)
@@ -51,9 +53,7 @@ namespace SoundApp.Audio.SoundMixer
 
 
             var musicData = GetResultingTrack(COMMON_SAMPLE_RATE, maxRuntime);
-            musicData.LinearVolumeNormalize();
-            
-            return musicData.ConvertToPCM16BitArray();
+            return musicData;
         }
 
         internal void Clear()

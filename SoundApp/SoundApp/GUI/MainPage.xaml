@@ -6,9 +6,9 @@
              x:Class="SoundApp.GUI.MainPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
-                    iOS="10, 10"
-                    Android="10, 10"
-                    WinPhone="10, 10" />
+                    iOS="30, 10"
+                    Android="30, 10"
+                    WinPhone="30, 10" />
     </ContentPage.Padding>
     <ContentPage.Content>
         <RelativeLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
