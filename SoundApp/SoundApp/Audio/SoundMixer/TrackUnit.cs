@@ -6,54 +6,44 @@ namespace SoundApp.Audio.SoundMixer
 {
     class TrackUnit : ITrackUnit
     {
-        private WaveChunk _waveChunk;
-        private int _startIndex; //index where waveChunk starts playing
+        private EffectsBuilder _effectsBuilder;
 
-        public int StartSampleIndex
-        {
-            get { return _startIndex; }
-        }
-        /// <summary>
-        /// Size of "track" also indicates the index past the end.
-        /// </summary>
-        public int PastEndSampleIndex
-        {
-            get { return _startIndex + _waveChunk.NumSamples; }
-        }
         public double StartTime
         {
-            get { return _startIndex / (double) _waveChunk.SampleRate; }
-            set { _startIndex = (int) (value * (double)_waveChunk.SampleRate); }
+            get;
+            set;
         }
 
         public double EndTime
         {
             get
             {
-                return StartTime + _waveChunk.Runtime;
+                return StartTime + _effectsBuilder.Duration;
             }
         }
 
         public override string ToString()
         {
-            return string.Format("Start: {0}, {1}", TimeSpan.FromSeconds(StartTime).ToString(@"mm\:ss\:fff"), _waveChunk); ;
+            return string.Format("Start: {0}, {1}", TimeSpan.FromSeconds(StartTime).ToString(@"mm\:ss\:fff"), _effectsBuilder); ;
         }
 
-        public TrackUnit (WaveChunk wave, double startTime)
+        public TrackUnit (EffectsBuilder effect, double startTime)
         {
-            _waveChunk = wave;
+            _effectsBuilder = effect;
             StartTime = startTime;
         }
 
         public TrackUnit(TrackUnit trackUnit)
         {
-            this._waveChunk = new WaveChunk(trackUnit._waveChunk);
-            this._startIndex = trackUnit._startIndex;
+            this._effectsBuilder = new EffectsBuilder(trackUnit._effectsBuilder);
+            this.StartTime = trackUnit.StartTime;
         }
 
-        public void AddToWave(WaveChunk baseWave)
+        public void AddToWave(BaseEditableWave baseWave)
         {
-            baseWave.AddEq(_startIndex, _waveChunk);
+            int startSample = (int) (StartTime * (uint) baseWave.SampleRate);
+            var wave = _effectsBuilder.ToEditableWave();
+            baseWave.AddEq(startSample, wave);
         }
 
         public ITrackUnit clone()

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoundApp.Audio;
 using SoundApp.Audio.AudioWaves;
 using Xamarin.Forms;
 
@@ -12,11 +8,11 @@ namespace SoundApp.GUI
     {
         static public IAudioPlayerAdapter AudioPlayer = DependencyService.Get<IAudioPlayerAdapter>();
 
-        static public void PlayAudioChunk(this WaveChunk wave)
+        static public void PlayAudioWave(this ISoundWave wave)
         {
-            wave.LinearVolumeNormalize();
-            var data = wave.ConvertToPCM16BitArray();
-            AudioPlayer.Play16bitPCMStream(data, 1, (uint) wave.SampleRate);
+            var waveData = wave.ToPCM(PCMBitDepth.int16);
+            var pcmWave = new PCMChunk { bitDepth = PCMBitDepth.int16, data = waveData.data, nChannels = waveData.nChannels, sampleRate = waveData.sampleRate };
+            AudioPlayer.Play16bitPCMStream(pcmWave);
         }
     }
 }

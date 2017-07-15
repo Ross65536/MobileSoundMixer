@@ -21,7 +21,7 @@ namespace SoundApp.GUI.SourceTabs
             this.waveTypePicker.SelectedIndex = 0;
         }
 
-        protected override WaveChunk generateSoundWave()
+        protected override ISoundWave generateSoundWave()
         {
             WaveAttributes waveAttr = new WaveAttributes(Constants.TRACK_SAMPLE_RATE, this.DurationSlider.Value, this.frequencySlider.Value);
             var waveType = pickerIndexToWaveType[this.waveTypePicker.SelectedIndex];

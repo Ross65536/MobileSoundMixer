@@ -34,9 +34,9 @@ namespace SoundApp.Audio.SoundMixer
             _audioTracks.Remove(track);
         }
 
-        public WaveChunk GetResultingTrack(SampleRate sampleRate, double runtime)
+        public ISoundWave GetResultingTrack(SampleRate sampleRate, double runtime)
         {
-            WaveChunk baseWave = new WaveChunk(sampleRate, runtime);
+            var baseWave = new MonoEditableWave(sampleRate, runtime);
 
             foreach (var track in _audioTracks)
                 track.AddToWave(baseWave);
@@ -44,7 +44,7 @@ namespace SoundApp.Audio.SoundMixer
             return baseWave;
         }
 
-        public WaveChunk BuildMusicFacade()
+        public ISoundWave BuildMusicFacade()
         {
             double maxRuntime = 0.0;
             foreach (var track in _audioTracks)

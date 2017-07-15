@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoundApp.Audio.AudioWaves
 {
@@ -34,15 +30,15 @@ namespace SoundApp.Audio.AudioWaves
     // Creates Various classical waves
     static class WaveFactory
     {
-        static private WaveChunk MakeSineWave(WaveAttributes waveAttributes)
+        static private BaseEditableWave MakeSineWave(WaveAttributes waveAttributes)
         {
-            WaveChunk wave = new WaveChunk(waveAttributes.WaveSampleRate, waveAttributes.Runtime);
+            var wave = new MonoEditableWave(waveAttributes.WaveSampleRate, waveAttributes.Runtime);
 
-            var numSamples = wave.NumSamples;
+            var waveLength = wave.DataBufferCount;
 
             double t = (Math.PI * 2 * waveAttributes.TargetFrequency) / (uint) waveAttributes.WaveSampleRate;
 
-            for (int i = 0; i < numSamples; i++)
+            for (int i = 0; i < waveLength; i++)
             {
                 wave[i] = (float) Math.Sin(t * i);
             }
@@ -50,10 +46,10 @@ namespace SoundApp.Audio.AudioWaves
             return wave;
         }
 
-        static private WaveChunk MakeSquareWave(WaveAttributes waveAttributes)
+        static private BaseEditableWave MakeSquareWave(WaveAttributes waveAttributes)
         {
-            WaveChunk wave = MakeSineWave(waveAttributes);
-            var nSamples = wave.NumSamples;
+            var wave = MakeSineWave(waveAttributes);
+            var nSamples = wave.DataBufferCount;
             for (int i = 0; i < nSamples; i++)
                 wave[i] = Math.Sign(wave[i]);
 
@@ -61,10 +57,10 @@ namespace SoundApp.Audio.AudioWaves
 
         }
 
-        private static WaveChunk MakeSawtooth(WaveAttributes waveAttr)
+        private static BaseEditableWave MakeSawtooth(WaveAttributes waveAttr)
         {
-            WaveChunk wave = new WaveChunk(waveAttr.WaveSampleRate, waveAttr.Runtime);
-            var numSamples = wave.NumSamples;
+            var wave = new MonoEditableWave(waveAttr.WaveSampleRate, waveAttr.Runtime);
+            var numSamples = wave.DataBufferCount;
 
             var step = 1 / (double)waveAttr.WaveSampleRate * 2 * waveAttr.TargetFrequency;
             wave[0] = 0.0f;
@@ -80,10 +76,10 @@ namespace SoundApp.Audio.AudioWaves
 
         }
 
-        private static WaveChunk MakeTriangle(WaveAttributes waveAttr)
+        private static BaseEditableWave MakeTriangle(WaveAttributes waveAttr)
         {
-            WaveChunk wave = new WaveChunk(waveAttr.WaveSampleRate, waveAttr.Runtime);
-            var numSamples = wave.NumSamples;
+            var wave = new MonoEditableWave(waveAttr.WaveSampleRate, waveAttr.Runtime);
+            var numSamples = wave.DataBufferCount;
 
             float step = (float) (1 / (double)waveAttr.WaveSampleRate * 4 * waveAttr.TargetFrequency);
             wave[0] = 0.0f;
@@ -105,7 +101,7 @@ namespace SoundApp.Audio.AudioWaves
         /// <param name="waveType"></param>
         /// <param name="waveAttributes"></param>
         /// <returns></returns>
-        static public WaveChunk MakeWave(WaveTypes waveType, WaveAttributes waveAttributes)
+        static public ISoundWave MakeWave(WaveTypes waveType, WaveAttributes waveAttributes)
         {
             switch(waveType)
             {
@@ -126,10 +122,10 @@ namespace SoundApp.Audio.AudioWaves
             
         }
 
-        static private WaveChunk MakeWhiteNoise(WaveAttributes waveAttr)
+        static private BaseEditableWave MakeWhiteNoise(WaveAttributes waveAttr)
         {
-            WaveChunk wave = new WaveChunk(waveAttr.WaveSampleRate, waveAttr.Runtime);
-            var numSamples = wave.NumSamples;
+            var wave = new MonoEditableWave(waveAttr.WaveSampleRate, waveAttr.Runtime);
+            var numSamples = wave.DataBufferCount;
 
             Random random = new Random();
 

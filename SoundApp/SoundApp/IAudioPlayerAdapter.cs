@@ -1,5 +1,7 @@
 ﻿
 
+using SoundApp.Audio;
+
 namespace SoundApp
 {
     public interface IAudioPlayerAdapter
@@ -10,7 +12,7 @@ namespace SoundApp
         /// <param name="data"></param>
         /// <param name="nChannels"></param>
         /// <param name="sampleRate"></param>
-        void Play16bitPCMStream(byte[] data, byte nChannels, uint sampleRate);
+        void Play16bitPCMStream(PCMChunk pcmWave);
         /// <summary>
         /// Stop, if already playing, audio 
         /// </summary>

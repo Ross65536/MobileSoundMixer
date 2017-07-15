@@ -1,15 +1,16 @@
 ﻿
 using System;
 using NUnit.Framework;
+using SoundApp.Audio;
 using SoundApp.Audio.AudioWaves;
 
 namespace Tests
 {
     [TestFixture]
-    public class WaveChunkTests
+    public class MonoEditableWaveTests
     {
-        static WaveChunk wave1 = null;
-        static WaveChunk wave2 = null;
+        static MonoEditableWave wave1 = null;
+        static MonoEditableWave wave2 = null;
 
         const float FLOAT_DELTA = 0.0001f;
         const SampleRate DEFAULT_SAMPLE_RATE = SampleRate.F8000Hz;
@@ -20,13 +21,14 @@ namespace Tests
         [Test]
         public void ConstructorTest()
         {
-            int nSamples = 1000;
+            double duration = 0.25;
+            int nSamples = (int) (duration * (int)DEFAULT_SAMPLE_RATE);
 
-            WaveChunk wave = new WaveChunk(DEFAULT_SAMPLE_RATE, nSamples);
+            MonoEditableWave wave = new MonoEditableWave(DEFAULT_SAMPLE_RATE, duration);
             for (int i = 0; i < nSamples; i++)
                 Assert.AreEqual( wave[i], 0.0f, FLOAT_DELTA);
 
-            Assert.AreEqual(wave.NumSamples, nSamples);
+            Assert.AreEqual(wave.SampleCount, nSamples);
 
             for (int i = 0; i < nSamples; i++)
             {
@@ -35,9 +37,9 @@ namespace Tests
                 Assert.AreEqual(wave[i], f, FLOAT_DELTA);
             }
 
-            Assert.Throws<ArgumentException>(() => new WaveChunk((SampleRate)234, nSamples));
+            Assert.Throws<ArgumentException>(() => new MonoEditableWave((SampleRate)234, nSamples));
 
-            Assert.Throws<ArgumentException>(() => new WaveChunk(DEFAULT_SAMPLE_RATE, -12));
+            Assert.Throws<ArgumentException>(() => new MonoEditableWave(DEFAULT_SAMPLE_RATE, -12));
             
         }
 
@@ -51,7 +53,7 @@ namespace Tests
             
             WaveInnit(n1, n2);
 
-            Assert.Throws<ArgumentException>(() => wave1.AddEq(0, new WaveChunk((SampleRate)123123, 10)));
+            Assert.Throws<ArgumentException>(() => wave1.AddEq(0, new MonoEditableWave((SampleRate)123123, 10)));
 
             wave1.AddEq(startIndex, wave2);
             CheckOperatorResults(startIndex, WAVE1_C, WAVE1_C + WAVE2_C);
@@ -76,7 +78,7 @@ namespace Tests
 
             WaveInnit(n1, n2);
 
-            Assert.Throws<ArgumentException>(() => wave1.AddEq(0, new WaveChunk((SampleRate)123123, 10)));
+            Assert.Throws<ArgumentException>(() => wave1.AddEq(0, new MonoEditableWave((SampleRate)123123, 10)));
 
             wave1.MultEq(startIndex, wave2);
             CheckOperatorResults(startIndex, 0, WAVE1_C * WAVE2_C);
@@ -99,10 +101,10 @@ namespace Tests
             for (; i < startIndex; i++)
                 Assert.AreEqual( wave1Default, wave1[i], FLOAT_DELTA);
 
-            for (; i < startIndex + wave2.NumSamples && i < wave1.NumSamples; i++)
+            for (; i < startIndex + wave2.SampleCount && i < wave1.SampleCount; i++)
                 Assert.AreEqual( wave1After, wave1[i], FLOAT_DELTA);
 
-            for (; i < wave1.NumSamples; i++)
+            for (; i < wave1.SampleCount; i++)
                 Assert.AreEqual(wave1Default, wave1[i], FLOAT_DELTA);
         }
 
@@ -110,9 +112,10 @@ namespace Tests
 
         private static void WaveInnit(int n1, int n2)
         {
-            
-            wave1 = new WaveChunk(DEFAULT_SAMPLE_RATE, n1);
-            wave2 = new WaveChunk(DEFAULT_SAMPLE_RATE, n2);
+            double d1 = n1 / (double)DEFAULT_SAMPLE_RATE;
+            double d2 = n2 / (double)DEFAULT_SAMPLE_RATE;
+            wave1 = new MonoEditableWave(DEFAULT_SAMPLE_RATE, d1);
+            wave2 = new MonoEditableWave(DEFAULT_SAMPLE_RATE, d2);
             for (int i = 0; i < n1; i++)
                 wave1[i] = WAVE1_C;
 

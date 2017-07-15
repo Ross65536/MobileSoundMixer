@@ -5,6 +5,7 @@ using SoundApp.Audio.AudioWaves;
 using SoundApp.Audio.SoundMixer;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using SoundApp.Audio;
 
 namespace SoundApp.GUI
 {
@@ -43,7 +44,7 @@ namespace SoundApp.GUI
             if (_musicBuilder.IsEmpty)
                 return;
 
-            _musicBuilder.BuildMusicFacade().PlayAudioChunk();
+            _musicBuilder.BuildMusicFacade().PlayAudioWave();
         }
         
 
@@ -51,26 +52,14 @@ namespace SoundApp.GUI
         {
             double RUNTIME = 1.0;
 
-            var sampleRate = SampleRate.F48kHz;
-            WaveChunk wave = WaveFactory.MakeWave(WaveTypes.SineWave, new WaveAttributes(sampleRate, RUNTIME, 300));
-            WaveChunk wave1 = new WaveChunk(wave);
-            WaveChunk wave2 = WaveFactory.MakeWave(WaveTypes.Triangle, new WaveAttributes(sampleRate, RUNTIME, 1));
-            WaveChunk wave3 = WaveFactory.MakeWave(WaveTypes.SineWave, new WaveAttributes(sampleRate, RUNTIME, 100));
-            wave.MultEq(0, wave2);
-
-            var track1 = new TrackUnit(wave, 0.0);
-            var track2 = new TrackUnit(wave1, 2 * RUNTIME);
-            var track3 = new TrackUnit(wave3, 2 * RUNTIME);
-
+            var wave = WaveFactory.MakeWave(WaveTypes.SineWave, new WaveAttributes(Constants.TRACK_SAMPLE_RATE, RUNTIME, 300));
             
-
+            var track1 = new TrackUnit(new EffectsBuilder(wave), 0.0);
+            
             _musicBuilder.AddTrack(track1);
-            _musicBuilder.AddTrack(track2);
-            _musicBuilder.AddTrack(track3);
 
             _viewListItems.Add(new TrackViewTextItem ("Yello", track1 ));
-            _viewListItems.Add(new TrackViewTextItem ("Yello",track2 ));
-            _viewListItems.Add(new TrackViewTextItem ("Yello", track3 ));
+            
         }
 
         private void stopButton_Clicked(object sender, EventArgs e)

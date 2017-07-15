@@ -22,7 +22,7 @@ namespace SoundApp.GUI
         private TrackViewTextItem oldTrack;
 
         public event SaveHandler ChangesSaved;
-        private bool validSave = false;
+        
 
         public TrackPage(TrackViewTextItem track) 
         {
@@ -74,14 +74,6 @@ namespace SoundApp.GUI
                 "c",
                 "d"
             };
-
-            {
-                double RUNTIME = 1.0;
-                var sampleRate = SampleRate.F48kHz;
-                WaveChunk wave = WaveFactory.MakeWave(WaveTypes.SineWave, new WaveAttributes(sampleRate, RUNTIME, 300));
-                var track1 = new TrackUnit(wave, 0.0);
-                modifiedTrack.Track = track1;
-            }
         }
 
         
@@ -124,13 +116,14 @@ namespace SoundApp.GUI
             Navigation.PushAsync(page);
         }
 
-        private void setAudioWaveHandler(WaveChunk wave)
+        private void setAudioWaveHandler(ISoundWave wave)
         {
             if (wave == null)
                 return;
 
             var startTime = 0.0;
-            modifiedTrack.Track = new TrackUnit(wave, startTime);
+            var effects = new EffectsBuilder(wave);
+            modifiedTrack.Track = new TrackUnit(effects, startTime);
 
             setTrackValidity(true);
 

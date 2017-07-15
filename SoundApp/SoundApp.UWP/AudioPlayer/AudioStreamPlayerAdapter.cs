@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using SoundApp.Audio;
 using SoundApp.UWP.AudioPlayer;
 using WAVFileGenerator;
 using Windows.Media.Playback;
@@ -11,9 +12,9 @@ namespace SoundApp.UWP.AudioPlayer
     {
         MediaPlayer _mediaPlayer = new MediaPlayer();
 
-        public void Play16bitPCMStream(byte[] data, byte nChannels, uint sampleRate)
+        public void Play16bitPCMStream(PCMChunk pcmWave)
         {
-            var stream = WAVGenerator.GenerateWAVInMemoryStream(data, sampleRate, nChannels);
+            var stream = WAVGenerator.GenerateWAVInMemoryStream(pcmWave);
 
             _mediaPlayer.SetStreamSource(stream.AsRandomAccessStream());
             _mediaPlayer.Play();

@@ -2,6 +2,7 @@
 using System;
 using Android.Media;
 using SoundApp;
+using SoundApp.Audio;
 using SoundApp.Droid.AudioPlayer;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AudioStreamPlayer))]
@@ -11,27 +12,27 @@ namespace SoundApp.Droid.AudioPlayer
     {
         AudioTrack _audioTrack = null;
 
-        public void Play16bitPCMStream(byte[] data, byte nChannels, uint sampleRate)
+        public void Play16bitPCMStream(PCMChunk pcmWave)
         {
             Stop();
 
             ChannelOut channelOut;
-            if (nChannels == 1)
+            if (pcmWave.nChannels == 1)
                 channelOut = ChannelOut.Mono;
-            else if (nChannels == 2)
+            else if (pcmWave.nChannels == 2)
                 channelOut = ChannelOut.Stereo;
             else
                 throw new Exception("number of channels not supported.");
 
             _audioTrack = new AudioTrack(
             Stream.Music,
-            (int)sampleRate,
+            (int)pcmWave.sampleRate,
             channelOut,
             Encoding.Pcm16bit,
-            data.Length,
+            pcmWave.data.Length,
             AudioTrackMode.Static);
 
-            _audioTrack.Write(data, 0, data.Length);
+            _audioTrack.Write(pcmWave.data, 0, pcmWave.data.Length);
             _audioTrack.Play();
         }
 

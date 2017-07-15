@@ -6,7 +6,7 @@ namespace SoundApp.Audio.SoundMixer
     {
         double EndTime { get; }
 
-        void AddToWave(WaveChunk baseWave);
+        void AddToWave(BaseEditableWave baseWave);
         /// <summary>
         /// Deep Copy
         /// </summary>

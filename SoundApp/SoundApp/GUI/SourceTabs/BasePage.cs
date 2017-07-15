@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace SoundApp.GUI.SourceTabs
 {
-    public delegate void SaveWaveHandler (WaveChunk wave);
+    public delegate void SaveWaveHandler (ISoundWave wave);
 
 
     public abstract class BasePage : ContentPage
@@ -31,12 +31,12 @@ namespace SoundApp.GUI.SourceTabs
             Navigation.PopAsync();
         }
 
-        abstract protected WaveChunk generateSoundWave();
+        abstract protected ISoundWave generateSoundWave();
         
         protected void playSampleButton_Clicked(object sender, EventArgs e)
         {
             var wave = generateSoundWave();
-            wave.PlayAudioChunk();
+            wave.PlayAudioWave();
         }
         protected void stopButton_Clicked(object sender, EventArgs e)
         {

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System;
 using SoundApp.Audio.AudioWaves;
+using SoundApp.Audio;
 
 namespace WAVFileGenerator
 {
@@ -32,21 +33,14 @@ namespace WAVFileGenerator
             }
         }
 
-        private WAVGenerator SetAudioProperties(uint sampleRate, ushort nChannels)
+        private WAVGenerator SetAudioProperties(SampleRate sampleRate, ushort nChannels, PCMBitDepth bitDepth)
         {
-            CheckValidSampleRate(sampleRate);
 
-            format.SetProperties(nChannels, sampleRate, sizeof(short) * 8); //TODO
+            format.SetProperties(nChannels, (uint) sampleRate, (ushort) bitDepth); //TODO
 
             return this;
         }
-
-        private static void CheckValidSampleRate(uint sampleRate)
-        {
-            bool isSampleRateValid = Enum.IsDefined(typeof(SampleRate), sampleRate);
-            if (!isSampleRateValid)
-                throw new ArgumentException("Sample Rate Invalid.");
-        }
+        
 
         private void SaveToFile(BinaryWriter writer)
         {
@@ -67,28 +61,31 @@ namespace WAVFileGenerator
             data.DataArray = monoData;
         }
 
-        //public static void CreateMonoWAVFile(string filePath, SampleRate sampleRate, WaveChunk wave)
-        //{
-        //    FileStream stream = new FileStream(filePath, FileMode.Create);
-        //    BinaryWriter writer = new BinaryWriter(stream, Encoding.ASCII);
-        //    WriteToStream(writer, sampleRate, wave);
-        //    writer.Close();
-        //}
-
-        private static void WriteToStream(BinaryWriter writer, byte[] data, uint sampleRate, byte nChannels)
+        private static void WriteToStream(BinaryWriter writer, PCMChunk pcmWave)
         {
-            WAVGenerator generator = Singleton.SetAudioProperties((uint)sampleRate, nChannels);
-            generator.SetAudioData(data);
+            WAVGenerator generator = Singleton.SetAudioProperties(pcmWave.sampleRate, pcmWave.nChannels, pcmWave.bitDepth);
+            generator.SetAudioData(pcmWave.data);
 
             generator.SaveToFile(writer);
         }
-        public static Stream GenerateWAVInMemoryStream(byte[] data, uint sampleRate, byte nChannels)
+        public static Stream GenerateWAVInMemoryStream(PCMChunk pcmWave)
         {
+            checkPCMarguments(pcmWave);
+
             var writer = new BinaryWriter(new MemoryStream(), System.Text.Encoding.ASCII);
-            WAVGenerator.WriteToStream(writer, data, sampleRate, nChannels);
+            WAVGenerator.WriteToStream(writer, pcmWave);
             writer.Seek(0, SeekOrigin.Begin);
             return writer.BaseStream;
         }
 
+        private static void checkPCMarguments(PCMChunk pcmWave)
+        {
+            bool isSampleRateValid = Enum.IsDefined(typeof(SampleRate), pcmWave.sampleRate);
+            bool isBitDepthValid= Enum.IsDefined(typeof(PCMBitDepth), pcmWave.bitDepth);
+            bool isNumChannelsValid = pcmWave.nChannels >= 1;
+
+            if (!isSampleRateValid || !isBitDepthValid || !isNumChannelsValid)
+                throw new ArgumentException("Invalid Arguments." + pcmWave.ToString());
+        }
     }
 }
