@@ -1,48 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SoundApp.GUI.TrackPage">
+             x:Class="SoundApp.GUI.TrackPage"
+             Title="Track Editor">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
-                    iOS="30, 20"
-                    Android="30, 20"
-                    WinPhone="30, 20" />
+                    iOS="10, 20"
+                    Android="10, 20"
+                    WinPhone="10, 20" />
     </ContentPage.Padding>
     
     <ContentPage.Content>
-        <RelativeLayout>
-            <StackLayout 
-                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Height,Factor=0.0,Constant=0}"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Width,Factor=0.0,Constant=0}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Width,Factor=1.0,Constant=0}"
-                    RelativeLayout.HeightConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Height,Factor=.5,Constant=0}"
-                    Orientation="Vertical"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    Spacing="20"
-                    >
-                <ScrollView>
-                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Spacing="20" >
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="20" >
-                            <Label Text="Name: " VerticalOptions="Center"/>
-                            <Entry x:Name="nameEntry" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
-                        </StackLayout>
-                        <Button x:Name="pickSourceButton" HorizontalOptions="Center" 
-                                WidthRequest="300" Text="Choose Sample Source" Clicked="pickSourceButton_Clicked" />
-                    </StackLayout>
-                </ScrollView>
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <StackLayout Orientation="Vertical" VerticalOptions="StartAndExpand" 
+                         HorizontalOptions="FillAndExpand" Spacing="20">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="20" >
+                        <Label Text="Name: " HorizontalOptions="Start"/>
+                        <Entry x:Name="nameEntry" Text="{Binding MainText, Mode=TwoWay}" 
+                               HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                <Button x:Name="pickSourceButton" HorizontalOptions="Center" 
+                        WidthRequest="300" Text="Pick Audio Source" Clicked="pickSourceButton_Clicked" />
+                <Label Text="Start Time (s):" HorizontalOptions="Center" />
+                <StackLayout Orientation="Horizontal">
+                    <Slider x:Name="startTimeSlider" HorizontalOptions="FillAndExpand" 
+                        Minimum="0.0" Maximum="60.0" Value="0.0" />
+                    <Entry x:Name="startTimeEntry" Text="0.0" HorizontalOptions="End"/>
+                </StackLayout>
             </StackLayout>
             <ListView  x:Name="effectsListView"  Margin="0, 10"
-            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                Property=Height,Factor=0.5,Constant=0}"
-            RelativeLayout.WidthConstraint="{ConstraintExpression
-                Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
-            RelativeLayout.HeightConstraint="{ConstraintExpression
-                Type=RelativeToParent,Property=Height,Factor=.4,Constant=0}" >
+                       HorizontalOptions="Center"
+                       >
                 <ListView.Footer>
                     <Button x:Name="addEffectButton" Text="Add Effect" Clicked="addEffectButton_Clicked"/>
                 </ListView.Footer>
@@ -50,23 +38,15 @@
                     <Button x:Name="clearEffectsButton" Text="Clear" Clicked="clearEffectsButton_Clicked"/>
                 </ListView.Header>
             </ListView>
-            <StackLayout 
-                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Height,Factor=0.9,Constant=0}"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Width,Factor=0.15,Constant=0}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Width,Factor=0.7,Constant=0}"
-                    RelativeLayout.HeightConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Height,Factor=.1,Constant=0}"
-                    Orientation="Horizontal"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    Spacing="20"
-                    >
-                <Button HorizontalOptions="FillAndExpand" Text="Cancel" Clicked="cancelButton_Clicked" />
-                <Button x:Name="saveButton" HorizontalOptions="FillAndExpand" Text="Save" Clicked="saveButton_Clicked" />
+            <StackLayout Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand" 
+                         Spacing="20" >
+                <Button x:Name="stopButton" HorizontalOptions="StartAndExpand" 
+                        Text="Stop" Clicked="stopButton_Clicked" />
+                <Button x:Name="playButton" HorizontalOptions="CenterAndExpand" 
+                        Text="Play" Clicked="playButton_Clicked"  />
+                <Button x:Name="saveButton" HorizontalOptions="EndAndExpand" 
+                        Text="Save" Clicked="saveButton_Clicked" />
             </StackLayout>
-        </RelativeLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

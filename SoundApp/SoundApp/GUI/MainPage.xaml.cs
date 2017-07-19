@@ -6,6 +6,8 @@ using SoundApp.Audio.SoundMixer;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using SoundApp.Audio;
+using SoundApp.PlatformAdapters;
+using System.Diagnostics;
 
 namespace SoundApp.GUI
 {
@@ -18,8 +20,8 @@ namespace SoundApp.GUI
     public partial class MainPage : ContentPage
     {
         
-        MusicBuilder _musicBuilder = new MusicBuilder();
-        Collection<TrackViewTextItem> _viewListItems;
+        static MusicBuilder _musicBuilder = new MusicBuilder();
+        static Collection<TrackViewTextItem> _viewListItems;
         public MainPage()
         {
             InitializeComponent();
@@ -35,8 +37,46 @@ namespace SoundApp.GUI
         private void innitializeFields()
         {
 
-            _viewListItems = TrackViewTextItem.SetupListBindingsFactory(this.trackListView);
+            _viewListItems = SetupListBindingsFactory(this.trackListView);
             this.trackListView.ItemSelected += this.OnTrackSelection;
+        }
+
+        public delegate void DeleteHandler();
+
+        public class DeletableCell : TextCell
+        {
+            //public static event 
+            public DeletableCell() : base()
+            {
+                var deleteAction = new MenuItem { Text = "Delete", IsDestructive = true }; 
+                deleteAction.SetBinding(MenuItem.CommandParameterProperty, new Binding("."));
+                deleteAction.Parent = this;
+                deleteAction.Clicked +=  (sender, e) => {
+                    var mi = ((MenuItem)sender);
+                    var cell = (DeletableCell)mi.Parent;
+                    var textItem = (TrackViewTextItem) cell.BindingContext;
+
+                    
+                    _musicBuilder.RemoveTrack(textItem.Track);
+                    _viewListItems.Remove(textItem);
+                    //cell.TextColor = Color.Black;
+                    //Debug.WriteLine("Delete Context Action clicked: " + mi.CommandParameter);
+                };
+                
+                ContextActions.Add(deleteAction);
+            }
+        }
+
+        private static ObservableCollection<TrackViewTextItem> SetupListBindingsFactory(ListView trackListView)
+        {
+            var list = new ObservableCollection<TrackViewTextItem>();
+            
+            trackListView.ItemTemplate = new DataTemplate(typeof(DeletableCell));
+            trackListView.ItemsSource = list;
+            trackListView.ItemTemplate.SetBinding(DeletableCell.TextProperty, "MainText");
+            trackListView.ItemTemplate.SetBinding(DeletableCell.DetailProperty, "DetailText");
+            trackListView.ItemTemplate.SetBinding(DeletableCell.TextColorProperty, "MainColor");
+            return list;
         }
 
         private void playButton_Clicked(object sender, EventArgs e)
@@ -94,15 +134,15 @@ namespace SoundApp.GUI
 
         private void AddTrack(TrackViewTextItem oldTrackItem, TrackViewTextItem savedTrackItem)
         {
-            this._viewListItems.Add(savedTrackItem);
-            this._musicBuilder.AddTrack(savedTrackItem.Track);
+            _viewListItems.Add(savedTrackItem);
+            _musicBuilder.AddTrack(savedTrackItem.Track);
         }
 
         private void UpdateTrack(TrackViewTextItem oldTrackItem, TrackViewTextItem savedTrackItem)
         {
-            var index = this._viewListItems.IndexOf(oldTrackItem);
+            var index = _viewListItems.IndexOf(oldTrackItem);
             _viewListItems.RemoveAt(index);
-            this._viewListItems.Insert(index, savedTrackItem);
+            _viewListItems.Insert(index, savedTrackItem);
 
             _musicBuilder.RemoveTrack(oldTrackItem.Track);
             _musicBuilder.AddTrack(savedTrackItem.Track);
@@ -110,8 +150,8 @@ namespace SoundApp.GUI
 
         private void clearTracksButton_Clicked(object sender, EventArgs e)
         {
-            this._viewListItems.Clear();
-            this._musicBuilder.Clear();
+            _viewListItems.Clear();
+            _musicBuilder.Clear();
         }
     }
 }

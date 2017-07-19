@@ -3,21 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SoundApp"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
-             x:Class="SoundApp.GUI.MainPage">
+             x:Class="SoundApp.GUI.MainPage"
+             Title="SoundMixer">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness"
-                    iOS="30, 10"
-                    Android="30, 10"
-                    WinPhone="30, 10" />
+                    iOS="10, 10"
+                    Android="10, 10"
+                    WinPhone="10, 10" />
     </ContentPage.Padding>
     <ContentPage.Content>
-        <RelativeLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            <ListView  x:Name="trackListView" 
-                
-                RelativeLayout.WidthConstraint="{ConstraintExpression
-                    Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
-                RelativeLayout.HeightConstraint="{ConstraintExpression
-                    Type=RelativeToParent,Property=Height,Factor=.6,Constant=0}" >
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <ListView  x:Name="trackListView" HorizontalOptions="Center" >
                 <ListView.Footer>
                     <Button x:Name="addTrackButton" Text="Add Track" Clicked="addTrackButton_Clicked"/>
                 </ListView.Footer>
@@ -26,30 +22,15 @@
                 </ListView.Header>
             </ListView>
             <!-- Volume graph placeholder -->
-            <BoxView Color="Red" Margin="0, 20"
-                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                    Property=Height,Factor=0.6,Constant=0}"
-                RelativeLayout.WidthConstraint="{ConstraintExpression
-                    Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
-                RelativeLayout.HeightConstraint="{ConstraintExpression
-                    Type=RelativeToParent,Property=Height,Factor=.3,Constant=0}" />
+            <BoxView Color="Red" Margin="0, 20" MinimumHeightRequest="100" />
             <StackLayout 
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Height,Factor=0.9,Constant=0}"
-                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Width,Factor=0.15,Constant=0}"
-                        RelativeLayout.WidthConstraint="{ConstraintExpression
-                            Type=RelativeToParent,Property=Width,Factor=0.7,Constant=0}"
-                        RelativeLayout.HeightConstraint="{ConstraintExpression
-                            Type=RelativeToParent,Property=Height,Factor=.1,Constant=0}"
                         Orientation="Horizontal"
-                        VerticalOptions="FillAndExpand"
-                        HorizontalOptions="FillAndExpand"
+                        HorizontalOptions="CenterAndExpand"
                         Spacing="20"
                         >
-                <Button x:Name="playButton" HorizontalOptions="FillAndExpand" Text="Play" Clicked="playButton_Clicked" />
-                <Button x:Name="stopButton" HorizontalOptions="FillAndExpand" Text="Stop" Clicked="stopButton_Clicked" />
+                <Button x:Name="stopButton" Text="Stop" HorizontalOptions="FillAndExpand" Clicked="stopButton_Clicked" />
+                <Button x:Name="playButton" Text="Play" HorizontalOptions="FillAndExpand" Clicked="playButton_Clicked" />
             </StackLayout>
-        </RelativeLayout>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

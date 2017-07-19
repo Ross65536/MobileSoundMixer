@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SoundApp.Audio.AudioWaves;
 using SoundApp.Audio.SoundMixer;
 using SoundApp.GUI.SourceTabs;
+using SoundApp.PlatformAdapters;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,13 +17,11 @@ namespace SoundApp.GUI
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TrackPage : ContentPage
     {
-        private static int trackNum = 1;
-
         private TrackViewTextItem modifiedTrack;
         private TrackViewTextItem oldTrack;
 
         public event SaveHandler ChangesSaved;
-        
+        private bool startTimeValid = true;
 
         public TrackPage(TrackViewTextItem track) 
         {
@@ -31,74 +30,66 @@ namespace SoundApp.GUI
             this.oldTrack = track;
             this.modifiedTrack = new TrackViewTextItem(track);
 
-            this.InnitData();
-
-            {
-                //TODO: remove
-                this.placeHolder();
-            }
-
-            
+            this.checkTrackValidity();
+            this.BindingContext = modifiedTrack;
+            this.innitGUI();
             
         }
 
-        private void InnitData()
+        private void innitGUI()
         {
-            
-            if (oldTrack.Track == null)
+            this.startTimeSlider.ValueChanged += 
+                (sender, e) => { this.startTimeEntry.Text = ((Slider)sender).Value.ToString(); };
+            this.startTimeEntry.TextChanged += (sender, e) =>
+                { this.onStartTimeEntryHandler((Entry)sender, ref startTimeValid, startTimeSlider); };
+
+        }
+
+        private void onStartTimeEntryHandler(Entry entry, ref bool validEntry, Slider slider)
+        {
+            bool valid = Double.TryParse(entry.Text, out double result);
+            if (valid && result >= 0.0)
             {
-                this.nameEntry.Text = string.Concat("Track ", trackNum.ToString());
-                trackNum++;
-                setTrackValidity(false);
+                entry.TextColor = Color.Black;
+                validEntry = true;
+                modifiedTrack.Track.StartTime = result;
             }
             else
             {
-                this.nameEntry.Text = modifiedTrack.MainText;
-                setTrackValidity(true);
+                entry.TextColor = Color.Red;
+                validEntry = false;
             }
 
-            
+            setButtonValidity(startTimeValid);
+
         }
 
-        private void setTrackValidity(bool isValid)
+        private void checkTrackValidity()
+        {
+
+            if (oldTrack.Track.EndTime == 0.0)
+                setButtonValidity(false);
+            else
+                setButtonValidity(true);
+        }
+
+        private void setButtonValidity(bool isValid)
         {
             this.saveButton.IsEnabled = isValid;
+            this.playButton.IsEnabled = isValid;
+            this.stopButton.IsEnabled = isValid;
         }
-
-        private void placeHolder()
-        {
-            this.effectsListView.ItemsSource = new string[]
-            {
-                "a",
-                "b",
-                "c",
-                "d"
-            };
-        }
-
         
-
         private void saveButton_Clicked(object sender, EventArgs e)
         {
-            this.saveChangesToTrack();
+            //this.saveChangesToTrack();
 
             if (ChangesSaved != null)
                 ChangesSaved(oldTrack, modifiedTrack);
             Navigation.PopAsync();
             
         }
-
-        private void saveChangesToTrack()
-        {
-            
-            this.modifiedTrack.MainText= this.nameEntry.Text;
-        }
-
-        private void cancelButton_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PopAsync();
-        }
-
+        
         private void addEffectButton_Clicked(object sender, EventArgs e)
         {
             //TODO
@@ -121,12 +112,21 @@ namespace SoundApp.GUI
             if (wave == null)
                 return;
 
-            var startTime = 0.0;
-            var effects = new EffectsBuilder(wave);
-            modifiedTrack.Track = new TrackUnit(effects, startTime);
+            modifiedTrack.Track.BaseWave = wave;
 
-            setTrackValidity(true);
+            if(modifiedTrack.Track.EndTime != 0.0)
+                setButtonValidity(true);
 
+        }
+
+        private void playButton_Clicked(object sender, EventArgs e)
+        {
+            modifiedTrack.Track.PlayAudioWave();
+        }
+
+        private void stopButton_Clicked(object sender, EventArgs e)
+        {
+            AudioStuff.AudioPlayer.Stop();
         }
     }
 }

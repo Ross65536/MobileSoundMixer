@@ -22,12 +22,12 @@ namespace SoundApp.GUI.SourceTabs
 
         }
 
-        private void addPage(GeneratorPage gen)
+        private void addPage(GeneratorPage page)
         {
             SaveWaveHandler eventPipe = (X) => ChangesSaved(X);
-            gen.ChangesSaved += eventPipe;
+            page.ChangesSaved += eventPipe;
 
-            this.Children.Add(gen);
+            this.Children.Add(page);
         }
          
     }

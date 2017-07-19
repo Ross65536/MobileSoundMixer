@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SoundApp.Audio.AudioWaves;
+using SoundApp.PlatformAdapters;
 using Xamarin.Forms;
 
 namespace SoundApp.GUI.SourceTabs
@@ -17,11 +18,7 @@ namespace SoundApp.GUI.SourceTabs
         public BasePage ()
 		{
 		}
-
-        protected void cancelButton_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PopAsync();
-        }
+        
         protected void saveButton_Clicked(object sender, EventArgs e)
         {
             var wave = generateSoundWave();

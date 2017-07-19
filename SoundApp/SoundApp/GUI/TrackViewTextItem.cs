@@ -9,12 +9,11 @@ namespace SoundApp.GUI
 {
     public class TrackViewTextItem
     {
-
+        private static int trackNum = 1;
         public ITrackUnit Track { get; set; }
         public string MainText { get; set; }
         public string DetailText { get { return Track.ToString(); } }
         public Color MainColor { get; set; }
-        public const string DEFAULT_MAIN_TEXT = "";
 
         public TrackViewTextItem(TrackViewTextItem trackItem)
         {
@@ -37,20 +36,11 @@ namespace SoundApp.GUI
             this.MainColor = Color.FromRgb(color.r, color.g, color.b);
         }
 
-        internal static ObservableCollection<TrackViewTextItem> SetupListBindingsFactory(ListView trackListView)
-        {
-            var list = new ObservableCollection<TrackViewTextItem>();
-            trackListView.ItemTemplate = new DataTemplate(typeof(TextCell));
-            trackListView.ItemsSource = list;
-            trackListView.ItemTemplate.SetBinding(TextCell.TextProperty, "MainText");
-            trackListView.ItemTemplate.SetBinding(TextCell.DetailProperty, "DetailText");
-            trackListView.ItemTemplate.SetBinding(TextCell.TextColorProperty, "MainColor");
-            return list;
-        }
-
         static public TrackViewTextItem DefaultFactory()
         {
-            return new TrackViewTextItem (DEFAULT_MAIN_TEXT, null);
+            var name = string.Concat("Track ", trackNum.ToString());
+            trackNum++;
+            return new TrackViewTextItem (name, new TrackUnit());
         }
     }
 

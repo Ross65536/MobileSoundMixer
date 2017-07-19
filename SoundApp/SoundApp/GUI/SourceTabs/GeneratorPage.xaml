@@ -5,63 +5,35 @@
         x:Class="SoundApp.GUI.SourceTabs.GeneratorPage"
         Title="Generate">
     <d:BasePage.Content>
-        <StackLayout>
-            <RelativeLayout>
-                <StackLayout 
-                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Height,Factor=0.0,Constant=0}"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Width,Factor=0.0,Constant=0}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Width,Factor=1.0,Constant=0}"
-                    RelativeLayout.HeightConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Height,Factor=.5,Constant=0}"
-                    Orientation="Vertical"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    Spacing="20"
-                    >
-                    <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Spacing="20" >
-                        <Picker x:Name="waveTypePicker" SelectedIndex="0" HorizontalOptions="Center" MinimumWidthRequest="200">
-                            <Picker.Items>
-                                <x:String>SineWave</x:String>
-                                <x:String>SquareWave</x:String>
-                                <x:String>Sawtooth</x:String>
-                                <x:String>Triangle</x:String>
-                            </Picker.Items>
-                        </Picker>
-                        <Label Text="Frequency (Hz)" HorizontalOptions="Center"/>
-                        <Slider HorizontalOptions="FillAndExpand" x:Name="frequencySlider" Minimum="0" Maximum="16000" Value="100" />
-                        <Label Text="Duration (s)" HorizontalOptions="Center"/>
-                        <Slider HorizontalOptions="FillAndExpand" x:Name="DurationSlider" Minimum="0.0" Maximum="10.0" Value="1" />
-
-                    </StackLayout>
-                </StackLayout>
-                <StackLayout 
-                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Height,Factor=0.8,Constant=0}"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                        Property=Width,Factor=0.15,Constant=0}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Width,Factor=0.7,Constant=0}"
-                    RelativeLayout.HeightConstraint="{ConstraintExpression
-                        Type=RelativeToParent,Property=Height,Factor=.2,Constant=0}"
-                    Orientation="Vertical"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    Spacing="10"
-                    >
-                    <StackLayout Orientation="Horizontal">
-                        <Button HorizontalOptions="FillAndExpand" Text="Stop" Clicked="stopButton_Clicked" />
-                        <Button x:Name="playButton" HorizontalOptions="FillAndExpand" Text="Play" Clicked="playSampleButton_Clicked"  />
-                    </StackLayout>
-                    
-                    <StackLayout Orientation="Horizontal">
-                        <Button HorizontalOptions="FillAndExpand" Text="Cancel" Clicked="cancelButton_Clicked"  />
-                        <Button x:Name="saveButton" HorizontalOptions="FillAndExpand" Text="Save" Clicked="saveButton_Clicked"  />
-                    </StackLayout>
-                </StackLayout>
-            </RelativeLayout>
+        <StackLayout Orientation="Vertical" Spacing="20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Picker x:Name="waveTypePicker" SelectedIndex="0" HorizontalOptions="Center" 
+                    MinimumWidthRequest="200">
+                <Picker.Items>
+                    <x:String>SineWave</x:String>
+                    <x:String>SquareWave</x:String>
+                    <x:String>Sawtooth</x:String>
+                    <x:String>Triangle</x:String>
+                </Picker.Items>
+            </Picker>
+            <Label Text="Frequency (Hz):" HorizontalOptions="Center"/>
+            <StackLayout Orientation="Horizontal">
+                <Slider HorizontalOptions="FillAndExpand" x:Name="frequencySlider" 
+                        Minimum="0" Maximum="16000" Value="300" />
+                <Entry x:Name="frequencyEntry" Text="300.0" HorizontalOptions="End"/>
+            </StackLayout>
+            <Label Text="Duration (s):" HorizontalOptions="Center"/>
+            <StackLayout Orientation="Horizontal">
+                <Slider x:Name="DurationSlider" HorizontalOptions="FillAndExpand" 
+                        Minimum="0.0" Maximum="10.0" Value="1" />
+                <Entry x:Name="durationEntry" Text="1.0" HorizontalOptions="End"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End">
+                <Button x:Name="stopButton"  HorizontalOptions="FillAndExpand" Text="Stop" Clicked="stopButton_Clicked" />
+                <Button x:Name="playButton" HorizontalOptions="FillAndExpand" 
+                        Text="Play" Clicked="playSampleButton_Clicked"  />
+                <Button x:Name="saveButton" HorizontalOptions="FillAndExpand" 
+                        Text="Save" Clicked="saveButton_Clicked"  />
+            </StackLayout>
         </StackLayout>
     </d:BasePage.Content>
 </d:BasePage>

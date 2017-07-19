@@ -38,6 +38,7 @@
     <Compile Include="Audio\AudioConstants.cs" />
     <Compile Include="Audio\AudioWaves\ISoundWave.cs" />
     <Compile Include="Audio\AudioWaves\MonoEditableWave.cs" />
+    <Compile Include="Audio\AudioWaves\NullSoundWave.cs" />
     <Compile Include="Audio\SoundMixer\EffectsBuilder.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Audio\SoundMixer\ITrackUnit.cs" />
@@ -46,7 +47,8 @@
     <Compile Include="GUI\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\AudioStuff.cs" />
+    <Compile Include="GUI\StaticMethods.cs" />
+    <Compile Include="PlatformAdapters\AudioStuff.cs" />
     <Compile Include="GUI\SourceTabs\BasePage.cs" />
     <Compile Include="GUI\SourceTabs\GeneratorPage.xaml.cs">
       <DependentUpon>GeneratorPage.xaml</DependentUpon>

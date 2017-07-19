@@ -8,6 +8,9 @@ namespace SoundApp.Audio.SoundMixer
     {
         private EffectsBuilder _effectsBuilder;
 
+        public ISoundWave BaseWave { get { return _effectsBuilder.BaseWave; }
+            set { _effectsBuilder.BaseWave = value; } }
+
         public double StartTime
         {
             get;
@@ -37,6 +40,11 @@ namespace SoundApp.Audio.SoundMixer
         {
             this._effectsBuilder = new EffectsBuilder(trackUnit._effectsBuilder);
             this.StartTime = trackUnit.StartTime;
+        }
+        public TrackUnit()
+        {
+            StartTime = 0.0;
+            _effectsBuilder = new EffectsBuilder();
         }
 
         public void AddToWave(BaseEditableWave baseWave)

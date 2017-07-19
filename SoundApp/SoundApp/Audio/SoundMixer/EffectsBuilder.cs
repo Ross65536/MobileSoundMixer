@@ -8,29 +8,36 @@ namespace SoundApp.Audio.AudioWaves
 {
     public class EffectsBuilder
     {
-        private ISoundWave wave;
+        public ISoundWave BaseWave { get; set; }
 
-        public double Duration { get { return wave.Duration; } }
+        public double Duration { get {  return BaseWave.Duration; } }
         public int NumEffects { get { return 0; } }
+
+        
 
         public EffectsBuilder (ISoundWave wave)
         {
-            this.wave = wave;
+            this.BaseWave = wave;
         }
 
         public EffectsBuilder(EffectsBuilder effectsBuilder)
         {
-            this.wave = wave.clone();
+            this.BaseWave = effectsBuilder.BaseWave.clone();
         }
-        
+
+        public EffectsBuilder()
+        {
+            BaseWave = NullSoundWave.Singleton;
+        }
+
         public BaseEditableWave ToEditableWave() {
             //TODO
-            return wave.ToEditableWave();
+            return BaseWave.ToEditableWave();
         }
 
         public override string ToString()
         {
-            return string.Concat(wave.ToString(), ", N. Effects: ", this.NumEffects.ToString());
+            return string.Concat(BaseWave.ToString(), ", Effects: ", this.NumEffects.ToString());
         }
     }
 }
