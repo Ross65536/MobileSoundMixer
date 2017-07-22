@@ -47,6 +47,9 @@
     <Compile Include="GUI\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\SourceTabs\RecordPage.xaml.cs">
+      <DependentUpon>RecordPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\StaticMethods.cs" />
     <Compile Include="PlatformAdapters\AudioStuff.cs" />
     <Compile Include="GUI\SourceTabs\BasePage.cs" />
@@ -60,10 +63,11 @@
       <DependentUpon>TrackPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\TrackViewTextItem.cs" />
-    <Compile Include="IAudioPlayerAdapter.cs" />
+    <Compile Include="PlatformAdapters\IAudioPlayerAdapter.cs" />
     <Compile Include="GUI\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlatformAdapters\IAudioRecorderAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Audio\AudioWaves\BaseEditableWave.cs" />
     <Compile Include="Audio\AudioWaves\WaveFactory.cs" />
@@ -116,6 +120,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\SourceTabs\GeneratorPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\SourceTabs\RecordPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

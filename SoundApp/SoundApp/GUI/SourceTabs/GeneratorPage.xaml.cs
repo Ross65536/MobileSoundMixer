@@ -14,11 +14,13 @@ namespace SoundApp.GUI.SourceTabs
     {
         private static readonly WaveTypes[] pickerIndexToWaveType = { WaveTypes.SineWave, WaveTypes.Square, WaveTypes.Sawtooth, WaveTypes.Triangle };
         private bool durationValid = true, freqValid = true;
+
         public GeneratorPage()
         {
             InitializeComponent();
             InnitGUI();
 
+            AddNavigationButtons(mainStackLayout);
         }
 
         private void InnitGUI()
@@ -48,18 +50,13 @@ namespace SoundApp.GUI.SourceTabs
                 validEntry = false;
             }
 
-            this.SetValidity(durationValid && freqValid);
+            this.setButtonsValidity(durationValid && freqValid);
 
         }
 
-        private void SetValidity(bool v)
-        {
-            this.saveButton.IsEnabled = v;
-            this.playButton.IsEnabled = v;
-            this.stopButton.IsEnabled = v;
-        }
+        
 
-        protected override ISoundWave generateSoundWave()
+        protected override ISoundWave GenerateSoundWave()
         {
             var dur = Double.Parse(this.durationEntry.Text);
             var freq = Double.Parse(this.frequencyEntry.Text);

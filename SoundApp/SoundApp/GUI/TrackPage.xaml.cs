@@ -53,24 +53,26 @@ namespace SoundApp.GUI
                 entry.TextColor = Color.Black;
                 validEntry = true;
                 modifiedTrack.Track.StartTime = result;
+                
             }
             else
             {
                 entry.TextColor = Color.Red;
                 validEntry = false;
+                
             }
 
-            setButtonValidity(startTimeValid);
+            checkTrackValidity();
 
         }
 
         private void checkTrackValidity()
         {
 
-            if (oldTrack.Track.EndTime == 0.0)
-                setButtonValidity(false);
-            else
+            if (modifiedTrack.Track.Duration >  0.0 && modifiedTrack.Track.EndTime > 0.0 && this.startTimeValid)
                 setButtonValidity(true);
+            else
+                setButtonValidity(false);
         }
 
         private void setButtonValidity(bool isValid)
@@ -78,6 +80,7 @@ namespace SoundApp.GUI
             this.saveButton.IsEnabled = isValid;
             this.playButton.IsEnabled = isValid;
             this.stopButton.IsEnabled = isValid;
+
         }
         
         private void saveButton_Clicked(object sender, EventArgs e)
@@ -114,8 +117,7 @@ namespace SoundApp.GUI
 
             modifiedTrack.Track.BaseWave = wave;
 
-            if(modifiedTrack.Track.EndTime != 0.0)
-                setButtonValidity(true);
+            checkTrackValidity();
 
         }
 

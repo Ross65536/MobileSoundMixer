@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoundApp.Audio.AudioWaves
 {
-    class NullSoundWave : ISoundWave
+    public class NullSoundWave : ISoundWave
     {
         public static NullSoundWave Singleton = new NullSoundWave();
 

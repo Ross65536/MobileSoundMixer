@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using SoundApp.Audio.AudioWaves;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using SoundApp.PlatformAdapters;
+using System.Diagnostics;
 
 namespace SoundApp.GUI.SourceTabs
 {
@@ -19,10 +21,13 @@ namespace SoundApp.GUI.SourceTabs
             InitializeComponent();
 
             addPage(new GeneratorPage());
+            var recordedPage = new RecordPage();
+            recordedPage.Disappearing += (a, b) => { AudioStuff.AudioRecorder.StopRecording(); };
+            addPage(recordedPage);
 
         }
 
-        private void addPage(GeneratorPage page)
+        private void addPage(BasePage page)
         {
             SaveWaveHandler eventPipe = (X) => ChangesSaved(X);
             page.ChangesSaved += eventPipe;

@@ -4,6 +4,7 @@ using SoundApp.Audio;
 using SoundApp.UWP.AudioPlayer;
 using WAVFileGenerator;
 using Windows.Media.Playback;
+using Windows.Media.Core;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AudioPlayer))]
 namespace SoundApp.UWP.AudioPlayer
@@ -16,7 +17,8 @@ namespace SoundApp.UWP.AudioPlayer
         {
             var stream = WAVGenerator.GenerateWAVInMemoryStream(pcmWave);
 
-            _mediaPlayer.SetStreamSource(stream.AsRandomAccessStream());
+            var mediaElement= MediaSource.CreateFromStream(stream.AsRandomAccessStream(), "audio");
+            _mediaPlayer.Source = mediaElement;
             _mediaPlayer.Play();
         }
 

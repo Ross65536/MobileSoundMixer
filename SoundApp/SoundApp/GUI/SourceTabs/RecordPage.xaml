@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<d:BasePage  xmlns="http://xamarin.com/schemas/2014/forms"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:d="clr-namespace:SoundApp.GUI.SourceTabs;assembly=SoundApp.GUI.SourceTabs"
+        x:Class="SoundApp.GUI.SourceTabs.RecordPage"
+        Title="Record">
+    <d:BasePage.Content>
+        <StackLayout x:Name="mainStackLayout" Orientation="Vertical" Spacing="20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Button x:Name="startRecordingButton" Text="Start Recording" Clicked="startRecordingButton_Clicked" />
+            <Button x:Name="stopRecordingButton" Text="Stop Recording" Clicked="stopRecordingButton_Clicked" />
+        </StackLayout>
+    </d:BasePage.Content>
+</d:BasePage>

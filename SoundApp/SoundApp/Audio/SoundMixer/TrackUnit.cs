@@ -25,6 +25,8 @@ namespace SoundApp.Audio.SoundMixer
             }
         }
 
+        public double Duration { get { return _effectsBuilder.Duration; } }
+
         public override string ToString()
         {
             return string.Format("Start: {0}, {1}", TimeSpan.FromSeconds(StartTime).ToString(@"mm\:ss\:fff"), _effectsBuilder); ;

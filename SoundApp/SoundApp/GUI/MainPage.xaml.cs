@@ -19,7 +19,7 @@ namespace SoundApp.GUI
 
     public partial class MainPage : ContentPage
     {
-        
+        //TODO fix statics
         static MusicBuilder _musicBuilder = new MusicBuilder();
         static Collection<TrackViewTextItem> _viewListItems;
         public MainPage()

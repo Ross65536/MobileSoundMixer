@@ -8,6 +8,7 @@ namespace SoundApp.PlatformAdapters
     static class AudioStuff
     {
         static public IAudioPlayerAdapter AudioPlayer = DependencyService.Get<IAudioPlayerAdapter>();
+        static public IAudioRecorderAdapter AudioRecorder = DependencyService.Get<IAudioRecorderAdapter>();
 
         static public void PlayAudioWave(this ISoundWave wave)
         {
