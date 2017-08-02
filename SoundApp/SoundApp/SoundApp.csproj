@@ -35,12 +35,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Audio\AudioConstants.cs" />
+    <Compile Include="AudioConstants.cs" />
     <Compile Include="Audio\AudioWaves\ISoundWave.cs" />
     <Compile Include="Audio\AudioWaves\MonoEditableWave.cs" />
     <Compile Include="Audio\AudioWaves\NullSoundWave.cs" />
     <Compile Include="Audio\SoundMixer\EffectsBuilder.cs" />
-    <Compile Include="Constants.cs" />
+    <Compile Include="CommonValues.cs" />
     <Compile Include="Audio\SoundMixer\ITrackUnit.cs" />
     <Compile Include="Audio\SoundMixer\TrackUnit.cs" />
     <Compile Include="Audio\SoundMixer\MusicBuilder.cs" />

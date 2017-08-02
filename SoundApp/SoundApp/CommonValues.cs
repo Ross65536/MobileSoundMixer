@@ -8,8 +8,11 @@ using SoundApp.Audio.AudioWaves;
 
 namespace SoundApp
 {
-    public sealed class Constants
+    public sealed class CommonValues
     {
-        public const SampleRate TRACK_SAMPLE_RATE = SampleRate.F48kHz;
+        public static SampleRate GlobalSampleRate {
+            get { return SampleRate.F44kHz;}
+        }
+        
     }
 }

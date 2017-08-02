@@ -36,6 +36,8 @@
     <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
+    <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
+    <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -102,7 +104,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioStreamPlayerAdapter.cs" />
+    <Compile Include="AudioDevices\AndroidConstants.cs" />
+    <Compile Include="AudioDevices\AudioRecorder.cs" />
+    <Compile Include="AudioDevices\AudioPlayer.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

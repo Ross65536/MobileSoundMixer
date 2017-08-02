@@ -26,8 +26,6 @@ namespace SoundApp.GUI.SourceTabs
 
         override protected ISoundWave GenerateSoundWave()
         {
-            return WaveFactory.MakeWave(WaveTypes.SineWave, new WaveAttributes { Runtime = 1.0, TargetFrequency = 300, WaveSampleRate = Constants.TRACK_SAMPLE_RATE });
-
             return recordedWave;
         }
 

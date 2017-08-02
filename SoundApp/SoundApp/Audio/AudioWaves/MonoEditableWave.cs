@@ -11,7 +11,11 @@ namespace SoundApp.Audio.AudioWaves
         override public byte NumChannels { get { return 1; } }
 
         public MonoEditableWave(SampleRate sampleRate, double runtime) : base (sampleRate, (int) ((int)sampleRate * runtime), 1 ) { }
+        public MonoEditableWave(SampleRate sampleRate, int nSamples) : base(sampleRate, nSamples, 1) { }
         public MonoEditableWave(MonoEditableWave wave) : base(wave) { }
+
+        public MonoEditableWave(SampleRate sampleRate, IList<float> waveBuffer) : base(sampleRate, waveBuffer)
+        { }
 
         public override BaseEditableWave AddEq(int sampleIndexOffset, BaseEditableWave waveToAdd)
         {

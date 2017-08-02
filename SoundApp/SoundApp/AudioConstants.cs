@@ -32,5 +32,6 @@ namespace SoundApp.Audio
 
     class AudioConstants
     {
+
     }
 }

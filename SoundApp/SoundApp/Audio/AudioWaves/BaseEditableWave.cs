@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SoundApp.Audio.AudioWaves
 {
@@ -10,7 +11,11 @@ namespace SoundApp.Audio.AudioWaves
     public abstract class BaseEditableWave : ISoundWave
     {
         protected readonly SampleRate _sampleRate;
-        protected float[] _data;
+        protected IList<float> _data; //shouldn't use _data.Add()
+
+
+
+
         /// <summary>
         /// Accesses the underlaying data buffer array.
         /// </summary>
@@ -21,17 +26,16 @@ namespace SoundApp.Audio.AudioWaves
             get { return _data[i]; }
             set { _data[i] = value; }
         }
-
         public double Duration
         {
-            get { return (double)_data.Length / (uint)_sampleRate / NumChannels; }
+            get { return (double)_data.Count / (uint)_sampleRate / NumChannels; }
         }
         public SampleRate SampleRate
         {
             get { return _sampleRate; }
         }
-        public int SampleCount { get { return _data.Length / NumChannels; } }
-        public int DataBufferCount { get { return _data.Length; } }
+        public int SampleCount { get { return _data.Count / NumChannels; } }
+        public int DataBufferCount { get { return _data.Count; } }
         abstract public byte NumChannels { get; }
 
         
@@ -54,7 +58,15 @@ namespace SoundApp.Audio.AudioWaves
 
         public BaseEditableWave(BaseEditableWave wave) : this (wave._sampleRate, wave.SampleCount, wave.NumChannels)
         {
-            wave._data.CopyTo(this._data, 0);
+            float[] data = new float[wave._data.Count];
+            this._data = data;
+            wave._data.CopyTo(data, 0);
+        }
+
+        public BaseEditableWave(SampleRate sampleRate, IList<float> waveBuffer)
+        {
+            this._sampleRate = sampleRate;
+            this._data = waveBuffer;
         }
 
 
@@ -95,7 +107,7 @@ namespace SoundApp.Audio.AudioWaves
         public BaseEditableWave LinearVolumeNormalize()
         {
             float max = FindMaxVolume();
-            for (int i = 0; i < this._data.Length; i++)
+            for (int i = 0; i < this._data.Count; i++)
                 _data[i] /= max;
 
             return this;
@@ -127,7 +139,7 @@ namespace SoundApp.Audio.AudioWaves
             
 
             var wave = this;
-            var nData = _data.Length;
+            var nData = _data.Count;
             byte[] arr = new byte[nData * sizeof(short)];
 
             for (int i = 0; i < nData; i++)

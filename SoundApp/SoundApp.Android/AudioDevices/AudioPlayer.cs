@@ -3,12 +3,11 @@ using System;
 using Android.Media;
 using SoundApp;
 using SoundApp.Audio;
-using SoundApp.Droid.AudioPlayer;
 
-[assembly: Xamarin.Forms.Dependency(typeof(AudioStreamPlayer))]
-namespace SoundApp.Droid.AudioPlayer
+[assembly: Xamarin.Forms.Dependency(typeof(SoundApp.Droid.AudioDevices.AudioPlayer))]
+namespace SoundApp.Droid.AudioDevices
 {
-    public class AudioStreamPlayer : IAudioPlayerAdapter
+    public class AudioPlayer : IAudioPlayerAdapter
     {
         AudioTrack _audioTrack = null;
 

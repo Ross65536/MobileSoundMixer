@@ -60,7 +60,7 @@ namespace SoundApp.GUI.SourceTabs
         {
             var dur = Double.Parse(this.durationEntry.Text);
             var freq = Double.Parse(this.frequencyEntry.Text);
-            var waveAttr = new WaveAttributes(Constants.TRACK_SAMPLE_RATE, dur, freq);
+            var waveAttr = new WaveAttributes(CommonValues.GlobalSampleRate, dur, freq);
             var waveType = pickerIndexToWaveType[this.waveTypePicker.SelectedIndex];
             var wave = WaveFactory.MakeWave(waveType, waveAttr);
 

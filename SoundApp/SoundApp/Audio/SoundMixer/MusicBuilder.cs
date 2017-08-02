@@ -8,10 +8,10 @@ namespace SoundApp.Audio.SoundMixer
     class MusicBuilder
     {
         private ICollection<ITrackUnit> _audioTracks;
-        const SampleRate COMMON_SAMPLE_RATE = Constants.TRACK_SAMPLE_RATE;
+        static SampleRate common_sample_rate { get { return CommonValues.GlobalSampleRate; } }
 
         public SampleRate SampleRate
-        { get { return COMMON_SAMPLE_RATE; } }
+        { get { return common_sample_rate; } }
 
         public bool IsEmpty { get { return _audioTracks.Count == 0; } }
 
@@ -52,7 +52,7 @@ namespace SoundApp.Audio.SoundMixer
                     maxRuntime = track.EndTime;
 
 
-            var musicData = GetResultingTrack(COMMON_SAMPLE_RATE, maxRuntime);
+            var musicData = GetResultingTrack(common_sample_rate, maxRuntime);
             return musicData;
         }
 
