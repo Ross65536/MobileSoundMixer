@@ -24,6 +24,7 @@ namespace SoundApp.GUI.SourceTabs
             var recordedPage = new RecordPage();
             recordedPage.Disappearing += (a, b) => { AudioStuff.AudioRecorder.StopRecording(); };
             addPage(recordedPage);
+            addPage(new FilePicker());
 
         }
 

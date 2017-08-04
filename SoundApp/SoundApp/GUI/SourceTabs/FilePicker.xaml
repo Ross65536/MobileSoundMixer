@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<d:BasePage  xmlns="http://xamarin.com/schemas/2014/forms"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:d="clr-namespace:SoundApp.GUI.SourceTabs;assembly=SoundApp.GUI.SourceTabs"
+        x:Class="SoundApp.GUI.SourceTabs.FilePicker"
+        Title="Choose File">
+    <d:BasePage.Content>
+        <StackLayout x:Name="mainStackLayout" Orientation="Vertical" Spacing="20"  >
+            <Entry x:Name="fileEntry" Text="Pick a file ..." HorizontalOptions="FillAndExpand" IsEnabled="False"  />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <Button x:Name="pickLocalFileButton" Text="Pick Local File" Clicked="pickLocalFileButton_Clicked" />
+            </StackLayout>
+        </StackLayout>
+    </d:BasePage.Content>
+</d:BasePage>

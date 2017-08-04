@@ -61,7 +61,7 @@ namespace SoundApp.Droid.AudioDevices
             recordIndexStep = (int) (recordStep * sampleRate);
 
             audioRecorder = new AudioRecord(
-                AudioSource.Mic,
+                AudioSource.Default,
                 sampleRate,
                 ChannelIn.Mono,
                 Encoding.Pcm16bit ,

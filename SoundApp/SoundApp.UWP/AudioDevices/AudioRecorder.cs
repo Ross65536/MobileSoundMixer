@@ -25,13 +25,13 @@ namespace SoundApp.UWP.AudioDevices
 
         public void StartRecording()
         {
-            Record();
+            //Record();
         }
 
         public ISoundWave StopRecording()
         {
-            Stop();
-            Play();
+            //Stop();
+            //Play();
             
             return NullSoundWave.Singleton;
         }
