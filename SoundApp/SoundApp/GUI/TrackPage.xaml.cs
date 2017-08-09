@@ -115,7 +115,7 @@ namespace SoundApp.GUI
             if (wave == null)
                 return;
 
-            modifiedTrack.Track.BaseWave = wave;
+            modifiedTrack.Track.BaseWave = wave.ToReadOnly();
 
             checkTrackValidity();
 

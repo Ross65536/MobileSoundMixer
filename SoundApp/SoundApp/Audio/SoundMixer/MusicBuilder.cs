@@ -8,12 +8,9 @@ namespace SoundApp.Audio.SoundMixer
     class MusicBuilder 
     {
         private ICollection<ITrackUnit> _audioTracks;
-        static SampleRate common_sample_rate { get { return PlatformAdapters.AudioStuff.TargetSampleRate; } }
         public SampleRate TargetSampleRate { get; set; }
         public byte TargetNChannels { get; set; }
-
-        public SampleRate SampleRate
-        { get { return common_sample_rate; } }
+        
 
         public bool IsEmpty { get { return _audioTracks.Count == 0; } }
 
@@ -41,9 +38,9 @@ namespace SoundApp.Audio.SoundMixer
             _audioTracks.Remove(track);
         }
 
-        public ISoundWave GetResultingTrack(SampleRate sampleRate, double runtime)
+        public ISoundWave GetResultingTrack(double runtime)
         {
-            var baseWave = new MonoEditableWave(sampleRate, runtime);
+            var baseWave = WaveFactory.EditableWaveFactory(TargetNChannels, TargetSampleRate, runtime);
 
             foreach (var track in _audioTracks)
                 track.AddToWave(baseWave);
@@ -53,14 +50,19 @@ namespace SoundApp.Audio.SoundMixer
 
         public ISoundWave BuildMusicFacade()
         {
+            double maxRuntime = FindMaxDuration();
+
+            var musicData = GetResultingTrack(maxRuntime);
+            return musicData;
+        }
+
+        public double FindMaxDuration()
+        {
             double maxRuntime = 0.0;
             foreach (var track in _audioTracks)
                 if (track.EndTime > maxRuntime)
                     maxRuntime = track.EndTime;
-
-
-            var musicData = GetResultingTrack(common_sample_rate, maxRuntime);
-            return musicData;
+            return maxRuntime;
         }
 
         internal void Clear()

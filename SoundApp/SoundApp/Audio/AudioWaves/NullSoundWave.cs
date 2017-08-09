@@ -6,27 +6,47 @@ using System.Threading.Tasks;
 
 namespace SoundApp.Audio.AudioWaves
 {
-    public class NullSoundWave : ISoundWave
+    public class NullSoundWave : IReadOnlySoundWave
     {
         public static NullSoundWave Singleton = new NullSoundWave();
 
         public double Duration { get { return 0; } }
 
+        public int NumTotalItems
+        {
+            get { return 0; }
+        }
+
+        public byte NumChannels
+        {
+            get { return 1; }
+        }
+
+        public SampleRate SampleRate { get { return SampleRate.INVALID; } }
+
+        public int SampleCount
+        {
+            get { return 0; }
+        }
+
+        public float this[int i] { get { return 0; } }
+
         private NullSoundWave() { }
 
-        public ISoundWave clone()
+        public IReadOnlySoundWave clone()
         {
             return this;
         }
-
-        public BaseEditableWave ToEditableWave()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public PCMChunk ToPCM(PCMBitDepth bitDepth)
         {
-            return new PCMChunk { data = new byte[0], nChannels = 1, bitDepth=PCMBitDepth.int16, sampleRate=SampleRate.INVALID  };
+            return new PCMChunk { data = new byte[0], nChannels = 1, bitDepth=PCMBitDepth.int16, sampleRate=SampleRate.F44_1kHz  };
         }
+
+        public IReadOnlySoundWave ToReadOnly()
+        {
+            return this;
+        }
+        
     }
 }

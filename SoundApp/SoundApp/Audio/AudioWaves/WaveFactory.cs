@@ -35,7 +35,7 @@ namespace SoundApp.Audio.AudioWaves
         {
             var wave = new MonoEditableWave(waveAttributes.WaveSampleRate, waveAttributes.Runtime);
 
-            var waveLength = wave.DataBufferCount;
+            var waveLength = wave.NumTotalItems;
 
             double t = (Math.PI * 2 * waveAttributes.TargetFrequency) / (uint) waveAttributes.WaveSampleRate;
 
@@ -50,7 +50,7 @@ namespace SoundApp.Audio.AudioWaves
         static private BaseEditableWave MakeSquareWave(WaveAttributes waveAttributes)
         {
             var wave = MakeSineWave(waveAttributes);
-            var nSamples = wave.DataBufferCount;
+            var nSamples = wave.NumTotalItems;
             for (int i = 0; i < nSamples; i++)
                 wave[i] = Math.Sign(wave[i]);
 
@@ -61,7 +61,7 @@ namespace SoundApp.Audio.AudioWaves
         private static BaseEditableWave MakeSawtooth(WaveAttributes waveAttr)
         {
             var wave = new MonoEditableWave(waveAttr.WaveSampleRate, waveAttr.Runtime);
-            var numSamples = wave.DataBufferCount;
+            var numSamples = wave.NumTotalItems;
 
             var step = 1 / (double)waveAttr.WaveSampleRate * 2 * waveAttr.TargetFrequency;
             wave[0] = 0.0f;
@@ -80,7 +80,7 @@ namespace SoundApp.Audio.AudioWaves
         private static BaseEditableWave MakeTriangle(WaveAttributes waveAttr)
         {
             var wave = new MonoEditableWave(waveAttr.WaveSampleRate, waveAttr.Runtime);
-            var numSamples = wave.DataBufferCount;
+            var numSamples = wave.NumTotalItems;
 
             float step = (float) (1 / (double)waveAttr.WaveSampleRate * 4 * waveAttr.TargetFrequency);
             wave[0] = 0.0f;
@@ -102,7 +102,7 @@ namespace SoundApp.Audio.AudioWaves
         /// <param name="waveType"></param>
         /// <param name="waveAttributes"></param>
         /// <returns></returns>
-        static public ISoundWave MakeClassicWave(WaveTypes waveType, WaveAttributes waveAttributes)
+        static public IReadOnlySoundWave MakeClassicWave(WaveTypes waveType, WaveAttributes waveAttributes)
         {
             switch(waveType)
             {
@@ -131,8 +131,9 @@ namespace SoundApp.Audio.AudioWaves
             switch (nChannels)
             {
                 case 1:
-                case 2:
                     return new MonoEditableWave(sampleRate, baseArray);
+                case 2:
+                    return new StereoEditableWave(sampleRate, baseArray);
                 default:
                     return null;
             }
@@ -142,7 +143,7 @@ namespace SoundApp.Audio.AudioWaves
         static private BaseEditableWave MakeWhiteNoise(WaveAttributes waveAttr)
         {
             var wave = new MonoEditableWave(waveAttr.WaveSampleRate, waveAttr.Runtime);
-            var numSamples = wave.DataBufferCount;
+            var numSamples = wave.NumTotalItems;
 
             Random random = new Random();
 
@@ -153,8 +154,26 @@ namespace SoundApp.Audio.AudioWaves
 
             return wave;
         }
-        
 
-        
+        public static BaseEditableWave EditableWaveFactory(IReadOnlySoundWave waveToConvert)
+        {
+            var baseWave = EditableWaveFactory(waveToConvert.NumChannels, waveToConvert.SampleRate, waveToConvert.NumTotalItems);
+            for (int i = 0; i < waveToConvert.NumTotalItems; i++)
+                baseWave[i] = waveToConvert[i];
+
+            return baseWave;
+        }
+
+        public static BaseEditableWave EditableWaveFactory(byte nChannels, SampleRate sampleRate, double runtime)
+        {
+            var nSamples = (int)(runtime * (int)sampleRate);
+            if (nChannels == 1)
+                return new MonoEditableWave(sampleRate, nSamples);
+            else if (nChannels == 2)
+                return new StereoEditableWave(sampleRate, nSamples , 2);
+            else
+                return null;
+        }
+
     }
 }

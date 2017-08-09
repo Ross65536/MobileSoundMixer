@@ -158,7 +158,7 @@ namespace SoundApp.Droid.AudioDevices.Decoder
             extractor = null;
         }
 
-        public ISoundWave GetEditableWave()
+        public ISoundWave GetResultingSoundWave()
         {
             if (isAudioDecoded)
                 return null;

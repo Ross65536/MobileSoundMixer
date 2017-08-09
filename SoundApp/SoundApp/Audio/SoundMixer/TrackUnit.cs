@@ -52,7 +52,7 @@ namespace SoundApp.Audio.SoundMixer
         public void AddToWave(BaseEditableWave baseWave)
         {
             int startSample = (int) (StartTime * (uint) baseWave.SampleRate);
-            var wave = _effectsBuilder.ToEditableWave();
+            var wave = _effectsBuilder.GetResultingWave().ToReadOnly();
             baseWave.AddEq(startSample, wave);
         }
 

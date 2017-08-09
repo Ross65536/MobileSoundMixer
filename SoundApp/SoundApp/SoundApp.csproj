@@ -36,9 +36,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioConstants.cs" />
+    <Compile Include="Audio\AudioWaves\IReadOnlySoundWave.cs" />
     <Compile Include="Audio\AudioWaves\ISoundWave.cs" />
     <Compile Include="Audio\AudioWaves\MonoEditableWave.cs" />
     <Compile Include="Audio\AudioWaves\NullSoundWave.cs" />
+    <Compile Include="Audio\AudioWaves\PCM16BitSoundWave.cs" />
+    <Compile Include="Audio\AudioWaves\StereoEditableWave.cs" />
     <Compile Include="Audio\SoundMixer\EffectsBuilder.cs" />
     <Compile Include="CommonValues.cs" />
     <Compile Include="Audio\SoundMixer\ITrackUnit.cs" />

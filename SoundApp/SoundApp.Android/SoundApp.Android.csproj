@@ -111,6 +111,7 @@
     <Compile Include="AudioDevices\Decoder\FilePickerListenerAsync.cs" />
     <Compile Include="AudioDevices\AudioRecorder.cs" />
     <Compile Include="AudioDevices\AudioPlayer.cs" />
+    <Compile Include="AudioDevices\RecorderAsync.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

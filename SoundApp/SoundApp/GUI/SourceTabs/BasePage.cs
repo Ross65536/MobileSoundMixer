@@ -55,10 +55,17 @@ namespace SoundApp.GUI.SourceTabs
             navigationLayout.Children.Add(saveButton);
 
             layout.Children.Add(navigationLayout);
+
         }
+
+	    private bool buttonSwitch = true;
 
         protected void setButtonsValidity(bool v)
         {
+            if (buttonSwitch == v)
+                return;
+            buttonSwitch = !buttonSwitch;
+
             this.saveButton.IsEnabled = v;
             this.playButton.IsEnabled = v;
             this.stopButton.IsEnabled = v;

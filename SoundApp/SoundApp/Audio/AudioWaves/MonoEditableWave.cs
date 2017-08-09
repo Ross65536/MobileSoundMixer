@@ -8,7 +8,7 @@ namespace SoundApp.Audio.AudioWaves
 {
     public class MonoEditableWave : BaseEditableWave
     {
-        override public byte NumChannels { get { return 1; } }
+        public override byte NumChannels => 1;
 
         public MonoEditableWave(SampleRate sampleRate, double runtime) : base (sampleRate, (int) ((int)sampleRate * runtime), 1 ) { }
         public MonoEditableWave(SampleRate sampleRate, int nSamples) : base(sampleRate, nSamples, 1) { }
@@ -16,65 +16,37 @@ namespace SoundApp.Audio.AudioWaves
 
         public MonoEditableWave(SampleRate sampleRate, IList<float> waveBuffer) : base(sampleRate, waveBuffer)
         { }
-
-        public override BaseEditableWave AddEq(int sampleIndexOffset, BaseEditableWave waveToAdd)
+        
+        protected override void AddAtomicOperation(IReadOnlySoundWave waveToAdd, int lSampleIndex, int rSampleIndex)
         {
-            CheckSampleRate(waveToAdd);
-            GetOperatorIndices(sampleIndexOffset, out int lSampleIndex, out int rSampleIndex);
+            float avg = GetOperatorElement(waveToAdd, rSampleIndex);
 
-            var rNChannels = waveToAdd.NumChannels;
-            
-            for (; lSampleIndex < this.SampleCount && rSampleIndex < waveToAdd.SampleCount;
-                lSampleIndex++)
-            {
-                float avg = 0;
-                for (int i = 0; i < rNChannels; i++, rSampleIndex++)
-                    avg += waveToAdd[rSampleIndex];
-
-                avg /= rNChannels;
-                _data[lSampleIndex] += avg;
-            }
-
-            return this;
+            _data[lSampleIndex] += avg;
         }
 
-        public override BaseEditableWave MultEq(int startSampleIndex, BaseEditableWave waveToAdd)
+        protected override void MultAtomicOperation(IReadOnlySoundWave waveToAdd, int lSampleIndex, int rSampleIndex)
         {
-            throw new NotImplementedException("Mult Not implemented");
-            /*
-            CheckSampleRate(waveToAdd);
+            float avg = GetOperatorElement(waveToAdd, rSampleIndex);
 
-            int i = 0;
+            _data[lSampleIndex] *= avg;
+        }
+
+        private static float GetOperatorElement(IReadOnlySoundWave waveToAdd, int rSampleIndex)
+        {
             var rNChannels = waveToAdd.NumChannels;
 
-            for (; i < this.SampleCount && i < startSampleIndex; i++)
-                _data[i] = 0.0f;
-
-            for (int j = 0; i < this.SampleCount && i < waveToAdd.SampleCount + startSampleIndex; i++, j++)
-                this[i] *= waveToAdd[j];
-
-            for (int rSampleIndex =0; i < this.SampleCount && rSampleIndex < waveToAdd.SampleCount;
-                i++)
+            double avg = 0;
+            for (int i = 0; i < rNChannels; i++)
             {
-                float avg = 0;
-                for (int k = 0; k < rNChannels; k++, rSampleIndex++)
-                    avg += waveToAdd[rSampleIndex];
-
-                avg /= rNChannels;
-                _data[i] += avg;
+                var index = rSampleIndex * rNChannels + i;
+                avg += waveToAdd[index];
             }
 
-
-            for (; i < this.SampleCount; i++)
-                _data[i] = 0.0f;
-
-            return this;
-            */
+            avg /= rNChannels;
+            return (float) avg;
         }
+        
 
-        public override ISoundWave clone()
-        {
-            return new MonoEditableWave(this);
-        }
+        public override IReadOnlySoundWave clone() => new MonoEditableWave(this);
     }
 }

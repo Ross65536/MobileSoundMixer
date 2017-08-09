@@ -22,7 +22,7 @@ namespace SoundApp.Audio.AudioWaves
 
         public EffectsBuilder(EffectsBuilder effectsBuilder)
         {
-            this.BaseWave = effectsBuilder.BaseWave.clone();
+            this.BaseWave = effectsBuilder.BaseWave.ToReadOnly().clone();
         }
 
         public EffectsBuilder()
@@ -30,9 +30,9 @@ namespace SoundApp.Audio.AudioWaves
             BaseWave = NullSoundWave.Singleton;
         }
 
-        public BaseEditableWave ToEditableWave() {
+        public ISoundWave GetResultingWave() {
             //TODO
-            return BaseWave.ToEditableWave();
+            return BaseWave;
         }
 
         public override string ToString()

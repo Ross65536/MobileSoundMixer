@@ -49,7 +49,7 @@ namespace SoundApp.Droid.AudioDevices
             if (! this.isFileValid(decoder))
                 return null;
             
-            var wave =  await Task.Run(() => decoder.GetEditableWave() );
+            var wave =  await Task.Run(() => decoder.GetResultingSoundWave() );
             decoder = null;
             return wave;
         }
