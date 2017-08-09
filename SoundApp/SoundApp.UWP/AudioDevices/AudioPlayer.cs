@@ -13,7 +13,7 @@ namespace SoundApp.UWP.AudioPlayer
     {
         MediaPlayer _mediaPlayer = new MediaPlayer();
 
-        public void Play16bitPCMStream(PCMChunk pcmWave)
+        public void Play16bitPCMStream(PcmChunk pcmWave)
         {
             var stream = WAVGenerator.GenerateWAVInMemoryStream(pcmWave);
 

@@ -12,7 +12,7 @@ namespace SoundApp
         /// <param name="data"></param>
         /// <param name="nChannels"></param>
         /// <param name="sampleRate"></param>
-        void Play16bitPCMStream(PCMChunk pcmWave);
+        void Play16bitPCMStream(PcmChunk pcmWave);
         /// <summary>
         /// Stop, if already playing, audio 
         /// </summary>

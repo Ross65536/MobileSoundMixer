@@ -11,30 +11,30 @@ namespace SoundApp.Droid.AudioDevices
     {
         AudioTrack _audioTrack = null;
 
-        public void Play16bitPCMStream(PCMChunk pcmWave)
+        public void Play16bitPCMStream(PcmChunk pcmWave)
         {
             Stop();
 
             ChannelOut channelOut;
-            if (pcmWave.nChannels == 1)
+            if (pcmWave.NumChannels == 1)
                 channelOut = ChannelOut.Mono;
-            else if (pcmWave.nChannels == 2)
+            else if (pcmWave.NumChannels == 2)
                 channelOut = ChannelOut.Stereo;
             else
                 throw new Exception("number of channels not supported.");
 
-            if (pcmWave.bitDepth != PCMBitDepth.int16)
+            if (pcmWave.BitDepth != PcmBitDepth.Int16)
                 throw new ArgumentException("Unsupported PCM bit depth");
 
             _audioTrack = new AudioTrack(
             Stream.Music,
-            (int)pcmWave.sampleRate,
+            (int)pcmWave.SampleRate,
             channelOut,
             Encoding.Pcm16bit,
-            pcmWave.data.Length,
+            pcmWave.Data.Length,
             AudioTrackMode.Static);
 
-            _audioTrack.Write(pcmWave.data, 0, pcmWave.data.Length);
+            _audioTrack.Write(pcmWave.Data, 0, pcmWave.Data.Length);
             _audioTrack.Play();
         }
 

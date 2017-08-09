@@ -15,6 +15,7 @@ using Xamarin.Forms;
 using static Android.Media.MediaCodec;
 using SoundApp.Audio.AudioWaves;
 using SoundApp.Audio;
+using SoundApp.Audio.AudioWaves.Implementations;
 
 namespace SoundApp.Droid.AudioDevices.Decoder
 {
@@ -27,15 +28,15 @@ namespace SoundApp.Droid.AudioDevices.Decoder
         public bool ContinueDecoding { get; set; } = true;
 
         
-        public SampleRate SampleRate
+        public SampleRates SampleRate
         {
             get
             {
                 var sampleRate= inputFormat.GetInteger(MediaFormat.KeySampleRate);
-                if (typeof(SampleRate).IsEnumDefined(sampleRate))
-                    return (SampleRate)sampleRate;
+                if (typeof(SampleRates).IsEnumDefined(sampleRate))
+                    return (SampleRates)sampleRate;
                 else
-                    return SampleRate.INVALID;
+                    return SampleRates.Invalid;
             }
         }
         public byte NChannels
@@ -104,9 +105,9 @@ namespace SoundApp.Droid.AudioDevices.Decoder
         }
 
         private const long TIMEOUT = 10 * 1000; //10 seconds
-        private IList<float> decodeAudio()
+        private IList<short> decodeAudio()
         {
-            var ret = new List<float>();
+            var ret = new List<short>();
 
             decoder.Start();
             while (ContinueDecoding)
@@ -139,12 +140,12 @@ namespace SoundApp.Droid.AudioDevices.Decoder
             return ret;
         }
 
-        private void ProcessDecodedChunk(List<float> wave, BufferInfo info, int outputBufferId)
+        private void ProcessDecodedChunk(List<short> wave, BufferInfo info, int outputBufferId)
         {
             ByteBuffer outputBuffer = decoder.GetOutputBuffer(outputBufferId);
             short[] shorts = new short[info.Size / 2];
             outputBuffer.AsShortBuffer().Get(shorts);
-            Common.saveToWave(shorts, shorts.Length, wave);
+            wave.AddRange(shorts);
 
             outputBuffer.Position(0); //remove ???
         }
@@ -169,8 +170,8 @@ namespace SoundApp.Droid.AudioDevices.Decoder
 
             if (!ContinueDecoding)
                 return null;
-            
-            var wave = SoundApp.Audio.AudioWaves.WaveFactory.MakeWave(this.NChannels, this.SampleRate, baseData);
+
+            var wave = new Pcm16BitSoundWave((AudioChannels) NChannels, SampleRate, baseData);
             return wave;
         }
         

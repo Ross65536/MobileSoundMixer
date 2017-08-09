@@ -6,42 +6,39 @@ using System.Threading.Tasks;
 
 namespace SoundApp.Audio.AudioWaves
 {
-    public abstract class ReadOnlyPCMAbstract : ISoundWave
+    public abstract class ReadOnlyPcmAbstract : IReadOnlyAudioWave
     {
         public abstract float this[int i] { get; }
         public abstract int NumTotalItems { get; }
-        public abstract byte NumChannels { get;  }
-        public abstract SampleRate SampleRate { get;  }
-        public abstract ReadOnlyPCMAbstract clone();
+        public abstract AudioChannels PcmChannels { get; }
+        public byte NumChannels => (byte) PcmChannels;
+        public abstract SampleRates SampleRate { get;  }
+        public abstract IReadOnlyAudioWave Clone();
         public int SampleCount => NumTotalItems / NumChannels;
         public double Duration => (double)SampleCount / (int)SampleRate;
-        public ReadOnlyPCMAbstract ToReadOnly() => this;
-
-        protected virtual void ToPCMinit() { }
-
-        public PCMChunk ToPCM(PCMBitDepth bitDepth)
+        public IReadOnlyAudioWave ToReadOnly() => this;
+        
+        public PcmChunk ToPCMTemplate(PcmBitDepth bitDepth)
         {
-            ToPCMinit();
 
-            (byte[] data, byte nChannels, SampleRate sampleRate) ret;
+            (byte[] data, byte nChannels, SampleRates sampleRate) ret;
 
-            if (bitDepth == PCMBitDepth.int16)
+            if (bitDepth == PcmBitDepth.Int16)
                 ret = this.ToPcm16Bit();
             else
                 throw new NotImplementedException("only 16bit pcm implemented");
 
-            PCMChunk chunk;
-            chunk.bitDepth = bitDepth;
-            chunk.data = ret.data;
-            chunk.nChannels = ret.nChannels;
-            chunk.sampleRate = ret.sampleRate;
+            PcmChunk chunk;
+            chunk.BitDepth = bitDepth;
+            chunk.Data = ret.data;
+            chunk.NumChannels = ret.nChannels;
+            chunk.SampleRate = ret.sampleRate;
 
             return chunk;
         }
 
-        protected virtual (byte[] data, byte nChannels, SampleRate sampleRate) ToPcm16Bit()
+        protected virtual (byte[] data, byte nChannels, SampleRates sampleRate) ToPcm16Bit()
         {
-            var wave = this;
             var nData = NumTotalItems;
             byte[] arr = new byte[nData * sizeof(short)];
 
@@ -55,7 +52,7 @@ namespace SoundApp.Audio.AudioWaves
                 arr[index + 1] = higher;
             }
 
-            return (arr, wave.NumChannels, wave.SampleRate);
+            return (arr, NumChannels, SampleRate);
         }
 
 

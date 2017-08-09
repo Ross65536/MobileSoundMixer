@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SoundApp.Audio.AudioWaves
+namespace SoundApp.Audio.AudioWaves.Implementations
 {
     public class StereoEditableWave : BaseEditableWave
     {
-        public override byte NumChannels => 2;
+        public override AudioChannels PcmChannels => AudioChannels.Stereo;
 
-        public StereoEditableWave(SampleRate SampleRate, int nSamples, byte nChannels) : base(SampleRate, nSamples, nChannels)
+        public StereoEditableWave(SampleRates SampleRate, int nSamples, byte nChannels) : base(SampleRate, nSamples, nChannels)
         {
         }
 
@@ -15,7 +15,7 @@ namespace SoundApp.Audio.AudioWaves
         {
         }
 
-        public StereoEditableWave(SampleRate SampleRate, IList<float> waveBuffer) : base(SampleRate, waveBuffer)
+        public StereoEditableWave(SampleRates SampleRate, IList<float> waveBuffer) : base(SampleRate, waveBuffer)
         {
         }
         
@@ -26,7 +26,7 @@ namespace SoundApp.Audio.AudioWaves
             
         //}
 
-        protected  override void AddAtomicOperation(ReadOnlyPCMAbstract waveToAdd, int lSampleIndex, int rSampleIndex)
+        protected  override void AddAtomicOperation(IReadOnlyAudioWave waveToAdd, int lSampleIndex, int rSampleIndex)
         {
             var elem = GetOperatorElement(waveToAdd, rSampleIndex);
             var index = this.NumChannels * lSampleIndex;
@@ -34,7 +34,7 @@ namespace SoundApp.Audio.AudioWaves
             DataArray[index + 1] += elem.second;
         }
 
-        protected override void MultAtomicOperation(ReadOnlyPCMAbstract waveToAdd, int lSampleIndex, int rSampleIndex)
+        protected override void MultAtomicOperation(IReadOnlyAudioWave waveToAdd, int lSampleIndex, int rSampleIndex)
         {
             var elem = GetOperatorElement(waveToAdd, rSampleIndex);
             var index = this.NumChannels * lSampleIndex;
@@ -42,7 +42,7 @@ namespace SoundApp.Audio.AudioWaves
             DataArray[index + 1] *= elem.second;
         }
 
-        private static (float first, float second) GetOperatorElement(ReadOnlyPCMAbstract waveToAdd, int rSampleIndex)
+        private static (float first, float second) GetOperatorElement(IReadOnlyAudioWave waveToAdd, int rSampleIndex)
         {
             var index = rSampleIndex * waveToAdd.NumChannels;
             (float first, float second) ret;
@@ -57,8 +57,8 @@ namespace SoundApp.Audio.AudioWaves
 
             return ret;
         }
-        
 
-        public override ReadOnlyPCMAbstract clone() => new StereoEditableWave(this);
+
+        public override IReadOnlyAudioWave Clone() => new StereoEditableWave(this);
     }
 }

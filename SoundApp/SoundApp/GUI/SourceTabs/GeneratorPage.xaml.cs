@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SoundApp.Audio.AudioWaves;
+using SoundApp.Audio.AudioWaves.Implementations;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -65,7 +66,7 @@ namespace SoundApp.GUI.SourceTabs
         {
             var dur = Double.Parse(this.durationEntry.Text);
             var freq = Double.Parse(this.frequencyEntry.Text);
-            var waveAttr = new WaveAttributes(PlatformAdapters.AudioStuff.TargetSampleRate, dur, freq);
+            var waveAttr = new WaveAttributes(AudioStuff.TargetSampleRate, dur, freq);
             var waveType = pickerIndexToWaveType[this.waveTypePicker.SelectedIndex];
             var wave = WaveFactory.MakeClassicWave(waveType, waveAttr);
 

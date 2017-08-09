@@ -59,7 +59,7 @@ namespace SoundApp.Droid.AudioDevices
             var sampleRate = decoder.SampleRate;
             var nChannels = decoder.NChannels;
 
-            if (sampleRate != SampleRate.F44_1kHz || nChannels > 2)
+            if (sampleRate != SampleRates.F44_1KHz || nChannels > 2)
                 return false;
             else
                 return true;

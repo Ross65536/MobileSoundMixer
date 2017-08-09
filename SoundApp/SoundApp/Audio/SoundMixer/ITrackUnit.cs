@@ -1,4 +1,5 @@
 ﻿using SoundApp.Audio.AudioWaves;
+using SoundApp.Audio.AudioWaves.Implementations;
 
 namespace SoundApp.Audio.SoundMixer
 {

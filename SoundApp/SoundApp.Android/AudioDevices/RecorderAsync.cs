@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Android.Media;
 using SoundApp.Audio.AudioWaves;
+using SoundApp.Audio.AudioWaves.Implementations;
 using SoundApp.PlatformAdapters;
 
 namespace SoundApp.Droid.AudioDevices

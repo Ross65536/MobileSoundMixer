@@ -1,9 +1,10 @@
 ﻿using SoundApp.Audio;
 using SoundApp.Audio.AudioWaves;
 using SoundApp.Audio.SoundMixer;
+using SoundApp.PlatformAdapters;
 using Xamarin.Forms;
 
-namespace SoundApp.PlatformAdapters
+namespace SoundApp
 {
     public static class AudioStuff
     {
@@ -12,9 +13,9 @@ namespace SoundApp.PlatformAdapters
         static public IAudioDecoder AudioDecoder = DependencyService.Get<IAudioDecoder>();
 
 
-        static public void PlayAudioWave(this ReadOnlyPCMAbstract wave)
+        static public void PlayAudioWave(this IReadOnlyAudioWave wave)
         {
-            var waveData = wave.ToPCM(PCMBitDepth.int16);
+            var waveData = wave.ToPCMTemplate(PcmBitDepth.Int16);
             AudioPlayer.Play16bitPCMStream(waveData);
         }
 
@@ -28,9 +29,9 @@ namespace SoundApp.PlatformAdapters
             track.BaseWave.PlayAudioWave();
         }
 
-        public static SampleRate TargetSampleRate
+        public static SampleRates TargetSampleRate
         {
-            get { return SampleRate.F44_1kHz; }
+            get { return SampleRates.F44_1KHz; }
         }
 
         public static byte TargetPlayingNCHannels { get { return 2; } }

@@ -22,7 +22,7 @@ namespace SoundApp.Audio.AudioWaves
 
         public EffectsBuilder(EffectsBuilder effectsBuilder)
         {
-            this.BaseWave = effectsBuilder.BaseWave.ToReadOnly().clone();
+            this.BaseWave = effectsBuilder.BaseWave.ToReadOnly().Clone();
         }
 
         public EffectsBuilder()

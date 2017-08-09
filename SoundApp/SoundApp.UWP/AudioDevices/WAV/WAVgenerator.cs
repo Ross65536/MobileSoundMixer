@@ -33,7 +33,7 @@ namespace WAVFileGenerator
             }
         }
 
-        private WAVGenerator SetAudioProperties(SampleRate SampleRate, ushort nChannels, PCMBitDepth bitDepth)
+        private WAVGenerator SetAudioProperties(SampleRates SampleRate, ushort nChannels, PcmBitDepth bitDepth)
         {
 
             format.SetProperties(nChannels, (uint) SampleRate, (ushort) bitDepth); //TODO
@@ -61,14 +61,14 @@ namespace WAVFileGenerator
             data.DataArray = monoData;
         }
 
-        private static void WriteToStream(BinaryWriter writer, PCMChunk pcmWave)
+        private static void WriteToStream(BinaryWriter writer, PcmChunk pcmWave)
         {
-            WAVGenerator generator = Singleton.SetAudioProperties(pcmWave.sampleRate, pcmWave.nChannels, pcmWave.bitDepth);
-            generator.SetAudioData(pcmWave.data);
+            WAVGenerator generator = Singleton.SetAudioProperties(pcmWave.SampleRate, pcmWave.NumChannels, pcmWave.BitDepth);
+            generator.SetAudioData(pcmWave.Data);
 
             generator.SaveToFile(writer);
         }
-        public static Stream GenerateWAVInMemoryStream(PCMChunk pcmWave)
+        public static Stream GenerateWAVInMemoryStream(PcmChunk pcmWave)
         {
             checkPCMarguments(pcmWave);
 
@@ -78,11 +78,11 @@ namespace WAVFileGenerator
             return writer.BaseStream;
         }
 
-        private static void checkPCMarguments(PCMChunk pcmWave)
+        private static void checkPCMarguments(PcmChunk pcmWave)
         {
-            bool isSampleRateValid = Enum.IsDefined(typeof(SampleRate), pcmWave.sampleRate);
-            bool isBitDepthValid= Enum.IsDefined(typeof(PCMBitDepth), pcmWave.bitDepth);
-            bool isNumChannelsValid = pcmWave.nChannels >= 1;
+            bool isSampleRateValid = Enum.IsDefined(typeof(SampleRates), pcmWave.SampleRate);
+            bool isBitDepthValid= Enum.IsDefined(typeof(PcmBitDepth), pcmWave.BitDepth);
+            bool isNumChannelsValid = pcmWave.NumChannels >= 1;
 
             if (!isSampleRateValid || !isBitDepthValid || !isNumChannelsValid)
                 throw new ArgumentException("Invalid Arguments." + pcmWave.ToString());

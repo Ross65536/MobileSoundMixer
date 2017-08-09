@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using SoundApp.Audio;
 using SoundApp.PlatformAdapters;
 using System.Diagnostics;
+using SoundApp.Audio.AudioWaves.Implementations;
 
 namespace SoundApp.GUI
 {

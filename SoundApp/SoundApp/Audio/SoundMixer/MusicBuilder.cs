@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SoundApp.Audio.AudioWaves;
+using SoundApp.Audio.AudioWaves.Implementations;
 
 
 namespace SoundApp.Audio.SoundMixer
@@ -8,20 +9,20 @@ namespace SoundApp.Audio.SoundMixer
     class MusicBuilder 
     {
         private ICollection<ITrackUnit> _audioTracks;
-        public SampleRate TargetSampleRate { get; set; }
+        public SampleRates TargetSampleRate { get; set; }
         public byte TargetNChannels { get; set; }
         
 
         public bool IsEmpty { get { return _audioTracks.Count == 0; } }
 
-        public MusicBuilder(SampleRate targetSampleRate, byte targetNChannels)
+        public MusicBuilder(SampleRates targetSampleRate, byte targetNChannels)
         {
             this.TargetNChannels = targetNChannels;
             this.TargetSampleRate = targetSampleRate;
 
             _audioTracks = new List<ITrackUnit>();
         }
-        public MusicBuilder(ICollection<ITrackUnit> tracks, SampleRate targetSampleRate, byte targetNChannels)
+        public MusicBuilder(ICollection<ITrackUnit> tracks, SampleRates targetSampleRate, byte targetNChannels)
         {
             this.TargetNChannels = targetNChannels;
             this.TargetSampleRate = targetSampleRate;
@@ -44,6 +45,8 @@ namespace SoundApp.Audio.SoundMixer
 
             foreach (var track in _audioTracks)
                 track.AddToWave(baseWave);
+
+            baseWave.LinearVolumeNormalize();
 
             return baseWave;
         }

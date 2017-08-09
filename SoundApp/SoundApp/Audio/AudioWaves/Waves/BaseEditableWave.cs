@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SoundApp.Audio.AudioWaves
+namespace SoundApp.Audio.AudioWaves.Implementations
 {
     
 
     /// <summary>
     /// Represents A basic audio wave with floats
     /// </summary>
-    public abstract class BaseEditableWave : ReadOnlyPCMAbstract
+    public abstract class BaseEditableWave : ReadOnlyPcmAbstract
     {
-        protected readonly SampleRate _sampleRate;
-        public IList<float> DataArray; //shouldn't use _data.Add()
+        public IList<float> DataArray { get; } //shouldn't use _data.Add()
 
         /// <summary>
         /// Accesses the underlaying data buffer array.
@@ -19,41 +18,36 @@ namespace SoundApp.Audio.AudioWaves
         /// <param name="i">index of the data array to be accesed</param>
         /// <returns></returns>
         public override float this[int i] => DataArray[i];
-        public double Duration => (double)DataArray.Count / (uint)_sampleRate / NumChannels;
-
-        public override SampleRate SampleRate
-        {
-            get { return _sampleRate; }
-        }
+        public double Duration => (double)DataArray.Count / (uint)SampleRate / NumChannels;
         public override int NumTotalItems => DataArray.Count;
-        public abstract override byte NumChannels { get; }
+        public override SampleRates SampleRate { get; }
 
-        protected BaseEditableWave(SampleRate sampleRate, int nSamples, byte nChannels)
+        protected BaseEditableWave(SampleRates sampleRate, int nSamples, byte nChannels)
         {
             if (nSamples < 0)
                 throw new ArgumentException("Invalid number of samples.");
 
-            bool isSampleRateValid = Enum.IsDefined(typeof(SampleRate), sampleRate);
+            bool isSampleRateValid = Enum.IsDefined(typeof(SampleRates), sampleRate);
             if (!isSampleRateValid)
                 throw new ArgumentException("Sample Rate Invalid.");
 
             if (nChannels < 0)
                 throw new ArgumentException("Invalid number of channels");
 
-            _sampleRate = sampleRate;
+            SampleRate = sampleRate;
             DataArray = new float[nSamples * nChannels];
         }
 
-        protected BaseEditableWave(BaseEditableWave wave) : this(wave._sampleRate, wave.SampleCount, wave.NumChannels)
+        protected BaseEditableWave(BaseEditableWave wave) : this(wave.SampleRate, wave.SampleCount, wave.NumChannels)
         {
             var data = new float[wave.DataArray.Count];
             this.DataArray = data;
             wave.DataArray.CopyTo(data, 0);
         }
 
-        protected BaseEditableWave(SampleRate sampleRate, IList<float> waveBuffer)
+        protected BaseEditableWave(SampleRates sampleRate, IList<float> waveBuffer)
         {
-            this._sampleRate = sampleRate;
+            this.SampleRate = sampleRate;
             this.DataArray = waveBuffer;
         }
 
@@ -62,7 +56,7 @@ namespace SoundApp.Audio.AudioWaves
         /// </summary>
         /// <param name="startIndex"> Where in "this" to start adding the second wave. Can be negative. </param>
         /// <param name="waveToAdd"></param>
-        public BaseEditableWave AddEq(int startIndex, ReadOnlyPCMAbstract waveToAdd)
+        public BaseEditableWave AddEq(int startIndex, IReadOnlyAudioWave waveToAdd)
         {
             CheckSampleRate(waveToAdd);
             GetOperatorIndices(startIndex, out int lSampleIndex, out int rSampleIndex);
@@ -77,9 +71,9 @@ namespace SoundApp.Audio.AudioWaves
         }
         
 
-        protected abstract void AddAtomicOperation(ReadOnlyPCMAbstract waveToAdd, int lSampleIndex, int rSampleIndex);
-        protected abstract void MultAtomicOperation(ReadOnlyPCMAbstract waveToAdd, int lSampleIndex, int rSampleIndex);
-        public BaseEditableWave MultEq(int startIndex, ReadOnlyPCMAbstract waveToAdd) => throw new NotImplementedException();
+        protected abstract void AddAtomicOperation(IReadOnlyAudioWave waveToAdd, int lSampleIndex, int rSampleIndex);
+        protected abstract void MultAtomicOperation(IReadOnlyAudioWave waveToAdd, int lSampleIndex, int rSampleIndex);
+        public BaseEditableWave MultEq(int startIndex, IReadOnlyAudioWave waveToAdd) => throw new NotImplementedException();
 
 
         protected static void GetOperatorIndices(int startSampleIndex, out int wave1StartSampleIndex, out int wave2StartSampleIndex)
@@ -89,7 +83,7 @@ namespace SoundApp.Audio.AudioWaves
             wave2StartSampleIndex = startSampleIndex < 0 ? -startSampleIndex : 0;
         }
 
-        protected void CheckSampleRate(ReadOnlyPCMAbstract waveToAdd)
+        protected void CheckSampleRate(IReadOnlyAudioWave waveToAdd)
         {
             if (this.SampleRate != waveToAdd.SampleRate)
                 throw new ArgumentException("The two waves have a different sample rate.");
@@ -120,8 +114,5 @@ namespace SoundApp.Audio.AudioWaves
         {
             return string.Concat("Runtime: ", TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss\:fff"));
         } 
-       
-
-        protected override void ToPCMinit() => LinearVolumeNormalize();
     }
 }

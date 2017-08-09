@@ -6,28 +6,39 @@ using System.Threading.Tasks;
 
 namespace SoundApp.Audio
 {
-    public enum SampleRate : int
+    public enum SampleRates : int
     {
         F8000Hz = 8000,
         F22050Hz = 22050,
-        F44_1kHz = 44100,
-        F48kHz = 48000,
-        INVALID = -1
+        F44_1KHz = 44100,
+        F48KHz = 48000,
+        Invalid = -1
     }
 
-    public enum PCMBitDepth
+    public enum AudioChannels 
     {
-        int8 = 8,
-        int16 = 16,
-        float32 = 32
+        Mono = 1,
+        Stereo = 2,
+        Subwoof2_1 = 3,
+        Subwoof5_1 = 6,
+        Subwoof7_1 = 8
     }
 
-    public struct PCMChunk
+    public enum PcmBitDepth
     {
-        public byte[] data;
-        public SampleRate sampleRate;
-        public byte nChannels;
-        public PCMBitDepth bitDepth;
+        Int8 = 8,
+        Int16 = 16,
+        Float32 = 32
+    }
+
+
+
+    public struct PcmChunk
+    {
+        public byte[] Data;
+        public SampleRates SampleRate;
+        public byte NumChannels;
+        public PcmBitDepth BitDepth;
     }
 
     class AudioConstants

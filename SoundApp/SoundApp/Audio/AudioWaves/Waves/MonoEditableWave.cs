@@ -3,35 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SoundApp.Audio.AudioWaves.Implementations;
 
 namespace SoundApp.Audio.AudioWaves
 {
     public class MonoEditableWave : BaseEditableWave
     {
-        public override byte NumChannels => 1;
+        public override AudioChannels PcmChannels => AudioChannels.Mono;
 
-        public MonoEditableWave(SampleRate SampleRate, double runtime) : base (SampleRate, (int) ((int)SampleRate * runtime), 1 ) { }
-        public MonoEditableWave(SampleRate SampleRate, int nSamples) : base(SampleRate, nSamples, 1) { }
+        public MonoEditableWave(SampleRates SampleRate, double runtime) : base (SampleRate, (int) ((int)SampleRate * runtime), 1 ) { }
+        public MonoEditableWave(SampleRates SampleRate, int nSamples) : base(SampleRate, nSamples, 1) { }
         public MonoEditableWave(MonoEditableWave wave) : base(wave) { }
 
-        public MonoEditableWave(SampleRate SampleRate, IList<float> waveBuffer) : base(SampleRate, waveBuffer)
+        public MonoEditableWave(SampleRates SampleRate, IList<float> waveBuffer) : base(SampleRate, waveBuffer)
         { }
         
-        protected override void AddAtomicOperation(ReadOnlyPCMAbstract waveToAdd, int lSampleIndex, int rSampleIndex)
+        protected override void AddAtomicOperation(IReadOnlyAudioWave waveToAdd, int lSampleIndex, int rSampleIndex)
         {
             float avg = GetOperatorElement(waveToAdd, rSampleIndex);
 
             DataArray[lSampleIndex] += avg;
         }
 
-        protected override void MultAtomicOperation(ReadOnlyPCMAbstract waveToAdd, int lSampleIndex, int rSampleIndex)
+        protected override void MultAtomicOperation(IReadOnlyAudioWave waveToAdd, int lSampleIndex, int rSampleIndex)
         {
             float avg = GetOperatorElement(waveToAdd, rSampleIndex);
 
             DataArray[lSampleIndex] *= avg;
         }
 
-        private static float GetOperatorElement(ReadOnlyPCMAbstract waveToAdd, int rSampleIndex)
+        private static float GetOperatorElement(IReadOnlyAudioWave waveToAdd, int rSampleIndex)
         {
             var rNChannels = waveToAdd.NumChannels;
 
@@ -45,8 +46,8 @@ namespace SoundApp.Audio.AudioWaves
             avg /= rNChannels;
             return (float) avg;
         }
-        
 
-        public override ReadOnlyPCMAbstract clone() => new MonoEditableWave(this);
+
+        public override IReadOnlyAudioWave Clone() => new MonoEditableWave(this);
     }
 }

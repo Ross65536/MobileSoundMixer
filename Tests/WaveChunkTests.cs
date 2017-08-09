@@ -13,7 +13,7 @@ namespace Tests
         static MonoEditableWave wave2 = null;
 
         const float FLOAT_DELTA = 0.0001f;
-        const SampleRate DEFAULT_SAMPLE_RATE = SampleRate.F8000Hz;
+        const SampleRates DEFAULT_SAMPLE_RATE = SampleRates.F8000Hz;
         const float WAVE1_C = 0.3f;
         const float WAVE2_C = 1.5f;
 
@@ -37,7 +37,7 @@ namespace Tests
                 Assert.AreEqual(wave.DataArray[i], f, FLOAT_DELTA);
             }
 
-            Assert.Throws<ArgumentException>(() => new MonoEditableWave((SampleRate)234, nSamples));
+            Assert.Throws<ArgumentException>(() => new MonoEditableWave((SampleRates)234, nSamples));
 
             Assert.Throws<ArgumentException>(() => new MonoEditableWave(DEFAULT_SAMPLE_RATE, -12));
             
@@ -53,7 +53,7 @@ namespace Tests
             
             WaveInnit(n1, n2);
 
-            Assert.Throws<ArgumentException>(() => wave1.AddEq(0, new MonoEditableWave((SampleRate)123123, 10)));
+            Assert.Throws<ArgumentException>(() => wave1.AddEq(0, new MonoEditableWave((SampleRates)123123, 10)));
 
             wave1.AddEq(startIndex, wave2);
             CheckOperatorResults(startIndex, WAVE1_C, WAVE1_C + WAVE2_C);
@@ -78,7 +78,7 @@ namespace Tests
 
             WaveInnit(n1, n2);
 
-            Assert.Throws<ArgumentException>(() => wave1.AddEq(0, new MonoEditableWave((SampleRate)123123, 10)));
+            Assert.Throws<ArgumentException>(() => wave1.AddEq(0, new MonoEditableWave((SampleRates)123123, 10)));
 
             wave1.MultEq(startIndex, wave2);
             CheckOperatorResults(startIndex, 0, WAVE1_C * WAVE2_C);
