@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace SoundApp.PlatformAdapters
 {
-    static class AudioStuff
+    public static class AudioStuff
     {
         static public IAudioPlayerAdapter AudioPlayer = DependencyService.Get<IAudioPlayerAdapter>();
         static public IAudioRecorderAdapter AudioRecorder = DependencyService.Get<IAudioRecorderAdapter>();
@@ -23,6 +23,11 @@ namespace SoundApp.PlatformAdapters
         {
             
             track.BaseWave.PlayAudioWave();
+        }
+
+        public static SampleRate GlobalSampleRate
+        {
+            get { return SampleRate.F44_1kHz; }
         }
     }
 }

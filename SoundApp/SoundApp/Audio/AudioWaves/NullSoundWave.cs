@@ -26,7 +26,7 @@ namespace SoundApp.Audio.AudioWaves
 
         public PCMChunk ToPCM(PCMBitDepth bitDepth)
         {
-            return new PCMChunk { data = new byte[0], nChannels = 1, bitDepth=PCMBitDepth.int16, sampleRate=CommonValues.GlobalSampleRate  };
+            return new PCMChunk { data = new byte[0], nChannels = 1, bitDepth=PCMBitDepth.int16, sampleRate=SampleRate.INVALID  };
         }
     }
 }

@@ -13,13 +13,10 @@ namespace SoundApp.Audio.AudioWaves
         protected readonly SampleRate _sampleRate;
         protected IList<float> _data; //shouldn't use _data.Add()
 
-
-
-
         /// <summary>
         /// Accesses the underlaying data buffer array.
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="i">index of the data array to be accesed</param>
         /// <returns></returns>
         public float this[int i]
         {

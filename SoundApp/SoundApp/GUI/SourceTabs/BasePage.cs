@@ -16,7 +16,7 @@ namespace SoundApp.GUI.SourceTabs
         Button playButton;
         Button stopButton;
         Button saveButton;
-
+        abstract protected ISoundWave resultingWave { get; }
 
         public BasePage ()
 		{ }
@@ -67,19 +67,16 @@ namespace SoundApp.GUI.SourceTabs
 
         protected void saveButton_Clicked(object sender, EventArgs e)
         {
-            var wave = GenerateSoundWave();
             if (ChangesSaved != null)
-                ChangesSaved(wave);
+                ChangesSaved(resultingWave);
             
             Navigation.PopAsync();
         }
-
-        abstract protected ISoundWave GenerateSoundWave();
+        
         
         protected void playSampleButton_Clicked(object sender, EventArgs e)
         {
-            var wave = GenerateSoundWave();
-            wave.PlayAudioWave();
+            resultingWave.PlayAudioWave();
         }
         protected void stopButton_Clicked(object sender, EventArgs e)
         {

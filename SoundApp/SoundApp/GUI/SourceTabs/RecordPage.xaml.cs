@@ -14,7 +14,12 @@ namespace SoundApp.GUI.SourceTabs
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RecordPage : BasePage
     {
-        ISoundWave recordedWave = NullSoundWave.Singleton;
+        ISoundWave recordedWave;
+        protected override ISoundWave resultingWave
+        {
+            get { return recordedWave; }
+        }
+
         public RecordPage()
         {
             InitializeComponent();
@@ -23,11 +28,7 @@ namespace SoundApp.GUI.SourceTabs
             this.stopRecordingButton.IsEnabled = false;
             base.setButtonsValidity(false);
         }
-
-        override protected ISoundWave GenerateSoundWave()
-        {
-            return recordedWave;
-        }
+        
 
         private void startRecordingButton_Clicked(object sender, EventArgs e)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SoundApp.Audio.AudioWaves
 {
@@ -28,7 +29,7 @@ namespace SoundApp.Audio.AudioWaves
 
 
     // Creates Various classical waves
-    static class WaveFactory
+    public static class WaveFactory
     {
         static private BaseEditableWave MakeSineWave(WaveAttributes waveAttributes)
         {
@@ -101,7 +102,7 @@ namespace SoundApp.Audio.AudioWaves
         /// <param name="waveType"></param>
         /// <param name="waveAttributes"></param>
         /// <returns></returns>
-        static public ISoundWave MakeWave(WaveTypes waveType, WaveAttributes waveAttributes)
+        static public ISoundWave MakeClassicWave(WaveTypes waveType, WaveAttributes waveAttributes)
         {
             switch(waveType)
             {
@@ -120,6 +121,22 @@ namespace SoundApp.Audio.AudioWaves
 
             }
             
+        }
+
+        static public ISoundWave MakeWave(byte nChannels, SampleRate sampleRate, IList<float> baseArray)
+        {
+            if (sampleRate == SampleRate.INVALID)
+                return null;
+
+            switch (nChannels)
+            {
+                case 1:
+                case 2:
+                    return new MonoEditableWave(sampleRate, baseArray);
+                default:
+                    return null;
+            }
+
         }
 
         static private BaseEditableWave MakeWhiteNoise(WaveAttributes waveAttr)

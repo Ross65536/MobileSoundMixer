@@ -8,74 +8,71 @@ using SoundApp.PlatformAdapters;
 using Android.Content;
 using Android.App;
 using Xamarin.Forms;
+using SoundApp.Droid.AudioDevices.Decoder;
+using System.Threading;
 
 [assembly: Xamarin.Forms.Dependency(typeof(SoundApp.Droid.AudioDevices.AudioDecoder))]
 namespace SoundApp.Droid.AudioDevices
 {
     public class AudioDecoder : IAudioDecoder
     {
+        Task<Android.Net.Uri> fileURITask = null;
+        AndroidDecoder decoder = null;
 
-        static Android.Net.Uri fileURI = null;
-        public Task<string> PickFile()
+        public Task<string> PickFileAsync()
         {
             Intent intent = new Intent(Intent.ActionOpenDocument);
             intent.AddCategory(Intent.CategoryOpenable);
             intent.SetType("audio/*");
-            
-            var activity = (MainActivity)Forms.Context;
-            var listener = new FilePickerListener(activity);
-            
-            activity.StartActivityForResult(intent, FilePickerListener.FILE_PICKER_ID);
 
-            return listener.Task;
-
+            var listener = new FilePickerListenerAsync(intent);
+            fileURITask = listener.URITask;
+            return listener.FileNameTask;
         }
 
-        public Task<ISoundWave> StartDecoding()
+        public async Task<ISoundWave> StartDecodingAsync()
         {
-            MediaExtractor extractor = new MediaExtractor();
-            extractor.SetDataSource(Forms.Context, fileURI, null); 
+            var fileURI = fileURITask.Result;
+            if (fileURI == null)
+                return null;
+            
+            try
+            {
+                decoder = new AndroidDecoder(fileURI);
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                return null;
+            }
 
-            return null;
+            if (! this.isFileValid(decoder))
+                return null;
+            
+            var wave =  await Task.Run(() => decoder.GetEditableWave() );
+            decoder = null;
+            return wave;
+        }
+
+        private bool isFileValid(AndroidDecoder decoder)
+        {
+            var sampleRate = decoder.SampleRate;
+            var nChannels = decoder.NChannels;
+
+            if (sampleRate != SampleRate.F44_1kHz || nChannels > 2)
+                return false;
+            else
+                return true;
         }
 
         public void StopDecoding()
         {
-            throw new NotImplementedException();
-        }
-
-        private class FilePickerListener
-        {
-            public const int FILE_PICKER_ID = 1;
-            private TaskCompletionSource<string> Complete = new TaskCompletionSource<string>();
-            public Task<string> Task { get { return this.Complete.Task; } }
-
-            public FilePickerListener(MainActivity activity)
+            if (decoder != null)
             {
-                // subscribe to activity results
-                activity.ActivityResult += OnActivityResult;
-            }
-
-            private void OnActivityResult(int requestCode, Result resultCode, Intent data)
-            {
-                if (requestCode != FILE_PICKER_ID)
-                    return; 
-
-                // unsubscribe from activity results
-                var context = Forms.Context;
-                var activity = (MainActivity)context;
-                activity.ActivityResult -= OnActivityResult;
-
-                // process result
-                if (resultCode == Result.Ok && data != null)
-                {
-                    Android.Net.Uri uri = data.Data;
-                    AudioDecoder.fileURI = uri;
-                    this.Complete.TrySetResult(uri.LastPathSegment);
-                }
-                else
-                    this.Complete.TrySetResult("");
+                decoder.ContinueDecoding = false;
+                decoder = null;
             }
         }
+
     }
 }

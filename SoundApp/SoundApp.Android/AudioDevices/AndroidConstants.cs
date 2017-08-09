@@ -12,6 +12,8 @@ namespace SoundApp
     {
         public const int MAX_RECORD_BUFFER_SIZE = 50 * 1024 * 1024 ; //50 MiB
 
+
+
         static int[] sampleRates = new int[] { 44100, 48000, 22050, 8000, 11025 };
         static Android.Media.Encoding[] formats = new Android.Media.Encoding[] { Android.Media.Encoding.Pcm16bit, Android.Media.Encoding.Pcm8bit, Android.Media.Encoding.PcmFloat };
         static ChannelIn[] channels = new ChannelIn[] { ChannelIn.Mono, ChannelIn.Stereo};

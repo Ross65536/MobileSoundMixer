@@ -10,8 +10,8 @@ namespace SoundApp.PlatformAdapters
 {
     public interface IAudioDecoder
     {
-        Task<string> PickFile();
-        Task<ISoundWave> StartDecoding();
+        Task<string> PickFileAsync();
+        Task<ISoundWave> StartDecodingAsync();
         void StopDecoding(); 
 
     }

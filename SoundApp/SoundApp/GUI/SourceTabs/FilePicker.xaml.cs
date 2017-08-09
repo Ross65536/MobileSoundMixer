@@ -15,6 +15,10 @@ namespace SoundApp.GUI.SourceTabs
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FilePicker : BasePage
     {
+        private ISoundWave decodedWave = null;
+        protected override ISoundWave resultingWave
+        { get { return decodedWave; } }
+
         public FilePicker()
         {
             InitializeComponent();
@@ -23,18 +27,46 @@ namespace SoundApp.GUI.SourceTabs
             base.setButtonsValidity(false);
         }
 
-        protected override ISoundWave GenerateSoundWave()
+        public void DisplayUIWarningMessage(string text, bool isTextRed)
         {
-            throw new NotImplementedException();
+            infoLabel.Text = text;
+            if(isTextRed)
+                infoLabel.TextColor = Color.Red;
+            else
+                infoLabel.TextColor = Color.Default;
+
+            base.setButtonsValidity(false);
         }
 
         private async void pickLocalFileButton_Clicked(object sender, EventArgs e)
         {
-            var fileName = await AudioStuff.AudioDecoder.PickFile();
-
+            var fileName = await AudioStuff.AudioDecoder.PickFileAsync();
+            if (fileName == "")
+                return;
+            
             this.fileEntry.Text = fileName;
 
-            AudioStuff.AudioDecoder.StartDecoding();
+            DisplayUIWarningMessage("Loading ...", false);
+            ISoundWave wave;
+            try
+            {
+                wave = await AudioStuff.AudioDecoder.StartDecodingAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                wave = null;
+            }
+            
+
+            if (wave == null)
+                DisplayUIWarningMessage("Chosen Audio File is not supported OR an error occured.", true);
+            else
+            {
+                DisplayUIWarningMessage("", false);
+                decodedWave = wave;
+                base.setButtonsValidity(true);
+            }
         }
     }
 }

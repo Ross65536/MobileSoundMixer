@@ -92,7 +92,7 @@ namespace SoundApp.GUI
         {
             double RUNTIME = 1.0;
 
-            var wave = WaveFactory.MakeWave(WaveTypes.SineWave, new WaveAttributes(CommonValues.GlobalSampleRate, RUNTIME, 300));
+            var wave = WaveFactory.MakeClassicWave(WaveTypes.SineWave, new WaveAttributes(AudioStuff.GlobalSampleRate, RUNTIME, 300));
             
             var track1 = new TrackUnit(new EffectsBuilder(wave), 0.0);
             

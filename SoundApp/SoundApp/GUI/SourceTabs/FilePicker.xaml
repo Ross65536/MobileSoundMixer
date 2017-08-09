@@ -10,6 +10,7 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <Button x:Name="pickLocalFileButton" Text="Pick Local File" Clicked="pickLocalFileButton_Clicked" />
             </StackLayout>
+          <Label x:Name="infoLabel" Text="" HorizontalOptions="Center"></Label>
         </StackLayout>
     </d:BasePage.Content>
 </d:BasePage>

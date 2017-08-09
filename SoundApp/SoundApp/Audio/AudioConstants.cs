@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SoundApp.Audio
 {
-    public enum SampleRate : uint
+    public enum SampleRate : int
     {
         F8000Hz = 8000,
         F22050Hz = 22050,
-        F44kHz = 44100,
-        F48kHz = 48000
-
+        F44_1kHz = 44100,
+        F48kHz = 48000,
+        INVALID = -1
     }
 
     public enum PCMBitDepth

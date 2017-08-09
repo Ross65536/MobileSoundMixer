@@ -106,6 +106,9 @@
   <ItemGroup>
     <Compile Include="AudioDevices\AndroidConstants.cs" />
     <Compile Include="AudioDevices\AudioDecoder.cs" />
+    <Compile Include="AudioDevices\Common.cs" />
+    <Compile Include="AudioDevices\Decoder\AndroidDecoder.cs" />
+    <Compile Include="AudioDevices\Decoder\FilePickerListenerAsync.cs" />
     <Compile Include="AudioDevices\AudioRecorder.cs" />
     <Compile Include="AudioDevices\AudioPlayer.cs" />
     <Compile Include="MainActivity.cs" />

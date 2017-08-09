@@ -56,7 +56,7 @@ namespace SoundApp.Droid.AudioDevices
         public RecordAudioWorker(double recordStep)
         {
             Recording = true;
-            int sampleRate = (int) CommonValues.GlobalSampleRate;
+            int sampleRate = (int) AudioStuff.GlobalSampleRate;
 
             recordIndexStep = (int) (recordStep * sampleRate);
 
@@ -86,7 +86,7 @@ namespace SoundApp.Droid.AudioDevices
                     throw new Exception("Recording Error");
                 
                 nRead += ret / NUM_BYTES;
-                this.saveToWave(buffer, ret, waveBuffer);
+                Common.saveToWave(buffer, ret, waveBuffer);
                 
             }
 
@@ -98,18 +98,9 @@ namespace SoundApp.Droid.AudioDevices
         private void createSoundWave(List<float> waveBuffer)
         {
 
-            BaseEditableWave wave = new MonoEditableWave(CommonValues.GlobalSampleRate, waveBuffer);
+            BaseEditableWave wave = new MonoEditableWave(AudioStuff.GlobalSampleRate, waveBuffer);
 
             ResultingWave = wave;
-        }
-
-        private void saveToWave(short[] buffer, int nItems, List<float> waveBuffer)
-        {
-            for (int i = 0; i < nItems; i++)
-            {
-                var value = buffer[i] / (float)short.MaxValue;
-                waveBuffer.Add(value);       
-            }
         }
         
     }

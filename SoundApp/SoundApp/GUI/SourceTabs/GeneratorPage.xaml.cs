@@ -15,6 +15,11 @@ namespace SoundApp.GUI.SourceTabs
         private static readonly WaveTypes[] pickerIndexToWaveType = { WaveTypes.SineWave, WaveTypes.Square, WaveTypes.Sawtooth, WaveTypes.Triangle };
         private bool durationValid = true, freqValid = true;
 
+        protected override ISoundWave resultingWave
+        {
+            get { return GenerateSoundWave(); }
+        }
+
         public GeneratorPage()
         {
             InitializeComponent();
@@ -56,13 +61,13 @@ namespace SoundApp.GUI.SourceTabs
 
         
 
-        protected override ISoundWave GenerateSoundWave()
+        protected ISoundWave GenerateSoundWave()
         {
             var dur = Double.Parse(this.durationEntry.Text);
             var freq = Double.Parse(this.frequencyEntry.Text);
-            var waveAttr = new WaveAttributes(CommonValues.GlobalSampleRate, dur, freq);
+            var waveAttr = new WaveAttributes(PlatformAdapters.AudioStuff.GlobalSampleRate, dur, freq);
             var waveType = pickerIndexToWaveType[this.waveTypePicker.SelectedIndex];
-            var wave = WaveFactory.MakeWave(waveType, waveAttr);
+            var wave = WaveFactory.MakeClassicWave(waveType, waveAttr);
 
             return wave;
         }

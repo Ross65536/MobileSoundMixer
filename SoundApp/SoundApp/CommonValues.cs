@@ -10,9 +10,6 @@ namespace SoundApp
 {
     public sealed class CommonValues
     {
-        public static SampleRate GlobalSampleRate {
-            get { return SampleRate.F44kHz;}
-        }
         
     }
 }

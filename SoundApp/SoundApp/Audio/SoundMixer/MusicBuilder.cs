@@ -8,7 +8,7 @@ namespace SoundApp.Audio.SoundMixer
     class MusicBuilder
     {
         private ICollection<ITrackUnit> _audioTracks;
-        static SampleRate common_sample_rate { get { return CommonValues.GlobalSampleRate; } }
+        static SampleRate common_sample_rate { get { return PlatformAdapters.AudioStuff.GlobalSampleRate; } }
 
         public SampleRate SampleRate
         { get { return common_sample_rate; } }
