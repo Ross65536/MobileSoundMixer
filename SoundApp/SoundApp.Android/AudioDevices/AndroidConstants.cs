@@ -14,13 +14,13 @@ namespace SoundApp
 
 
 
-        static int[] sampleRates = new int[] { 44100, 48000, 22050, 8000, 11025 };
+        static int[] SampleRate = new int[] { 44100, 48000, 22050, 8000, 11025 };
         static Android.Media.Encoding[] formats = new Android.Media.Encoding[] { Android.Media.Encoding.Pcm16bit, Android.Media.Encoding.Pcm8bit, Android.Media.Encoding.PcmFloat };
         static ChannelIn[] channels = new ChannelIn[] { ChannelIn.Mono, ChannelIn.Stereo};
 
         public static (int sampleRate, Android.Media.Encoding bitDepth, ChannelIn channels) horribleHack()
         {
-            foreach (var sampleRate in sampleRates)
+            foreach (var sampleRate in SampleRate)
             {
                 foreach (var pcmFormat in formats)
                 {

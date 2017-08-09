@@ -12,11 +12,10 @@ namespace SoundApp.PlatformAdapters
         static public IAudioDecoder AudioDecoder = DependencyService.Get<IAudioDecoder>();
 
 
-        static public void PlayAudioWave(this IReadOnlySoundWave wave)
+        static public void PlayAudioWave(this ReadOnlyPCMAbstract wave)
         {
             var waveData = wave.ToPCM(PCMBitDepth.int16);
-            var pcmWave = new PCMChunk { bitDepth = PCMBitDepth.int16, data = waveData.data, nChannels = waveData.nChannels, sampleRate = waveData.sampleRate };
-            AudioPlayer.Play16bitPCMStream(pcmWave);
+            AudioPlayer.Play16bitPCMStream(waveData);
         }
 
         static public void PlayAudioWave(this ISoundWave wave)

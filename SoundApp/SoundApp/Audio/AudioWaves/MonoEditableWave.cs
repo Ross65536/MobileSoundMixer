@@ -10,28 +10,28 @@ namespace SoundApp.Audio.AudioWaves
     {
         public override byte NumChannels => 1;
 
-        public MonoEditableWave(SampleRate sampleRate, double runtime) : base (sampleRate, (int) ((int)sampleRate * runtime), 1 ) { }
-        public MonoEditableWave(SampleRate sampleRate, int nSamples) : base(sampleRate, nSamples, 1) { }
+        public MonoEditableWave(SampleRate SampleRate, double runtime) : base (SampleRate, (int) ((int)SampleRate * runtime), 1 ) { }
+        public MonoEditableWave(SampleRate SampleRate, int nSamples) : base(SampleRate, nSamples, 1) { }
         public MonoEditableWave(MonoEditableWave wave) : base(wave) { }
 
-        public MonoEditableWave(SampleRate sampleRate, IList<float> waveBuffer) : base(sampleRate, waveBuffer)
+        public MonoEditableWave(SampleRate SampleRate, IList<float> waveBuffer) : base(SampleRate, waveBuffer)
         { }
         
-        protected override void AddAtomicOperation(IReadOnlySoundWave waveToAdd, int lSampleIndex, int rSampleIndex)
+        protected override void AddAtomicOperation(ReadOnlyPCMAbstract waveToAdd, int lSampleIndex, int rSampleIndex)
         {
             float avg = GetOperatorElement(waveToAdd, rSampleIndex);
 
-            _data[lSampleIndex] += avg;
+            DataArray[lSampleIndex] += avg;
         }
 
-        protected override void MultAtomicOperation(IReadOnlySoundWave waveToAdd, int lSampleIndex, int rSampleIndex)
+        protected override void MultAtomicOperation(ReadOnlyPCMAbstract waveToAdd, int lSampleIndex, int rSampleIndex)
         {
             float avg = GetOperatorElement(waveToAdd, rSampleIndex);
 
-            _data[lSampleIndex] *= avg;
+            DataArray[lSampleIndex] *= avg;
         }
 
-        private static float GetOperatorElement(IReadOnlySoundWave waveToAdd, int rSampleIndex)
+        private static float GetOperatorElement(ReadOnlyPCMAbstract waveToAdd, int rSampleIndex)
         {
             var rNChannels = waveToAdd.NumChannels;
 
@@ -47,6 +47,6 @@ namespace SoundApp.Audio.AudioWaves
         }
         
 
-        public override IReadOnlySoundWave clone() => new MonoEditableWave(this);
+        public override ReadOnlyPCMAbstract clone() => new MonoEditableWave(this);
     }
 }

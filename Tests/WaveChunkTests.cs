@@ -26,15 +26,15 @@ namespace Tests
 
             MonoEditableWave wave = new MonoEditableWave(DEFAULT_SAMPLE_RATE, duration);
             for (int i = 0; i < nSamples; i++)
-                Assert.AreEqual( wave[i], 0.0f, FLOAT_DELTA);
+                Assert.AreEqual( wave.DataArray[i], 0.0f, FLOAT_DELTA);
 
             Assert.AreEqual(wave.SampleCount, nSamples);
 
             for (int i = 0; i < nSamples; i++)
             {
                 float f = 0.12f;
-                wave[i] = f;
-                Assert.AreEqual(wave[i], f, FLOAT_DELTA);
+                wave.DataArray[i] = f;
+                Assert.AreEqual(wave.DataArray[i], f, FLOAT_DELTA);
             }
 
             Assert.Throws<ArgumentException>(() => new MonoEditableWave((SampleRate)234, nSamples));
@@ -117,10 +117,10 @@ namespace Tests
             wave1 = new MonoEditableWave(DEFAULT_SAMPLE_RATE, d1);
             wave2 = new MonoEditableWave(DEFAULT_SAMPLE_RATE, d2);
             for (int i = 0; i < n1; i++)
-                wave1[i] = WAVE1_C;
+                wave1.DataArray[i] = WAVE1_C;
 
             for (int i = 0; i < n2; i++)
-                wave2[i] = WAVE2_C;
+                wave2.DataArray[i] = WAVE2_C;
         }
 
         public static void Main(String[] args) { }

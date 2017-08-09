@@ -33,10 +33,10 @@ namespace WAVFileGenerator
             }
         }
 
-        private WAVGenerator SetAudioProperties(SampleRate sampleRate, ushort nChannels, PCMBitDepth bitDepth)
+        private WAVGenerator SetAudioProperties(SampleRate SampleRate, ushort nChannels, PCMBitDepth bitDepth)
         {
 
-            format.SetProperties(nChannels, (uint) sampleRate, (ushort) bitDepth); //TODO
+            format.SetProperties(nChannels, (uint) SampleRate, (ushort) bitDepth); //TODO
 
             return this;
         }

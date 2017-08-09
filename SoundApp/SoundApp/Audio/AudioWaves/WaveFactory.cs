@@ -41,7 +41,7 @@ namespace SoundApp.Audio.AudioWaves
 
             for (int i = 0; i < waveLength; i++)
             {
-                wave[i] = (float) Math.Sin(t * i);
+                wave.DataArray[i] = (float) Math.Sin(t * i);
             }
 
             return wave;
@@ -52,7 +52,7 @@ namespace SoundApp.Audio.AudioWaves
             var wave = MakeSineWave(waveAttributes);
             var nSamples = wave.NumTotalItems;
             for (int i = 0; i < nSamples; i++)
-                wave[i] = Math.Sign(wave[i]);
+                wave.DataArray[i] = Math.Sign(wave[i]);
 
             return wave;
 
@@ -64,14 +64,14 @@ namespace SoundApp.Audio.AudioWaves
             var numSamples = wave.NumTotalItems;
 
             var step = 1 / (double)waveAttr.WaveSampleRate * 2 * waveAttr.TargetFrequency;
-            wave[0] = 0.0f;
+            wave.DataArray[0] = 0.0f;
             for(int i=1 ; i < numSamples; i++)
             {
                 var next = wave[i - 1] + (float) step;
                 if (next > 1.0f)
-                    wave[i] = -1.0f;
+                    wave.DataArray[i] = -1.0f;
                 else
-                    wave[i] = next;
+                    wave.DataArray[i] = next;
             }
             return wave;
 
@@ -83,14 +83,14 @@ namespace SoundApp.Audio.AudioWaves
             var numSamples = wave.NumTotalItems;
 
             float step = (float) (1 / (double)waveAttr.WaveSampleRate * 4 * waveAttr.TargetFrequency);
-            wave[0] = 0.0f;
+            wave.DataArray[0] = 0.0f;
             for (int i = 1; i < numSamples; i++)
             {
                 var next = wave[i - 1] + step;
                 if (Math.Abs(next) > 1.0f)
                     step = -step;
                 
-                wave[i] = wave[i - 1] + step;
+                wave.DataArray[i] = wave[i - 1] + step;
             }
             return wave;
 
@@ -102,7 +102,7 @@ namespace SoundApp.Audio.AudioWaves
         /// <param name="waveType"></param>
         /// <param name="waveAttributes"></param>
         /// <returns></returns>
-        static public IReadOnlySoundWave MakeClassicWave(WaveTypes waveType, WaveAttributes waveAttributes)
+        static public ReadOnlyPCMAbstract MakeClassicWave(WaveTypes waveType, WaveAttributes waveAttributes)
         {
             switch(waveType)
             {
@@ -123,17 +123,17 @@ namespace SoundApp.Audio.AudioWaves
             
         }
 
-        static public ISoundWave MakeWave(byte nChannels, SampleRate sampleRate, IList<float> baseArray)
+        static public ISoundWave MakeWave(byte nChannels, SampleRate SampleRate, IList<float> baseArray)
         {
-            if (sampleRate == SampleRate.INVALID)
+            if (SampleRate == SampleRate.INVALID)
                 return null;
 
             switch (nChannels)
             {
                 case 1:
-                    return new MonoEditableWave(sampleRate, baseArray);
+                    return new MonoEditableWave(SampleRate, baseArray);
                 case 2:
-                    return new StereoEditableWave(sampleRate, baseArray);
+                    return new StereoEditableWave(SampleRate, baseArray);
                 default:
                     return null;
             }
@@ -149,28 +149,28 @@ namespace SoundApp.Audio.AudioWaves
 
             for (int i = 0; i < numSamples; i++)
             {
-                wave[i] = (float) (2 * random.NextDouble() - 1);
+                wave.DataArray[i] = (float) (2 * random.NextDouble() - 1);
             }
 
             return wave;
         }
 
-        public static BaseEditableWave EditableWaveFactory(IReadOnlySoundWave waveToConvert)
+        public static BaseEditableWave EditableWaveFactory(ReadOnlyPCMAbstract waveToConvert)
         {
             var baseWave = EditableWaveFactory(waveToConvert.NumChannels, waveToConvert.SampleRate, waveToConvert.NumTotalItems);
             for (int i = 0; i < waveToConvert.NumTotalItems; i++)
-                baseWave[i] = waveToConvert[i];
+                baseWave.DataArray[i] = waveToConvert[i];
 
             return baseWave;
         }
 
-        public static BaseEditableWave EditableWaveFactory(byte nChannels, SampleRate sampleRate, double runtime)
+        public static BaseEditableWave EditableWaveFactory(byte nChannels, SampleRate SampleRate, double runtime)
         {
-            var nSamples = (int)(runtime * (int)sampleRate);
+            var nSamples = (int)(runtime * (int)SampleRate);
             if (nChannels == 1)
-                return new MonoEditableWave(sampleRate, nSamples);
+                return new MonoEditableWave(SampleRate, nSamples);
             else if (nChannels == 2)
-                return new StereoEditableWave(sampleRate, nSamples , 2);
+                return new StereoEditableWave(SampleRate, nSamples , 2);
             else
                 return null;
         }

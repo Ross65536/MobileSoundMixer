@@ -23,6 +23,9 @@ namespace SoundApp.Droid.AudioDevices
             else
                 throw new Exception("number of channels not supported.");
 
+            if (pcmWave.bitDepth != PCMBitDepth.int16)
+                throw new ArgumentException("Unsupported PCM bit depth");
+
             _audioTrack = new AudioTrack(
             Stream.Music,
             (int)pcmWave.sampleRate,

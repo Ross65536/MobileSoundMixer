@@ -9,6 +9,6 @@ namespace SoundApp.Audio.AudioWaves
     public interface ISoundWave
     {
         double Duration { get;  }
-        IReadOnlySoundWave ToReadOnly();
+        ReadOnlyPCMAbstract ToReadOnly();
     }
 }

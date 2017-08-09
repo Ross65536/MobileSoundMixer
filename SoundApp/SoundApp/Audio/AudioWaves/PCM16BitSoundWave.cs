@@ -1,9 +1,11 @@
 ﻿namespace SoundApp.Audio.AudioWaves
 {
-    public class PCM16BitSoundWave : IReadOnlySoundWave
+    /*
+    public class PCM16BitSoundWave : ReadOnlyPCMAbstract
     {
+        
         public double Duration { get; }
-        public IReadOnlySoundWave ToReadOnly() => this;
+        public ReadOnlyPCMAbstract ToReadOnly() => this;
 
         public float this[int i]
         {
@@ -19,9 +21,11 @@
             throw new System.NotImplementedException();
         }
 
-        public IReadOnlySoundWave clone()
+        public ReadOnlyPCMAbstract clone()
         {
             throw new System.NotImplementedException();
         }
+        
     }
+    */
 }

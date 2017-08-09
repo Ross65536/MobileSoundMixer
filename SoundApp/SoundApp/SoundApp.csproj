@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioConstants.cs" />
-    <Compile Include="Audio\AudioWaves\IReadOnlySoundWave.cs" />
+    <Compile Include="Audio\AudioWaves\ReadOnlyPCMAbstract.cs" />
     <Compile Include="Audio\AudioWaves\ISoundWave.cs" />
     <Compile Include="Audio\AudioWaves\MonoEditableWave.cs" />
     <Compile Include="Audio\AudioWaves\NullSoundWave.cs" />
