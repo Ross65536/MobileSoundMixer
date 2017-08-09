@@ -169,96 +169,10 @@ namespace SoundApp.Droid.AudioDevices.Decoder
 
             if (!ContinueDecoding)
                 return null;
-
-            //System.Threading.Thread.Sleep(5000);
-
+            
             var wave = SoundApp.Audio.AudioWaves.WaveFactory.MakeWave(this.NChannels, this.SampleRate, baseData);
             return wave;
         }
-
-        /*
-        // Read the raw data from MediaCodec.
-        // The caller should copy the data out of the ByteBuffer before calling this again
-        // or else it may get overwritten.
-        private ByteBuffer readData(BufferInfo info)
-        {
-            for (;;)
-            {
-                // Read data from the file into the codec.
-                if (!end_of_input_file)
-                {
-                    int inputBufferIndex = decoder.DequeueInputBuffer(10000);
-                    if (inputBufferIndex >= 0)
-                    {
-                        int size = extractor.ReadSampleData(inputBuffers[inputBufferIndex], 0);
-                        if (size < 0)
-                        {
-                            // End Of File
-                            decoder.QueueInputBuffer(inputBufferIndex, 0, 0, 0, MediaCodec.BufferFlagEndOfStream);
-                            end_of_input_file = true;
-                        }
-                        else
-                        {
-                            decoder.QueueInputBuffer(inputBufferIndex, 0, size, extractor.SampleTime, 0);
-                            extractor.Advance();
-                        }
-                    }
-                }
-
-                // Read the output from the codec.
-                if (outputBufferIndex >= 0)
-                    // Ensure that the data is placed at the start of the buffer
-                    outputBuffers[outputBufferIndex].Position(0);
-
-                outputBufferIndex = decoder.DequeueOutputBuffer(info, 10000);
-                if (outputBufferIndex >= 0)
-                {
-                    // Handle EOF
-                    if (info.Flags != 0)
-                    {
-                        decoder.Stop();
-                        decoder.Release();
-                        decoder = null;
-                        return null;
-                    }
-
-                    // Release the buffer so MediaCodec can use it again.
-                    // The data should stay there until the next time we are called.
-                    decoder.ReleaseOutputBuffer(outputBufferIndex, false);
-
-                    return outputBuffers[outputBufferIndex];
-
-                }
-                else if (MediaCodec.InfoOutputBuffersChanged == MediaCodecInfoState.OutputBuffersChanged)
-                {
-                    // This usually happens once at the start of the file.
-                    outputBuffers = decoder.GetOutputBuffers();
-                }
-            }
-        }
-
         
-
-        // Read the raw audio data in 16-bit format
-        // Returns null on EOF
-        public short[] readShortData()
-        {
-            BufferInfo info = new BufferInfo();
-            ByteBuffer data = readData(info);
-
-            if (data == null)
-                return null;
-
-            int samplesRead = info.Size / 2;
-            short[] returnData = new short[samplesRead];
-
-            // Converting the ByteBuffer to an array doesn't actually make a copy
-            // so we must do so or it will be overwritten later.
-            data.AsShortBuffer().Get(returnData);
-            System.Diagnostics.Debug.WriteLine("hi");
-            return returnData;
-        }
-        */
-
     }
 }

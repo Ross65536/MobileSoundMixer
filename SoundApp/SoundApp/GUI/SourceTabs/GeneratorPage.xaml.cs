@@ -65,7 +65,7 @@ namespace SoundApp.GUI.SourceTabs
         {
             var dur = Double.Parse(this.durationEntry.Text);
             var freq = Double.Parse(this.frequencyEntry.Text);
-            var waveAttr = new WaveAttributes(PlatformAdapters.AudioStuff.GlobalSampleRate, dur, freq);
+            var waveAttr = new WaveAttributes(PlatformAdapters.AudioStuff.TargetSampleRate, dur, freq);
             var waveType = pickerIndexToWaveType[this.waveTypePicker.SelectedIndex];
             var wave = WaveFactory.MakeClassicWave(waveType, waveAttr);
 

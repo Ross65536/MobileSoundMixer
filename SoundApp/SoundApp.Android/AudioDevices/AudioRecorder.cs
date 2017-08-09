@@ -56,7 +56,7 @@ namespace SoundApp.Droid.AudioDevices
         public RecordAudioWorker(double recordStep)
         {
             Recording = true;
-            int sampleRate = (int) AudioStuff.GlobalSampleRate;
+            int sampleRate = (int) AudioStuff.TargetSampleRate;
 
             recordIndexStep = (int) (recordStep * sampleRate);
 
@@ -98,7 +98,7 @@ namespace SoundApp.Droid.AudioDevices
         private void createSoundWave(List<float> waveBuffer)
         {
 
-            BaseEditableWave wave = new MonoEditableWave(AudioStuff.GlobalSampleRate, waveBuffer);
+            var wave = WaveFactory.MakeWave(1, AudioStuff.TargetSampleRate, waveBuffer);
 
             ResultingWave = wave;
         }

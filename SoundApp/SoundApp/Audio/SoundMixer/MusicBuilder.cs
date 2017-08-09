@@ -5,22 +5,29 @@ using SoundApp.Audio.AudioWaves;
 
 namespace SoundApp.Audio.SoundMixer
 {
-    class MusicBuilder
+    class MusicBuilder 
     {
         private ICollection<ITrackUnit> _audioTracks;
-        static SampleRate common_sample_rate { get { return PlatformAdapters.AudioStuff.GlobalSampleRate; } }
+        static SampleRate common_sample_rate { get { return PlatformAdapters.AudioStuff.TargetSampleRate; } }
+        public SampleRate TargetSampleRate { get; set; }
+        public byte TargetNChannels { get; set; }
 
         public SampleRate SampleRate
         { get { return common_sample_rate; } }
 
         public bool IsEmpty { get { return _audioTracks.Count == 0; } }
 
-        public MusicBuilder()
+        public MusicBuilder(SampleRate targetSampleRate, byte targetNChannels)
         {
+            this.TargetNChannels = targetNChannels;
+            this.TargetSampleRate = targetSampleRate;
+
             _audioTracks = new List<ITrackUnit>();
         }
-        public MusicBuilder(ICollection<ITrackUnit> tracks)
+        public MusicBuilder(ICollection<ITrackUnit> tracks, SampleRate targetSampleRate, byte targetNChannels)
         {
+            this.TargetNChannels = targetNChannels;
+            this.TargetSampleRate = targetSampleRate;
             _audioTracks = tracks;
         }
 

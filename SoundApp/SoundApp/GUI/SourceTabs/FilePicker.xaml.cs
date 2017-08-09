@@ -41,7 +41,7 @@ namespace SoundApp.GUI.SourceTabs
         private async void pickLocalFileButton_Clicked(object sender, EventArgs e)
         {
             var fileName = await AudioStuff.AudioDecoder.PickFileAsync();
-            if (fileName == "")
+            if (fileName == null)
                 return;
             
             this.fileEntry.Text = fileName;

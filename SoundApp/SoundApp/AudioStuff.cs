@@ -25,9 +25,11 @@ namespace SoundApp.PlatformAdapters
             track.BaseWave.PlayAudioWave();
         }
 
-        public static SampleRate GlobalSampleRate
+        public static SampleRate TargetSampleRate
         {
             get { return SampleRate.F44_1kHz; }
         }
+
+        public static byte TargetPlayingNCHannels { get { return 1; } }
     }
 }

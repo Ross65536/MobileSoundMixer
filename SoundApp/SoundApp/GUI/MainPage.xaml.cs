@@ -20,7 +20,7 @@ namespace SoundApp.GUI
     public partial class MainPage : ContentPage
     {
         //TODO fix statics
-        static MusicBuilder _musicBuilder = new MusicBuilder();
+        static MusicBuilder _musicBuilder = new MusicBuilder(AudioStuff.TargetSampleRate, AudioStuff.TargetPlayingNCHannels);
         static Collection<TrackViewTextItem> _viewListItems;
         public MainPage()
         {
@@ -92,7 +92,7 @@ namespace SoundApp.GUI
         {
             double RUNTIME = 1.0;
 
-            var wave = WaveFactory.MakeClassicWave(WaveTypes.SineWave, new WaveAttributes(AudioStuff.GlobalSampleRate, RUNTIME, 300));
+            var wave = WaveFactory.MakeClassicWave(WaveTypes.SineWave, new WaveAttributes(AudioStuff.TargetSampleRate, RUNTIME, 300));
             
             var track1 = new TrackUnit(new EffectsBuilder(wave), 0.0);
             
