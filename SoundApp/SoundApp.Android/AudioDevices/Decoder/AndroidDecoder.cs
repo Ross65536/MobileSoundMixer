@@ -172,6 +172,7 @@ namespace SoundApp.Droid.AudioDevices.Decoder
                 return null;
 
             var wave = new Pcm16BitSoundWave((AudioChannels) NChannels, SampleRate, baseData);
+
             return wave;
         }
         

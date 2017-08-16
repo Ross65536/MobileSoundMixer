@@ -18,8 +18,6 @@ namespace SoundApp.Droid.AudioDevices
         public void StartRecording()
         {
             
-
-
             audioRecorder = new RecordAudioWorker(RECORDING_RESOLUTION);
             recorderThread = new Thread(audioRecorder.Record);
             recorderThread.Start();

@@ -10,6 +10,8 @@ using Android.App;
 using Xamarin.Forms;
 using SoundApp.Droid.AudioDevices.Decoder;
 using System.Threading;
+using Android.Views.Animations;
+using SoundApp.Audio.AudioWaves.Transforms;
 
 [assembly: Xamarin.Forms.Dependency(typeof(SoundApp.Droid.AudioDevices.AudioDecoder))]
 namespace SoundApp.Droid.AudioDevices
@@ -45,25 +47,32 @@ namespace SoundApp.Droid.AudioDevices
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
                 return null;
             }
-
-            if (! this.isFileValid(decoder))
-                return null;
             
             var wave =  await Task.Run(() => decoder.GetResultingSoundWave() );
             decoder = null;
+
+            TryDownchanel(ref wave);
+            TryResample(ref wave);
+
             return wave;
         }
 
-        private bool isFileValid(AndroidDecoder decoder)
+        private void TryDownchanel(ref ISoundWave wave)
         {
-            var sampleRate = decoder.SampleRate;
-            var nChannels = decoder.NChannels;
-
-            if (sampleRate != SampleRates.F44_1KHz || nChannels > 2)
-                return false;
-            else
-                return true;
+            var waveR = wave.ToReadOnly();
+            if (waveR.NumChannels > 2)
+                wave = Transformations.MakeLossyDownchannel(waveR, AudioChannels.Stereo);
         }
+
+        private static void TryResample(ref ISoundWave wave)
+        {
+            var waveR = wave.ToReadOnly();
+            if (waveR.SampleRate == AudioStuff.TargetSampleRate)
+                return;
+
+            wave = Transformations.MakeWaveResampled(waveR, AudioStuff.TargetSampleRate);
+        }
+        
 
         public void StopDecoding()
         {

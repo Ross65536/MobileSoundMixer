@@ -79,7 +79,7 @@ namespace SoundApp.Audio.AudioWaves.Implementations
 
         }
 
-        static private ISoundWave MakeWhiteNoise(WaveAttributes waveAttr)
+        private static ISoundWave MakeWhiteNoise(WaveAttributes waveAttr)
         {
             var wave = new MonoEditableWave(waveAttr.WaveSampleRate, waveAttr.Runtime);
             var numSamples = wave.NumTotalItems;
@@ -100,7 +100,7 @@ namespace SoundApp.Audio.AudioWaves.Implementations
         /// <param name="waveType"></param>
         /// <param name="waveAttributes"></param>
         /// <returns></returns>
-        static public ISoundWave MakeClassicWave(WaveTypes waveType, WaveAttributes waveAttributes)
+        public static ISoundWave MakeClassicWave(WaveTypes waveType, WaveAttributes waveAttributes)
         {
             switch(waveType)
             {
@@ -121,7 +121,7 @@ namespace SoundApp.Audio.AudioWaves.Implementations
             
         }
 
-        static public ISoundWave MakeWave(byte nChannels, SampleRates SampleRate, IList<float> baseArray)
+        public static ISoundWave MakeWave(byte nChannels, SampleRates SampleRate, IList<float> baseArray)
         {
             if (SampleRate == SampleRates.Invalid)
                 return null;
@@ -142,7 +142,7 @@ namespace SoundApp.Audio.AudioWaves.Implementations
 
         public static BaseEditableWave EditableWaveFactory(ReadOnlyPcmAbstract waveToConvert)
         {
-            var baseWave = EditableWaveFactory(waveToConvert.NumChannels, waveToConvert.SampleRate, waveToConvert.NumTotalItems);
+            var baseWave = EditableWaveFactory(waveToConvert.NumChannels, waveToConvert.SampleRate, waveToConvert.SampleCount);
             for (int i = 0; i < waveToConvert.NumTotalItems; i++)
                 baseWave.DataArray[i] = waveToConvert[i];
 
@@ -152,13 +152,17 @@ namespace SoundApp.Audio.AudioWaves.Implementations
         public static BaseEditableWave EditableWaveFactory(byte nChannels, SampleRates SampleRate, double runtime)
         {
             var nSamples = (int)(runtime * (int)SampleRate);
+            return EditableWaveFactory(nChannels, SampleRate, nSamples);
+        }
+
+        private static BaseEditableWave EditableWaveFactory(byte nChannels, SampleRates SampleRate, int nSamples)
+        {
             if (nChannels == 1)
                 return new MonoEditableWave(SampleRate, nSamples);
             else if (nChannels == 2)
-                return new StereoEditableWave(SampleRate, nSamples , 2);
+                return new StereoEditableWave(SampleRate, nSamples);
             else
-                return null;
+                throw new ArgumentException("Bad num channels");
         }
-
     }
 }

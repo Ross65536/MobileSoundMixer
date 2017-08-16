@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SoundApp.Audio.AudioWaves.Transforms;
 
 namespace SoundApp.Audio.AudioWaves
 {
     public abstract class ReadOnlyPcmAbstract : IReadOnlyAudioWave
     {
         public abstract float this[int i] { get; }
+        public float this[int samplesIndex, int channelIndex] => this[NumChannels * samplesIndex + channelIndex];
         public abstract int NumTotalItems { get; }
         public abstract AudioChannels PcmChannels { get; }
         public byte NumChannels => (byte) PcmChannels;
@@ -17,7 +19,9 @@ namespace SoundApp.Audio.AudioWaves
         public int SampleCount => NumTotalItems / NumChannels;
         public double Duration => (double)SampleCount / (int)SampleRate;
         public IReadOnlyAudioWave ToReadOnly() => this;
-        
+        public int NumericSampleRate => (int) SampleRate;
+        public AudioChannels ChannelsCount => (AudioChannels) NumChannels;
+
         public PcmChunk ToPCMTemplate(PcmBitDepth bitDepth)
         {
 
@@ -44,19 +48,18 @@ namespace SoundApp.Audio.AudioWaves
 
             for (int i = 0; i < nData; i++)
             {
-                var shorty = (short)(this[i] * short.MaxValue);
-                byte lower = (byte)(shorty & 0xFF);
-                byte higher = (byte)((shorty >> 8) & 0xFF);
+                var bytes = Transformations.FloatToShortBytes(this[i]);
                 var index = i * 2;
-                arr[index] = lower;
-                arr[index + 1] = higher;
+                arr[index] = bytes.lower;
+                arr[index + 1] = bytes.higher;
             }
 
             return (arr, NumChannels, SampleRate);
         }
 
-
-        
-        
+        public override string ToString()
+        {
+            return string.Format("Duration: {0}", Duration.ToString()); ;
+        }
     }
 }

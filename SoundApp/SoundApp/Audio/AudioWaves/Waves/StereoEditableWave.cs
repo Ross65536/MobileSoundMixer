@@ -7,7 +7,7 @@ namespace SoundApp.Audio.AudioWaves.Implementations
     {
         public override AudioChannels PcmChannels => AudioChannels.Stereo;
 
-        public StereoEditableWave(SampleRates SampleRate, int nSamples, byte nChannels) : base(SampleRate, nSamples, nChannels)
+        public StereoEditableWave(SampleRates SampleRate, int nSamples) : base(SampleRate, nSamples, 2)
         {
         }
 

@@ -34,6 +34,8 @@ namespace SoundApp.Droid.AudioDevices
             pcmWave.Data.Length,
             AudioTrackMode.Static);
 
+            var builder = new AudioTrack.Builder();
+
             _audioTrack.Write(pcmWave.Data, 0, pcmWave.Data.Length);
             _audioTrack.Play();
         }
