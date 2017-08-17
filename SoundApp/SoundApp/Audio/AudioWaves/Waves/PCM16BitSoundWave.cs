@@ -24,7 +24,7 @@ namespace SoundApp.Audio.AudioWaves.Implementations
             this.NumTotalItems = wave.NumTotalItems;
             this.PcmChannels = wave.PcmChannels;
             this.SampleRate = wave.SampleRate;
-            _data = new List<short>(_data);
+            _data = new List<short>(wave._data);
         }
 
         public override IReadOnlyAudioWave Clone() => new Pcm16BitSoundWave(this);

@@ -21,13 +21,15 @@
                     <Button x:Name="clearTracksButton" Text="Clear" Clicked="clearTracksButton_Clicked"/>
                 </ListView.Header>
             </ListView>
-            <!-- Volume graph placeholder -->
+            <!-- Volume graph placeholder 
             <BoxView Color="Red" Margin="0, 20" MinimumHeightRequest="100" />
+            -->
             <StackLayout 
                         Orientation="Horizontal"
                         HorizontalOptions="CenterAndExpand"
                         Spacing="20"
                         >
+                <Button x:Name="saveButton" Text="Export ..." HorizontalOptions="FillAndExpand" Clicked="saveButton_Clicked" />
                 <Button x:Name="stopButton" Text="Stop" HorizontalOptions="FillAndExpand" Clicked="stopButton_Clicked" />
                 <Button x:Name="playButton" Text="Play" HorizontalOptions="FillAndExpand" Clicked="playButton_Clicked" />
             </StackLayout>

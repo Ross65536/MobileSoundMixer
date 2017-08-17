@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SoundApp.GUI.EncoderPage"
+             Title="Export Audio Track">
+    <ContentPage.Content>
+        <StackLayout >
+            <Button x:Name="pickFileLocationButton" Text="Choose Save Location" Clicked="pickFileLocationButton_Clicked" />
+            <Entry x:Name="fileEntry" Text="Pick a save file location" HorizontalOptions="FillAndExpand" IsEnabled="False" />
+            <Button x:Name="saveButton" Text="Save" VerticalOptions="End" Clicked="SaveButton_OnClicked"/>
+            <Label x:Name="infoLabel" Text="" HorizontalOptions="Center"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

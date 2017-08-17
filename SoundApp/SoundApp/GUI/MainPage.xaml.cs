@@ -154,5 +154,12 @@ namespace SoundApp.GUI
             _viewListItems.Clear();
             _musicBuilder.Clear();
         }
+
+        private void saveButton_Clicked(object sender, EventArgs e)
+        {
+            var page = new EncoderPage(_musicBuilder.BuildMusicFacade);
+
+            Navigation.PushAsync(page);
+        }
     }
 }

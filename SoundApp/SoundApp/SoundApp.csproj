@@ -53,13 +53,15 @@
     <Compile Include="GUI\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\EncoderPage.xaml.cs">
+      <DependentUpon>EncoderPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\SourceTabs\FilePicker.xaml.cs">
       <DependentUpon>FilePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\SourceTabs\RecordPage.xaml.cs">
       <DependentUpon>RecordPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\StaticMethods.cs" />
     <Compile Include="AudioStuff.cs" />
     <Compile Include="GUI\SourceTabs\BasePage.cs" />
     <Compile Include="GUI\SourceTabs\GeneratorPage.xaml.cs">
@@ -73,6 +75,7 @@
     </Compile>
     <Compile Include="GUI\TrackViewTextItem.cs" />
     <Compile Include="PlatformAdapters\IAudioDecoder.cs" />
+    <Compile Include="PlatformAdapters\IAudioEncoder.cs" />
     <Compile Include="PlatformAdapters\IAudioPlayerAdapter.cs" />
     <Compile Include="GUI\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -148,6 +151,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\EncoderPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioDevices\AndroidConstants.cs" />
+    <Compile Include="AudioDevices\AudioEncoder.cs" />
     <Compile Include="AudioDevices\AudioDecoder.cs" />
     <Compile Include="AudioDevices\Common.cs" />
     <Compile Include="AudioDevices\Decoder\AndroidDecoder.cs" />

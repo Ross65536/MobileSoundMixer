@@ -59,7 +59,7 @@ namespace SoundApp.Audio.AudioWaves
 
         public override string ToString()
         {
-            return string.Format("Duration: {0}", Duration.ToString()); ;
+            return string.Concat("Runtime: ", TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss\:fff"));
         }
     }
 }
