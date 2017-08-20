@@ -1,13 +1,13 @@
 ﻿using System.IO;
 
-namespace WAVFileGenerator
+namespace SoundApp.Audio.WAVEncoder
 {
     public class WaveHeader
     {
         private const string sGroupID = "RIFF"; // RIFF
-        private uint dwFileLength; // total file length minus 8, which is taken up by RIFF
+        public uint dwFileLength { get; set; } // total file length minus 8, which is taken up by RIFF
         private const string sRiffType = "WAVE"; // always WAVE
-        
+        public const int ByteSize = 4+4+4;
         public WaveHeader()
         { dwFileLength = 0;  }
 
@@ -30,7 +30,7 @@ namespace WAVFileGenerator
         private ushort wBlockAlign;      // sample frame size, in bytes
         private ushort wBitsPerSample;    // bits per sample
         public WaveFormatChunk() { }
-
+        public const int ByteSize = 4 + 4 + 2 + 2 + 4 + 4 + 2 + 2;
         public void SetProperties(ushort nChannels, uint sampleRate, ushort bitsPerSample)
         {
             wChannels = nChannels;
@@ -56,8 +56,8 @@ namespace WAVFileGenerator
     {
         private const string sChunkID = "data";     // "data"
         private uint dwChunkSize;    // Length of header in bytes
-        private byte[] _dataArray;  
-
+        private byte[] _dataArray;
+        public int ByteSize => 4 + 4 + _dataArray.Length;
         public byte[] DataArray
         {
             set { _dataArray = value; }

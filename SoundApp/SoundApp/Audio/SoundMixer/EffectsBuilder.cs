@@ -37,7 +37,10 @@ namespace SoundApp.Audio.AudioWaves
 
         public override string ToString()
         {
-            return string.Concat(BaseWave.ToString(), ", Effects: ", this.NumEffects.ToString());
+            return BaseWave.ToString();
+
+            //TODO add effects
+            //return string.Concat(BaseWave.ToString(), ", Effects: ", this.NumEffects.ToString());
         }
     }
 }

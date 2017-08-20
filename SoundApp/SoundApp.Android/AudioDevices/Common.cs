@@ -14,6 +14,7 @@ namespace SoundApp.Droid.AudioDevices
 {
     sealed class Common
     {
+
         public static void saveToWave(short[] buffer, int nItems, List<float> waveBuffer)
         {
             for (int i = 0; i < nItems; i++)

@@ -26,8 +26,9 @@ namespace SoundApp.GUI.SourceTabs
             var navigationLayout = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,
-                HorizontalOptions = LayoutOptions.Center,
-                VerticalOptions = LayoutOptions.End
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                VerticalOptions = LayoutOptions.End,
+                Spacing = 20
             };
 
             stopButton = new Button

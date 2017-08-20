@@ -1,23 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.Media;
 using Java.Nio;
-using Xamarin.Forms;
-using static Android.Media.MediaCodec;
-using SoundApp.Audio.AudioWaves;
 using SoundApp.Audio;
+using SoundApp.Audio.AudioWaves;
 using SoundApp.Audio.AudioWaves.Implementations;
+using Xamarin.Forms;
 
-namespace SoundApp.Droid.AudioDevices.Decoder
+namespace SoundApp.Droid.AudioDevices.Codec
 {
     class AndroidDecoder
     {
@@ -39,10 +29,7 @@ namespace SoundApp.Droid.AudioDevices.Decoder
                     return SampleRates.Invalid;
             }
         }
-        public byte NChannels
-        {
-            get { return (byte) inputFormat.GetInteger(MediaFormat.KeyChannelCount); }
-        }
+        public byte NChannels => (byte) inputFormat.GetInteger(MediaFormat.KeyChannelCount);
 
         public AndroidDecoder(Android.Net.Uri inputFileURI)
         {
@@ -95,7 +82,7 @@ namespace SoundApp.Droid.AudioDevices.Decoder
             ByteBuffer inputBuffer = decoder.GetInputBuffer(inputBufferId);
 
             int size = extractor.ReadSampleData(inputBuffer, 0);
-            if (size >= 0)
+            if (size > 0)
             {
                 decoder.QueueInputBuffer(inputBufferId, 0, size, extractor.SampleTime, 0);
                 extractor.Advance();
@@ -115,7 +102,7 @@ namespace SoundApp.Droid.AudioDevices.Decoder
                 int inputBufferId = decoder.DequeueInputBuffer(TIMEOUT);
                 if (inputBufferId >= 0)
                 {
-                    if (FillInputByteBuffer(inputBufferId) < 0)
+                    if (FillInputByteBuffer(inputBufferId) <= 0)
                         break;
                 }
                 else
@@ -128,7 +115,7 @@ namespace SoundApp.Droid.AudioDevices.Decoder
                     ProcessDecodedChunk(ret, info, outputBufferId);
                     decoder.ReleaseOutputBuffer(outputBufferId, false);
                 }
-                else if (outputBufferId == -2) // -2 == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED
+                else if (outputBufferId == (int)MediaCodecInfoState.OutputFormatChanged) 
                 {
                     /// do nothing ????
                 }
@@ -140,7 +127,7 @@ namespace SoundApp.Droid.AudioDevices.Decoder
             return ret;
         }
 
-        private void ProcessDecodedChunk(List<short> wave, BufferInfo info, int outputBufferId)
+        private void ProcessDecodedChunk(List<short> wave, MediaCodec.BufferInfo info, int outputBufferId)
         {
             ByteBuffer outputBuffer = decoder.GetOutputBuffer(outputBufferId);
             short[] shorts = new short[info.Size / 2];

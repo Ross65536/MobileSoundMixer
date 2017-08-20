@@ -92,16 +92,6 @@ namespace SoundApp.GUI
             Navigation.PopAsync();
             
         }
-        
-        private void addEffectButton_Clicked(object sender, EventArgs e)
-        {
-            //TODO
-        }
-
-        private void clearEffectsButton_Clicked(object sender, EventArgs e)
-        {
-
-        }
 
         private void pickSourceButton_Clicked(object sender, EventArgs e)
         {

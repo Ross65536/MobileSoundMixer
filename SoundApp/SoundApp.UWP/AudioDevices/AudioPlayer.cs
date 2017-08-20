@@ -2,9 +2,9 @@
 using System.IO;
 using SoundApp.Audio;
 using SoundApp.UWP.AudioPlayer;
-using WAVFileGenerator;
 using Windows.Media.Playback;
 using Windows.Media.Core;
+using SoundApp.Audio.WAVEncoder;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AudioPlayer))]
 namespace SoundApp.UWP.AudioPlayer

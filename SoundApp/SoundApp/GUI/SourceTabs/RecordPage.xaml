@@ -4,10 +4,18 @@
         xmlns:d="clr-namespace:SoundApp.GUI.SourceTabs;assembly=SoundApp.GUI.SourceTabs"
         x:Class="SoundApp.GUI.SourceTabs.RecordPage"
         Title="Record">
+    <d:BasePage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="10, 10"
+                    Android="10, 10"
+                    WinPhone="10, 10" />
+    </d:BasePage.Padding>
     <d:BasePage.Content>
-        <StackLayout x:Name="mainStackLayout" Orientation="Vertical" Spacing="20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+      <StackLayout x:Name="mainStackLayout" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+          <StackLayout  Orientation="Vertical" Spacing="20" VerticalOptions="CenterAndExpand"   >
             <Button x:Name="startRecordingButton" Text="Start Recording" Clicked="startRecordingButton_Clicked" />
             <Button x:Name="stopRecordingButton" Text="Stop Recording" Clicked="stopRecordingButton_Clicked" />
         </StackLayout>
+      </StackLayout>
     </d:BasePage.Content>
 </d:BasePage>

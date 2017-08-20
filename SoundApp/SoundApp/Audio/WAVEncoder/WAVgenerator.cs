@@ -1,9 +1,8 @@
-﻿using System.IO;
-using System;
-using SoundApp.Audio.AudioWaves;
-using SoundApp.Audio;
+﻿using System;
+using System.IO;
+using System.Text;
 
-namespace WAVFileGenerator
+namespace SoundApp.Audio.WAVEncoder
 {
     public class WAVGenerator
     {
@@ -33,11 +32,11 @@ namespace WAVFileGenerator
             }
         }
 
-        private WAVGenerator SetAudioProperties(SampleRates SampleRate, ushort nChannels, PcmBitDepth bitDepth)
+        private WAVGenerator SetAudioProperties(SampleRates SampleRate, ushort nChannels, PcmBitDepth bitDepth, byte[] byteData)
         {
-
+            data.DataArray = byteData;
             format.SetProperties(nChannels, (uint) SampleRate, (ushort) bitDepth); //TODO
-
+            header.dwFileLength = (uint) ( WaveHeader.ByteSize + WaveFormatChunk.ByteSize + data.ByteSize - 8);
             return this;
         }
         
@@ -47,34 +46,28 @@ namespace WAVFileGenerator
             header.WriteToFile(writer);
             format.WriteToFile(writer);
             data.WriteToFile(writer);
-
-            writer.Seek(4, SeekOrigin.Begin);
-            uint filesize = (uint)writer.BaseStream.Length;
-            writer.Write(filesize - 8);
-
-            // Clean up
-            //writer.Close();
+            
         }
-
-        private void SetAudioData(byte[] monoData)
-        {
-            data.DataArray = monoData;
-        }
+        
 
         private static void WriteToStream(BinaryWriter writer, PcmChunk pcmWave)
         {
-            WAVGenerator generator = Singleton.SetAudioProperties(pcmWave.SampleRate, pcmWave.NumChannels, pcmWave.BitDepth);
-            generator.SetAudioData(pcmWave.Data);
-
+            WAVGenerator generator = Singleton.SetAudioProperties(pcmWave.SampleRate, pcmWave.NumChannels, pcmWave.BitDepth, pcmWave.Data);
+            
+            
             generator.SaveToFile(writer);
         }
         public static Stream GenerateWAVInMemoryStream(PcmChunk pcmWave)
         {
+            return EncodeWAV(pcmWave, new MemoryStream());
+        }
+
+        public static Stream EncodeWAV(PcmChunk pcmWave, Stream streamToWrite)
+        {
             checkPCMarguments(pcmWave);
 
-            var writer = new BinaryWriter(new MemoryStream(), System.Text.Encoding.ASCII);
+            var writer = new BinaryWriter(streamToWrite, Encoding.UTF8);
             WAVGenerator.WriteToStream(writer, pcmWave);
-            writer.Seek(0, SeekOrigin.Begin);
             return writer.BaseStream;
         }
 

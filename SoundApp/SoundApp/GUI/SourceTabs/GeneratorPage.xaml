@@ -4,8 +4,15 @@
         xmlns:d="clr-namespace:SoundApp.GUI.SourceTabs;assembly=SoundApp.GUI.SourceTabs"
         x:Class="SoundApp.GUI.SourceTabs.GeneratorPage"
         Title="Generate">
+    <d:BasePage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="10, 10"
+                    Android="10, 10"
+                    WinPhone="10, 10" />
+    </d:BasePage.Padding>
     <d:BasePage.Content>
-        <StackLayout x:Name="mainStackLayout" Orientation="Vertical" Spacing="20" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+      <StackLayout x:Name="mainStackLayout" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+          <StackLayout  Orientation="Vertical" Spacing="20" VerticalOptions="CenterAndExpand"   >
             <Picker x:Name="waveTypePicker" SelectedIndex="0" HorizontalOptions="Center" 
                     MinimumWidthRequest="200">
                 <Picker.Items>
@@ -27,15 +34,7 @@
                         Minimum="0.0" Maximum="10.0" Value="1" />
                 <Entry x:Name="durationEntry" Text="1.0" HorizontalOptions="End"/>
             </StackLayout>
-            <!--
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End">
-                <Button x:Name="stopButton"  HorizontalOptions="FillAndExpand" Text="Stop" Clicked="stopButton_Clicked" />
-                <Button x:Name="playButton" HorizontalOptions="FillAndExpand" 
-                        Text="Play" Clicked="playSampleButton_Clicked"  />
-                <Button x:Name="saveButton" HorizontalOptions="FillAndExpand" 
-                        Text="Save" Clicked="saveButton_Clicked"  />
-            </StackLayout>
-            -->
         </StackLayout>
+      </StackLayout>
     </d:BasePage.Content>
 </d:BasePage>

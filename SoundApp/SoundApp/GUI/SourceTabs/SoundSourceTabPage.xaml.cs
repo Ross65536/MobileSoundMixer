@@ -20,13 +20,15 @@ namespace SoundApp.GUI.SourceTabs
         {
             InitializeComponent();
 
-            addPage(new GeneratorPage());
-            var recordedPage = new RecordPage();
-            recordedPage.Disappearing += (a, b) => { AudioStuff.AudioRecorder.StopRecording(); };
-            addPage(recordedPage);
             var filePicker = new FilePicker();
             filePicker.Disappearing += (a, b) => { AudioStuff.AudioDecoder.StopDecoding(); };
             addPage(filePicker);
+            
+            var recordedPage = new RecordPage();
+            recordedPage.Disappearing += (a, b) => { AudioStuff.AudioRecorder.StopRecording(); };
+            addPage(recordedPage);
+
+            addPage(new GeneratorPage());
 
         }
 

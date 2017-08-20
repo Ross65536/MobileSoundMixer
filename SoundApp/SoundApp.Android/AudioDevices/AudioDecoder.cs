@@ -12,6 +12,7 @@ using SoundApp.Droid.AudioDevices.Decoder;
 using System.Threading;
 using Android.Views.Animations;
 using SoundApp.Audio.AudioWaves.Transforms;
+using SoundApp.Droid.AudioDevices.Codec;
 
 [assembly: Xamarin.Forms.Dependency(typeof(SoundApp.Droid.AudioDevices.AudioDecoder))]
 namespace SoundApp.Droid.AudioDevices

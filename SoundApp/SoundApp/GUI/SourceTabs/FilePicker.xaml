@@ -4,13 +4,21 @@
         xmlns:d="clr-namespace:SoundApp.GUI.SourceTabs;assembly=SoundApp.GUI.SourceTabs"
         x:Class="SoundApp.GUI.SourceTabs.FilePicker"
         Title="Choose File">
+    <d:BasePage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="10, 10"
+                    Android="10, 10"
+                    WinPhone="10, 10" />
+    </d:BasePage.Padding>
     <d:BasePage.Content>
-        <StackLayout x:Name="mainStackLayout" Orientation="Vertical" Spacing="20"  >
-            <Entry x:Name="fileEntry" Text="Pick a file ..." HorizontalOptions="FillAndExpand" IsEnabled="False"  />
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Button x:Name="pickLocalFileButton" Text="Pick Local File" Clicked="pickLocalFileButton_Clicked" />
-            </StackLayout>
-          <Label x:Name="infoLabel" Text="" HorizontalOptions="Center"></Label>
+        <StackLayout x:Name="mainStackLayout" Orientation="Vertical" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+          <StackLayout  Orientation="Vertical" Spacing="20" VerticalOptions="CenterAndExpand"   >
+              <Entry x:Name="fileEntry" Text="Pick a file ..." HorizontalOptions="FillAndExpand" IsEnabled="False"  />
+              <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                  <Button x:Name="pickLocalFileButton" Text="Pick Local File" Clicked="pickLocalFileButton_Clicked" />
+              </StackLayout>
+            <Label x:Name="infoLabel" Text="" HorizontalOptions="Center"></Label>
+          </StackLayout>
         </StackLayout>
     </d:BasePage.Content>
 </d:BasePage>

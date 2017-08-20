@@ -3,11 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SoundApp.GUI.EncoderPage"
              Title="Export Audio Track">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    iOS="10, 10"
+                    Android="10, 10"
+                    WinPhone="10, 10" />
+    </ContentPage.Padding>
     <ContentPage.Content>
-        <StackLayout >
-            <Button x:Name="pickFileLocationButton" Text="Choose Save Location" Clicked="pickFileLocationButton_Clicked" />
+        <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Spacing="20">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Compression method:" VerticalOptions="Center"/>
+                <Picker x:Name="encodingTypePicker" SelectedIndex="0" VerticalOptions="Center" HorizontalOptions="StartAndExpand">
+                    <Picker.Items>
+                        <x:String>Uncompressed</x:String>
+                        <x:String>Compressed (AAC)</x:String>
+                    </Picker.Items>
+                </Picker>
+            </StackLayout>
+            <Button x:Name="pickFileLocationButton" Text="Save Location" Clicked="pickFileLocationButton_Clicked" />
             <Entry x:Name="fileEntry" Text="Pick a save file location" HorizontalOptions="FillAndExpand" IsEnabled="False" />
-            <Button x:Name="saveButton" Text="Save" VerticalOptions="End" Clicked="SaveButton_OnClicked"/>
+            
+            <Button x:Name="saveButton" Text="Export" VerticalOptions="End" Clicked="SaveButton_OnClicked"/>
             <Label x:Name="infoLabel" Text="" HorizontalOptions="Center"/>
         </StackLayout>
     </ContentPage.Content>
